@@ -86,6 +86,13 @@ spring:
             - Path=/stream-mq/**
           filters:
             - StripPrefix=1
+        # 系统模块
+        - id: ruoyi-alkaid
+          uri: lb://ruoyi-alkaid
+          predicates:
+            - Path=/alkaid/**
+          filters:
+            - StripPrefix=1
 
     # sentinel 配置
     sentinel:
