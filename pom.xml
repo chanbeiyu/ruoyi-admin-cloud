@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.dromara</groupId>
-    <artifactId>ruoyi-cloud-plus</artifactId>
+    <artifactId>ensoul-admin-serv</artifactId>
     <version>${revision}</version>
 
-    <name>RuoYi-Cloud-Plus</name>
+    <name>ensoul-admin-serv</name>
     <url>https://gitee.com/dromara/RuoYi-Cloud-Plus</url>
     <description>RuoYi-Cloud-Plus微服务系统</description>
 

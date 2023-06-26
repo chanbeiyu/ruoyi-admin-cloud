@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.dromara</groupId>
-        <artifactId>ruoyi-cloud-plus</artifactId>
+        <artifactId>ensoul-admin-serv</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,6 +13,7 @@
         <module>ruoyi-gen</module>
         <module>ruoyi-job</module>
         <module>ruoyi-resource</module>
+        <module>ruoyi-alkaid</module>
     </modules>
 
     <artifactId>ruoyi-modules</artifactId>
