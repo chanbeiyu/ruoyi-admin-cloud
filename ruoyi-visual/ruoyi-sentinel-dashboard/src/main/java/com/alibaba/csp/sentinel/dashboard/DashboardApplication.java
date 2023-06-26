@@ -26,11 +26,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Carpenter Lee
  */
 @SpringBootApplication
-public class SentinelApplication {
+public class DashboardApplication {
 
     public static void main(String[] args) {
         triggerSentinelInit();
-        SpringApplication.run(SentinelApplication.class, args);
+        SpringApplication.run(DashboardApplication.class, args);
     }
 
     private static void triggerSentinelInit() {

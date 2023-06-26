@@ -29,6 +29,7 @@ security:
       - /auth/tenant/list
       - /resource/sms/code
       - /*/v3/api-docs
+      - /*/error
       - /csrf
 
 spring:
@@ -104,7 +105,7 @@ spring:
           nacos:
             server-addr: ${spring.cloud.nacos.server-addr}
             dataId: sentinel-${spring.application.name}.json
-            groupId: ${spring.cloud.nacos.config.group}
-            namespace: ${spring.profiles.active}
+            groupId: ${spring.profiles.active}
+            namespace: ${spring.cloud.nacos.config.group}
             data-type: json
             rule-type: gw-flow

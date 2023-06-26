@@ -25,11 +25,8 @@ target/
 *.iml
 *.ipr
 
-.vscode
-
 ### JRebel ###
 rebel.xml
-
 ### NetBeans ###
 nbproject/private/
 build/*
@@ -46,3 +43,7 @@ nbdist/
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
+
+.flattened-pom.xml
+/.vscode/settings.json
+/sessionStore/root.data
