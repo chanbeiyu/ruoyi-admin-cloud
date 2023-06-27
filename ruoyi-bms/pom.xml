@@ -9,17 +9,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
-        <module>ruoyi-system</module>
-        <module>ruoyi-gen</module>
-        <module>ruoyi-job</module>
-        <module>ruoyi-resource</module>
+        <module>ruoyi-alkaid</module>
     </modules>
 
-    <artifactId>ruoyi-modules</artifactId>
+    <artifactId>ruoyi-bms</artifactId>
     <packaging>pom</packaging>
 
     <description>
-        ruoyi-modules业务模块
+        ruoyi-bms业务模块
     </description>
 
     <dependencies>

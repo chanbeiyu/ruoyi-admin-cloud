@@ -12,7 +12,7 @@ ENV SERVER_PORT=9501
 
 EXPOSE ${SERVER_PORT}
 
-ADD ./target/ruoyi-alkaid.jar ./app.jar
+ADD target/ruoyi-alkaid.jar ./app.jar
 
 ENTRYPOINT ["java", \
             "-Djava.security.egd=file:/dev/./urandom", \
