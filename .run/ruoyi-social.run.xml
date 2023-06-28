@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ruoyi-social" type="docker-deploy" factoryName="dockerfile">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="imageTag" value="ruoyi/ruoyi-social:1.6.0" />
+        <option name="buildOnly" value="true" />
+        <option name="sourceFilePath" value="ruoyi-social/Dockerfile" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

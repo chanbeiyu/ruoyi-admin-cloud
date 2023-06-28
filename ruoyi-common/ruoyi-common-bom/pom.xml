@@ -205,6 +205,18 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!--业务模块-->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-wx</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-pay</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
