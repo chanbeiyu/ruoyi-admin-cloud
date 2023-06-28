@@ -31,7 +31,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/social/tag")
+@RequestMapping("/tag")
 public class SocialTagController extends BaseController {
 
     private final ISocialTagService socialTagService;

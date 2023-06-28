@@ -53,16 +53,6 @@ public class SocialTag extends BaseEntity {
     private Long subjectId;
 
     /**
-     * 目标id
-     */
-    private String targetId;
-
-    /**
-     * 目标内容
-     */
-    private String targetContent;
-
-    /**
      * 备注
      */
     private String remark;

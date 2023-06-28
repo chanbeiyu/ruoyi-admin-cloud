@@ -31,7 +31,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/social/app")
+@RequestMapping("/app")
 public class SocialAppController extends BaseController {
 
     private final ISocialAppService socialAppService;

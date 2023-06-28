@@ -31,7 +31,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/social/favorite")
+@RequestMapping("/favorite")
 public class SocialFavoriteController extends BaseController {
 
     private final ISocialFavoriteService socialFavoriteService;

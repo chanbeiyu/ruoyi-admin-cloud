@@ -60,7 +60,7 @@ public class SocialFavorite extends BaseEntity {
     /**
      * 描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 备注

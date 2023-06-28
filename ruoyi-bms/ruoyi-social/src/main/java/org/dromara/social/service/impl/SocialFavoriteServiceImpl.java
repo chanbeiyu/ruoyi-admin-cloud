@@ -67,7 +67,7 @@ public class SocialFavoriteServiceImpl implements ISocialFavoriteService {
         lqw.eq(bo.getSubjectId() != null, SocialFavorite::getSubjectId, bo.getSubjectId());
         lqw.eq(StringUtils.isNotBlank(bo.getTargetId()), SocialFavorite::getTargetId, bo.getTargetId());
         lqw.eq(StringUtils.isNotBlank(bo.getTargetContent()), SocialFavorite::getTargetContent, bo.getTargetContent());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescribe()), SocialFavorite::getDescribe, bo.getDescribe());
+        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), SocialFavorite::getDescription, bo.getDescription());
         return lqw;
     }
 

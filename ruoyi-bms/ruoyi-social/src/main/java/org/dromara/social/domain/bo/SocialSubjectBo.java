@@ -47,14 +47,6 @@ public class SocialSubjectBo extends BaseEntity {
     /**
      * 主题描述
      */
-    @NotBlank(message = "主题描述不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String describe;
-
-    /**
-     * 备注
-     */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String remark;
-
+    private String description;
 
 }

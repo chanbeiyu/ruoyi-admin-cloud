@@ -30,7 +30,7 @@ import org.dromara.social.service.ISocialCommentService;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/social/comment")
+@RequestMapping("/comment")
 public class SocialCommentController extends BaseController {
 
     private final ISocialCommentService socialCommentService;

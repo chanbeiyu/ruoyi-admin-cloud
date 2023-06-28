@@ -67,7 +67,7 @@ public class SocialLikeServiceImpl implements ISocialLikeService {
         lqw.eq(bo.getSubjectId() != null, SocialLike::getSubjectId, bo.getSubjectId());
         lqw.eq(StringUtils.isNotBlank(bo.getTargetId()), SocialLike::getTargetId, bo.getTargetId());
         lqw.eq(StringUtils.isNotBlank(bo.getTargetContent()), SocialLike::getTargetContent, bo.getTargetContent());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescribe()), SocialLike::getDescribe, bo.getDescribe());
+        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), SocialLike::getDescription, bo.getDescription());
         return lqw;
     }
 

@@ -56,23 +56,4 @@ public class SocialTagBo extends BaseEntity {
     @NotNull(message = "对应主题不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long subjectId;
 
-    /**
-     * 目标id
-     */
-    @NotBlank(message = "目标id不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String targetId;
-
-    /**
-     * 目标内容
-     */
-    @NotBlank(message = "目标内容不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String targetContent;
-
-    /**
-     * 备注
-     */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String remark;
-
-
 }

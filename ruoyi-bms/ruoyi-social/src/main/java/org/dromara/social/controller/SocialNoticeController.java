@@ -31,7 +31,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/social/notice")
+@RequestMapping("/notice")
 public class SocialNoticeController extends BaseController {
 
     private final ISocialNoticeService socialNoticeService;

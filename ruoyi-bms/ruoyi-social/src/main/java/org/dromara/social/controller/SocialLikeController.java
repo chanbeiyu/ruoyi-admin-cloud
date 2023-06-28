@@ -31,7 +31,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/social/like")
+@RequestMapping("/like")
 public class SocialLikeController extends BaseController {
 
     private final ISocialLikeService socialLikeService;

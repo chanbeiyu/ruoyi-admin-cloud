@@ -65,10 +65,9 @@ public class SocialAppServiceImpl implements ISocialAppService {
         lqw.like(StringUtils.isNotBlank(bo.getAppName()), SocialApp::getAppName, bo.getAppName());
         lqw.eq(StringUtils.isNotBlank(bo.getAccessKeyId()), SocialApp::getAccessKeyId, bo.getAccessKeyId());
         lqw.eq(StringUtils.isNotBlank(bo.getSecretAccessKey()), SocialApp::getSecretAccessKey, bo.getSecretAccessKey());
-        lqw.eq(StringUtils.isNotBlank(bo.getAlgorithm()), SocialApp::getAlgorithm, bo.getAlgorithm());
         lqw.eq(StringUtils.isNotBlank(bo.getSalt()), SocialApp::getSalt, bo.getSalt());
         lqw.eq(StringUtils.isNotBlank(bo.getDomains()), SocialApp::getDomains, bo.getDomains());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescribe()), SocialApp::getDescribe, bo.getDescribe());
+        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), SocialApp::getDescription, bo.getDescription());
         return lqw;
     }
 

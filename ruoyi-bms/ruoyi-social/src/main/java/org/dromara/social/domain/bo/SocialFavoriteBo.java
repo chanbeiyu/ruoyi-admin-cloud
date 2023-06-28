@@ -66,7 +66,7 @@ public class SocialFavoriteBo extends BaseEntity {
      * 描述
      */
     @NotBlank(message = "描述不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String describe;
+    private String description;
 
     /**
      * 备注

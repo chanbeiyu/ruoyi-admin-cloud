@@ -48,11 +48,6 @@ public class SocialApp extends TenantEntity {
     private String secretAccessKey;
 
     /**
-     * 签名算法
-     */
-    private String algorithm;
-
-    /**
      * 签名加盐值
      */
     private String salt;
@@ -65,12 +60,11 @@ public class SocialApp extends TenantEntity {
     /**
      * 描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 备注
      */
     private String remark;
-
 
 }

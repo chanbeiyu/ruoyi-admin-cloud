@@ -1,5 +1,7 @@
 package org.dromara.social.domain.vo;
 
+import org.dromara.common.sensitive.annotation.Sensitive;
+import org.dromara.common.sensitive.core.SensitiveStrategy;
 import org.dromara.social.domain.SocialApp;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -49,21 +51,16 @@ public class SocialAppVo implements Serializable {
     /**
      * AccessKeyId
      */
+    @Sensitive(strategy = SensitiveStrategy.SECRET_KEY)
     @ExcelProperty(value = "AccessKeyId")
     private String accessKeyId;
 
     /**
      * SecretAccessKey
      */
+    @Sensitive(strategy = SensitiveStrategy.SECRET_KEY)
     @ExcelProperty(value = "SecretAccessKey")
     private String secretAccessKey;
-
-    /**
-     * 签名算法
-     */
-    @ExcelProperty(value = "签名算法", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "sys_user_sex")
-    private String algorithm;
 
     /**
      * 签名加盐值
@@ -81,13 +78,6 @@ public class SocialAppVo implements Serializable {
      * 描述
      */
     @ExcelProperty(value = "描述")
-    private String describe;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
+    private String description;
 
 }

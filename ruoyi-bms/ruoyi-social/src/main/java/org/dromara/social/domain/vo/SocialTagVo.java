@@ -58,6 +58,7 @@ public class SocialTagVo implements Serializable {
      */
     @ExcelProperty(value = "接入App标识")
     private String appId;
+    private String appName;
 
     /**
      * 对应主题
@@ -65,18 +66,7 @@ public class SocialTagVo implements Serializable {
     @ExcelProperty(value = "对应主题", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_user_sex")
     private Long subjectId;
-
-    /**
-     * 目标id
-     */
-    @ExcelProperty(value = "目标id")
-    private String targetId;
-
-    /**
-     * 目标内容
-     */
-    @ExcelProperty(value = "目标内容")
-    private String targetContent;
+    private String subjectName;
 
     /**
      * 备注

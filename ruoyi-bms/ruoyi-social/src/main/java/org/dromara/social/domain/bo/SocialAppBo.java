@@ -49,11 +49,6 @@ public class SocialAppBo extends BaseEntity {
     private String secretAccessKey;
 
     /**
-     * 签名算法
-     */
-    private String algorithm;
-
-    /**
      * 签名加盐值
      */
     private String salt;
@@ -61,19 +56,16 @@ public class SocialAppBo extends BaseEntity {
     /**
      * 允许的域,支持模糊匹配
      */
-    @NotBlank(message = "允许的域,支持模糊匹配不能为空", groups = { AddGroup.class, EditGroup.class })
     private String domains;
 
     /**
      * 描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 备注
      */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
     private String remark;
-
 
 }

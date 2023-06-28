@@ -39,6 +39,7 @@ public class SocialSubjectVo implements Serializable {
      */
     @ExcelProperty(value = "接入App标识")
     private String appId;
+    private String appName;
 
     /**
      * 主题编码
@@ -56,13 +57,6 @@ public class SocialSubjectVo implements Serializable {
      * 主题描述
      */
     @ExcelProperty(value = "主题描述")
-    private String describe;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
+    private String description;
 
 }

@@ -35,22 +35,21 @@ public class SocialSubject extends BaseEntity {
     /**
      * 主题编码
      */
-    private String socialCode;
+    private String subjectCode;
 
     /**
      * 主题名称
      */
-    private String socialName;
+    private String subjectName;
 
     /**
      * 主题描述
      */
-    private String describe;
+    private String description;
 
     /**
      * 备注
      */
     private String remark;
-
 
 }

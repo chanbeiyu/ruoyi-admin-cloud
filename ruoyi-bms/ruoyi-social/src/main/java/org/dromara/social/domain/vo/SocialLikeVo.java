@@ -74,7 +74,7 @@ public class SocialLikeVo implements Serializable {
      * 描述
      */
     @ExcelProperty(value = "描述")
-    private String describe;
+    private String description;
 
     /**
      * 备注
