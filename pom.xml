@@ -70,7 +70,7 @@
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
 
         <!--Docker的构建配置参数-->
-        <docker.build.directory>../../configurations/docker/context/target</docker.build.directory>
+        <docker.build.directory>F:/Workspace/ensoul-ruoyi/configurations/docker/context/target</docker.build.directory>
         <docker.resource.name>${project.build.finalName}.${project.packaging}</docker.resource.name>
     </properties>
 
@@ -580,30 +580,45 @@
         </pluginManagement>
     </build>
 
-    <!--<repositories>-->
-    <!--    <repository>-->
-    <!--        <id>public</id>-->
-    <!--        <name>huawei nexus</name>-->
-    <!--        <url>https://mirrors.huaweicloud.com/repository/maven/</url>-->
-    <!--        <releases>-->
-    <!--            <enabled>true</enabled>-->
-    <!--        </releases>-->
-    <!--    </repository>-->
-    <!--</repositories>-->
+    <repositories>
+        <repository>
+            <id>aliyun-releases</id>
+            <name>Aliyun Release Repository</name>
+            <url>https://packages.aliyun.com/maven/repository/2363266-release-xD3Oyp/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>aliyun-snapshot</id>
+            <name>Aliyun Snapshot Repository</name>
+            <url>https://packages.aliyun.com/maven/repository/2363266-snapshot-AY0Hg6/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
-    <!--<pluginRepositories>-->
-    <!--    <pluginRepository>-->
-    <!--        <id>public</id>-->
-    <!--        <name>huawei nexus</name>-->
-    <!--        <url>https://mirrors.huaweicloud.com/repository/maven/</url>-->
-    <!--        <releases>-->
-    <!--            <enabled>true</enabled>-->
-    <!--        </releases>-->
-    <!--        <snapshots>-->
-    <!--            <enabled>false</enabled>-->
-    <!--        </snapshots>-->
-    <!--    </pluginRepository>-->
-    <!--</pluginRepositories>-->
+    <distributionManagement>
+        <repository>
+            <id>aliyun-releases</id>
+            <name>Aliyun Release Repository</name>
+            <url>https://packages.aliyun.com/maven/repository/2363266-release-xD3Oyp/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <snapshotRepository>
+            <id>aliyun-snapshot</id>
+            <name>Aliyun Snapshot Repository</name>
+            <url>https://packages.aliyun.com/maven/repository/2363266-snapshot-AY0Hg6/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
 
