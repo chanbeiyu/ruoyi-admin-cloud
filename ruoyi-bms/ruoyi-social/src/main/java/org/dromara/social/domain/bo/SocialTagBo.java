@@ -1,5 +1,7 @@
 package org.dromara.social.domain.bo;
 
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.social.constant.SocialTransConstant;
 import org.dromara.social.domain.SocialTag;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
@@ -47,7 +49,7 @@ public class SocialTagBo extends BaseEntity {
     /**
      * 接入App标识
      */
-    @NotBlank(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "App标识不能为空", groups = { AddGroup.class, EditGroup.class })
     private String appId;
 
     /**

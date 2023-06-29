@@ -2,6 +2,8 @@ package org.dromara.social.domain.vo;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.social.constant.SocialTransConstant;
 import org.dromara.social.domain.SocialFollow;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -39,8 +41,11 @@ public class SocialFollowVo implements Serializable {
     /**
      * 接入App标识
      */
-    @ExcelProperty(value = "接入App标识")
     private String appId;
+
+    @ExcelProperty(value = "App名称")
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, other = SocialTransConstant.Other.APP)
+    private String appName;
 
     /**
      * 用户id

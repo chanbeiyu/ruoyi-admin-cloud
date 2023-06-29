@@ -1,5 +1,7 @@
 package org.dromara.social.domain.vo;
 
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.social.constant.SocialTransConstant;
 import org.dromara.social.domain.SocialTag;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -56,16 +58,20 @@ public class SocialTagVo implements Serializable {
     /**
      * 接入App标识
      */
-    @ExcelProperty(value = "接入App标识")
     private String appId;
+
+    @ExcelProperty(value = "App名称")
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, other = SocialTransConstant.Other.APP)
     private String appName;
 
     /**
      * 对应主题
      */
     @ExcelProperty(value = "对应主题", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "sys_user_sex")
     private Long subjectId;
+
+    @ExcelProperty(value = "对应主题")
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, other = SocialTransConstant.Other.SUBJECT)
     private String subjectName;
 
     /**
