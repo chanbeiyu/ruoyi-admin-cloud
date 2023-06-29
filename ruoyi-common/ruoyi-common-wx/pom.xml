@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.dromara</groupId>
+        <artifactId>ruoyi-common</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ruoyi-common-wx</artifactId>
+
+    <description>
+        ruoyi-common-wx 微信管理
+    </description>
+
+    <properties>
+        <wxjava.version>4.5.0</wxjava.version>
+    </properties>
+
+    <dependencies>
+        <!--微信小程序-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+        </dependency>
+        <!--公众号（包括订阅号和服务号）-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-mp-spring-boot-starter</artifactId>
+        </dependency>
+        <!--微信开放平台-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-open-spring-boot-starter</artifactId>
+        </dependency>
+        <!--企业号/企业微信-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-cp-spring-boot-starter</artifactId>
+        </dependency>
+        <!--微信支付-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-pay-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-json</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
