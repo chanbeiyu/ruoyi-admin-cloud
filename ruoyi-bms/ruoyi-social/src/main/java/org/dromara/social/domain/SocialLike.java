@@ -43,7 +43,7 @@ public class SocialLike extends BaseEntity {
     private Long toMemberId;
 
     /**
-     * 对应主题
+     * 所属主题
      */
     private Long subjectId;
 

@@ -66,9 +66,9 @@ public class SocialCommentVo implements Serializable {
     private Long toMemberId;
 
     /**
-     * 对应主题
+     * 所属主题
      */
-    @ExcelProperty(value = "对应主题")
+    @ExcelProperty(value = "所属主题")
     private Long subjectId;
 
     /**

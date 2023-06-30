@@ -45,9 +45,9 @@ public class SocialFavoriteBo extends BaseEntity {
     private Long toMemberId;
 
     /**
-     * 对应主题
+     * 所属主题
      */
-    @NotNull(message = "对应主题不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "所属主题不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long subjectId;
 
     /**

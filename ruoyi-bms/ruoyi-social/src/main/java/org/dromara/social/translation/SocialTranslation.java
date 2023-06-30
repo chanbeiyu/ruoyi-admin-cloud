@@ -8,10 +8,12 @@ import org.dromara.social.service.ISocialAppService;
 import org.dromara.social.service.ISocialNoticeTypeService;
 import org.dromara.social.service.ISocialSubjectService;
 import org.dromara.social.service.ISocialTagService;
+import org.springframework.stereotype.Component;
 
 /**
  * @author wy_peng_chen6
  */
+@Component
 @AllArgsConstructor
 @TranslationType(type = SocialTransConstant.SOCIAL_ID_TO_NAME)
 public class SocialTranslation implements TranslationInterface<String> {
@@ -34,7 +36,7 @@ public class SocialTranslation implements TranslationInterface<String> {
                 return socialTagService.queryById(Long.parseLong(key.toString())).getTagName();
             }
             case SocialTransConstant.Other.SUBJECT -> {
-                return socialSubjectService.queryById(Long.parseLong(key.toString())).getSocialName();
+                return socialSubjectService.queryById(Long.parseLong(key.toString())).getSubjectName();
             }
             default -> {
                 return null;

@@ -62,7 +62,7 @@ public class SocialNoticeTypeServiceImpl implements ISocialNoticeTypeService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialNoticeType> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialNoticeType::getAppId, bo.getAppId());
-        lqw.eq(StringUtils.isNotBlank(bo.getNoticeTypeCode()), SocialNoticeType::getNoticeTypeCode, bo.getNoticeTypeCode());
+        lqw.like(StringUtils.isNotBlank(bo.getNoticeTypeCode()), SocialNoticeType::getNoticeTypeCode, bo.getNoticeTypeCode());
         lqw.like(StringUtils.isNotBlank(bo.getNoticeTypeName()), SocialNoticeType::getNoticeTypeName, bo.getNoticeTypeName());
         return lqw;
     }

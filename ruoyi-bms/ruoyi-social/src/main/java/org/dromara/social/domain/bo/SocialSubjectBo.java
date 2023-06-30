@@ -36,13 +36,13 @@ public class SocialSubjectBo extends BaseEntity {
      * 主题编码
      */
     @NotBlank(message = "主题编码不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String socialCode;
+    private String subjectCode;
 
     /**
      * 主题名称
      */
     @NotBlank(message = "主题名称不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String socialName;
+    private String subjectName;
 
     /**
      * 主题描述

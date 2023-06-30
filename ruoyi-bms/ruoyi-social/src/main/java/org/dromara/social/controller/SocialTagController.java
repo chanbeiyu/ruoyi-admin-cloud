@@ -26,7 +26,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
  * 标签信息
  *
  * @author chanbeiyu
- * @date 2023-06-28
+ *  @date 2023-06-28
  */
 @Validated
 @RequiredArgsConstructor

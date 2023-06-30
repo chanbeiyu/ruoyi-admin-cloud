@@ -1,5 +1,8 @@
 package org.dromara.social.domain.bo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.social.constant.SocialTransConstant;
 import org.dromara.social.domain.SocialNoticeType;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;

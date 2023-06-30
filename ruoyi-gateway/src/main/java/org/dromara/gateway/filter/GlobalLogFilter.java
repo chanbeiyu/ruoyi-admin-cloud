@@ -1,6 +1,8 @@
 package org.dromara.gateway.filter;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.gateway.config.properties.CustomGatewayProperties;
 import org.dromara.gateway.utils.WebFluxUtils;
@@ -40,17 +42,19 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
         String path = WebFluxUtils.getOriginalRequestUrl(exchange);
         String url = request.getMethod().name() + " " + path;
 
+        long requestId = IdUtil.getSnowflakeNextId();
+
         // 打印请求参数
         if (WebFluxUtils.isJsonRequest(exchange)) {
             String jsonParam = WebFluxUtils.resolveBodyFromCacheRequest(exchange);
-            log.info("[PLUS]开始请求 => URL[{}],参数类型[json],参数:[{}]", url, jsonParam);
+            log.info("[PLUS-{}]开始请求 => [] URL[{}]，参数类型[json]，参数:[{}]", request.getId(), url, jsonParam);
         } else {
             MultiValueMap<String, String> parameterMap = request.getQueryParams();
             if (MapUtil.isNotEmpty(parameterMap)) {
                 String parameters = JsonUtils.toJsonString(parameterMap);
-                log.info("[PLUS]开始请求 => URL[{}],参数类型[param],参数:[{}]", url, parameters);
+                log.info("[PLUS-{}]开始请求 => URL[{}]，参数类型[param]，参数:[{}]", request.getId(), url, parameters);
             } else {
-                log.info("[PLUS]开始请求 => URL[{}],无参数", url);
+                log.info("[PLUS-{}]开始请求 => URL[{}]，无参数", request.getId(), url);
             }
         }
 
@@ -59,7 +63,7 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
             Long startTime = exchange.getAttribute(START_TIME);
             if (startTime != null) {
                 long executeTime = (System.currentTimeMillis() - startTime);
-                log.info("[PLUS]结束请求 => URL[{}],耗时:[{}]毫秒", url, executeTime);
+                log.info("[PLUS-{}]结束请求 => URL[{}]，耗时:[{}]毫秒", request.getId(), url, executeTime);
             }
         }));
     }

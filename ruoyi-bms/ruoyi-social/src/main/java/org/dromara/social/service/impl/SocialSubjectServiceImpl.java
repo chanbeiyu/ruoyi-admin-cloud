@@ -62,8 +62,8 @@ public class SocialSubjectServiceImpl implements ISocialSubjectService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialSubject> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialSubject::getAppId, bo.getAppId());
-        lqw.eq(StringUtils.isNotBlank(bo.getSocialCode()), SocialSubject::getSubjectCode, bo.getSocialCode());
-        lqw.like(StringUtils.isNotBlank(bo.getSocialName()), SocialSubject::getSubjectName, bo.getSocialName());
+        lqw.eq(StringUtils.isNotBlank(bo.getSubjectCode()), SocialSubject::getSubjectCode, bo.getSubjectCode());
+        lqw.like(StringUtils.isNotBlank(bo.getSubjectName()), SocialSubject::getSubjectName, bo.getSubjectName());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), SocialSubject::getDescription, bo.getDescription());
         return lqw;
     }

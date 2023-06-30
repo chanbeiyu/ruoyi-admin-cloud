@@ -42,7 +42,7 @@ public class SocialNoticeTypeVo implements Serializable {
     private String appId;
 
     @ExcelProperty(value = "App名称")
-    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, other = SocialTransConstant.Other.APP)
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
     private String appName;
 
     /**

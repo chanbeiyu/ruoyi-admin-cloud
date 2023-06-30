@@ -5,15 +5,11 @@ import org.dromara.social.constant.SocialTransConstant;
 import org.dromara.social.domain.SocialSubject;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-
 
 
 /**
@@ -42,20 +38,20 @@ public class SocialSubjectVo implements Serializable {
     private String appId;
 
     @ExcelProperty(value = "App名称")
-    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, other = SocialTransConstant.Other.APP)
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
     private String appName;
 
     /**
      * 主题编码
      */
     @ExcelProperty(value = "主题编码")
-    private String socialCode;
+    private String subjectCode;
 
     /**
      * 主题名称
      */
     @ExcelProperty(value = "主题名称")
-    private String socialName;
+    private String subjectName;
 
     /**
      * 主题描述

@@ -48,7 +48,7 @@ public class SocialTag extends BaseEntity {
     private String appId;
 
     /**
-     * 对应主题
+     * 所属主题
      */
     private Long subjectId;
 

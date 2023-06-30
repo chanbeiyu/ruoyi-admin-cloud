@@ -61,11 +61,11 @@ public class SocialTagServiceImpl implements ISocialTagService {
     private LambdaQueryWrapper<SocialTag> buildQueryWrapper(SocialTagBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialTag> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getTagCode()), SocialTag::getTagCode, bo.getTagCode());
+        lqw.like(StringUtils.isNotBlank(bo.getTagCode()), SocialTag::getTagCode, bo.getTagCode());
         lqw.like(StringUtils.isNotBlank(bo.getTagName()), SocialTag::getTagName, bo.getTagName());
         lqw.eq(StringUtils.isNotBlank(bo.getTagType()), SocialTag::getTagType, bo.getTagType());
         lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialTag::getAppId, bo.getAppId());
-        lqw.eq(bo.getSubjectId() != null, SocialTag::getSubjectId, bo.getSubjectId());
+        lqw.eq(true, SocialTag::getSubjectId, bo.getSubjectId());
         return lqw;
     }
 
