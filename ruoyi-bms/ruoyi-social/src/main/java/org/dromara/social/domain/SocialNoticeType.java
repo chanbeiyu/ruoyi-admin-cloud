@@ -30,7 +30,7 @@ public class SocialNoticeType extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 通知类型编码

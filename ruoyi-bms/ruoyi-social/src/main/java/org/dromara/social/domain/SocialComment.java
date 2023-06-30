@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serial;
 
@@ -37,7 +36,7 @@ public class SocialComment extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 评论用户id

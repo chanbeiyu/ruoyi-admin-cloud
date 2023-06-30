@@ -30,7 +30,7 @@ public class SocialSubject extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 主题编码

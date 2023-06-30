@@ -30,7 +30,7 @@ public class SocialFavorite extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 收藏用户id

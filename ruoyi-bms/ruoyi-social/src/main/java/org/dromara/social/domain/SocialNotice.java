@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serial;
 
@@ -32,7 +31,7 @@ public class SocialNotice extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 用户id

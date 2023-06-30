@@ -35,7 +35,7 @@ public class SocialMember extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 会员等级

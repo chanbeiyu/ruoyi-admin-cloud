@@ -30,7 +30,7 @@ public class SocialLike extends BaseEntity {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 点赞用户id
