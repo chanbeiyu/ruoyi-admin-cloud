@@ -24,12 +24,12 @@ public class AppExtend extends TenantEntity {
     /**
      * 组件id
      */
+    @TableId(value = "extend_id")
     private Long extendId;
 
     /**
      * AppId
      */
-    @TableId(value = "app_id")
     private Long appId;
 
     /**

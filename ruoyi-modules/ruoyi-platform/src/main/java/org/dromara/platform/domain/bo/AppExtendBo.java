@@ -23,13 +23,13 @@ public class AppExtendBo extends BaseEntity {
     /**
      * 组件id
      */
-    @NotNull(message = "组件id不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "组件id不能为空", groups = { EditGroup.class })
     private Long extendId;
 
     /**
      * AppId
      */
-    @NotNull(message = "AppId不能为空", groups = { EditGroup.class })
+    @NotNull(message = "AppId不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
 
     /**
@@ -77,7 +77,6 @@ public class AppExtendBo extends BaseEntity {
     /**
      * 备注
      */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
     private String remark;
 
 
