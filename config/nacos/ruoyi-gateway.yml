@@ -88,10 +88,10 @@ spring:
           filters:
             - StripPrefix=1
         # 系统模块
-        - id: ruoyi-alkaid
-          uri: lb://ruoyi-alkaid
+        - id: ruoyi-thoughts
+          uri: lb://ruoyi-thoughts
           predicates:
-            - Path=/alkaid/**
+            - Path=/thoughts/**
           filters:
             - StripPrefix=1
 

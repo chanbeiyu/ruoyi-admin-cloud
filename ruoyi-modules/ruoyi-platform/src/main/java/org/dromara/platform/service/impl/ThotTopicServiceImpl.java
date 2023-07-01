@@ -1,0 +1,117 @@
+package org.dromara.platform.service.impl;
+
+import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.mybatis.core.page.PageQuery;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.dromara.platform.domain.bo.ThotTopicBo;
+import org.dromara.platform.domain.vo.ThotTopicVo;
+import org.dromara.platform.domain.ThotTopic;
+import org.dromara.platform.mapper.ThotTopicMapper;
+import org.dromara.platform.service.IThotTopicService;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Collection;
+
+/**
+ * 话题信息Service业务层处理
+ *
+ * @author chanbeiyu
+ * @date 2023-07-01
+ */
+@RequiredArgsConstructor
+@Service
+public class ThotTopicServiceImpl implements IThotTopicService {
+
+    private final ThotTopicMapper baseMapper;
+
+    /**
+     * 查询话题信息
+     */
+    @Override
+    public ThotTopicVo queryById(Long topicId){
+        return baseMapper.selectVoById(topicId);
+    }
+
+    /**
+     * 查询话题信息列表
+     */
+    @Override
+    public TableDataInfo<ThotTopicVo> queryPageList(ThotTopicBo bo, PageQuery pageQuery) {
+        LambdaQueryWrapper<ThotTopic> lqw = buildQueryWrapper(bo);
+        Page<ThotTopicVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+        return TableDataInfo.build(result);
+    }
+
+    /**
+     * 查询话题信息列表
+     */
+    @Override
+    public List<ThotTopicVo> queryList(ThotTopicBo bo) {
+        LambdaQueryWrapper<ThotTopic> lqw = buildQueryWrapper(bo);
+        return baseMapper.selectVoList(lqw);
+    }
+
+    private LambdaQueryWrapper<ThotTopic> buildQueryWrapper(ThotTopicBo bo) {
+        Map<String, Object> params = bo.getParams();
+        LambdaQueryWrapper<ThotTopic> lqw = Wrappers.lambdaQuery();
+        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), ThotTopic::getAppId, bo.getAppId());
+        lqw.eq(StringUtils.isNotBlank(bo.getTopicCode()), ThotTopic::getTopicCode, bo.getTopicCode());
+        lqw.like(StringUtils.isNotBlank(bo.getTopicName()), ThotTopic::getTopicName, bo.getTopicName());
+        lqw.eq(StringUtils.isNotBlank(bo.getTopicBannerImg()), ThotTopic::getTopicBannerImg, bo.getTopicBannerImg());
+        lqw.eq(StringUtils.isNotBlank(bo.getTopicDescription()), ThotTopic::getTopicDescription, bo.getTopicDescription());
+        lqw.eq(StringUtils.isNotBlank(bo.getTopicContent()), ThotTopic::getTopicContent, bo.getTopicContent());
+        lqw.eq(bo.getStatus() != null, ThotTopic::getStatus, bo.getStatus());
+        lqw.eq(bo.getBeginTime() != null, ThotTopic::getBeginTime, bo.getBeginTime());
+        lqw.eq(bo.getEndTime() != null, ThotTopic::getEndTime, bo.getEndTime());
+        return lqw;
+    }
+
+    /**
+     * 新增话题信息
+     */
+    @Override
+    public Boolean insertByBo(ThotTopicBo bo) {
+        ThotTopic add = MapstructUtils.convert(bo, ThotTopic.class);
+        validEntityBeforeSave(add);
+        boolean flag = baseMapper.insert(add) > 0;
+        if (flag) {
+            bo.setTopicId(add.getTopicId());
+        }
+        return flag;
+    }
+
+    /**
+     * 修改话题信息
+     */
+    @Override
+    public Boolean updateByBo(ThotTopicBo bo) {
+        ThotTopic update = MapstructUtils.convert(bo, ThotTopic.class);
+        validEntityBeforeSave(update);
+        return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 保存前的数据校验
+     */
+    private void validEntityBeforeSave(ThotTopic entity){
+        //TODO 做一些数据校验,如唯一约束
+    }
+
+    /**
+     * 批量删除话题信息
+     */
+    @Override
+    public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
+        if(isValid){
+            //TODO 做一些业务上的校验,判断是否需要校验
+        }
+        return baseMapper.deleteBatchIds(ids) > 0;
+    }
+}

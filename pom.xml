@@ -436,7 +436,6 @@
         <module>ruoyi-gateway</module>
         <module>ruoyi-visual</module>
         <module>ruoyi-modules</module>
-        <module>ruoyi-bms</module>
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
         <module>ruoyi-example</module>

@@ -2,7 +2,7 @@ package org.dromara.job.service;
 
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import io.seata.spring.annotation.GlobalTransactional;
+//import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.system.api.RemoteUserService;
@@ -25,7 +25,7 @@ public class MultiService {
     /**
      * 多服务调用
      */
-    @GlobalTransactional(rollbackFor = Exception.class)
+    //@GlobalTransactional(rollbackFor = Exception.class)
     @XxlJob("multiServiceHandler")
     public void multiServiceHandler() throws Exception {
         LoginUser admin = remoteUserService.getUserInfo("admin", "000000");
