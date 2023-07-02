@@ -45,10 +45,13 @@ public class ThotChannelBo extends BaseEntity {
     private String channelName;
 
     /**
+     * 状态0正常1锁定
+     */
+    private String status;
+
+    /**
      * 频道描述
      */
-    @NotBlank(message = "频道描述不能为空", groups = { AddGroup.class, EditGroup.class })
     private String description;
-
 
 }

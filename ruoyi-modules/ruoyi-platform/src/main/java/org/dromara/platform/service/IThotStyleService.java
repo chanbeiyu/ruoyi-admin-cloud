@@ -42,6 +42,8 @@ public interface IThotStyleService {
      */
     Boolean updateByBo(ThotStyleBo bo);
 
+    int updateStyleStatus(Long styleId, String status);
+
     /**
      * 校验并批量删除样式信息信息
      */

@@ -1,5 +1,8 @@
 package org.dromara.platform.domain;
 
+import jakarta.validation.constraints.NotBlank;
+import org.dromara.common.core.validate.AddGroup;
+import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.tenant.core.TenantEntity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
@@ -36,6 +39,11 @@ public class AppInfo extends TenantEntity {
      * 名称
      */
     private String appName;
+
+    /**
+     * 是否为内部项目
+     */
+    private Integer isInternal;
 
     /**
      * AccessKeyId

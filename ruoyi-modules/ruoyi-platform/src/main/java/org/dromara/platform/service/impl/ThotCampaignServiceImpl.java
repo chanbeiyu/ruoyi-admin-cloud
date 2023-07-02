@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.ThotThought;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotCampaignBo;
 import org.dromara.platform.domain.vo.ThotCampaignVo;
@@ -69,8 +70,10 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotCampaign::getDescription, bo.getDescription());
         lqw.eq(StringUtils.isNotBlank(bo.getTypeCode()), ThotCampaign::getTypeCode, bo.getTypeCode());
         lqw.eq(bo.getStatus() != null, ThotCampaign::getStatus, bo.getStatus());
-        lqw.eq(bo.getBeginTime() != null, ThotCampaign::getBeginTime, bo.getBeginTime());
-        lqw.eq(bo.getEndTime() != null, ThotCampaign::getEndTime, bo.getEndTime());
+        lqw.between(params.get("beginBeginTime") != null && params.get("endBeginTime") != null,
+            ThotCampaign::getBeginTime ,params.get("beginBeginTime"), params.get("endBeginTime"));
+        lqw.between(params.get("beginEndTime") != null && params.get("endEndTime") != null,
+            ThotCampaign::getEndTime ,params.get("beginEndTime"), params.get("endEndTime"));
         return lqw;
     }
 

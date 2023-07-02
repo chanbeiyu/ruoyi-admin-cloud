@@ -41,7 +41,7 @@ public class AppAdviceVo implements Serializable {
      */
     private Long appId;
 
-    @ExcelProperty(value = "App名称")
+    @ExcelProperty(value = "应用名称")
     @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
     private String appName;
 

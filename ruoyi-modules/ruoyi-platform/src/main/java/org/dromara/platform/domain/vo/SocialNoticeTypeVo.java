@@ -1,5 +1,6 @@
 package org.dromara.platform.domain.vo;
 
+import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.common.translation.annotation.Translation;
 import org.dromara.platform.constant.SocialTransConstant;
 import org.dromara.platform.domain.SocialNoticeType;
@@ -37,7 +38,7 @@ public class SocialNoticeTypeVo implements Serializable {
      */
     private String appId;
 
-    @ExcelProperty(value = "App名称")
+    @ExcelProperty(value = "应用名称")
     @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
     private String appName;
 
@@ -52,6 +53,12 @@ public class SocialNoticeTypeVo implements Serializable {
      */
     @ExcelProperty(value = "通知类型名称")
     private String noticeTypeName;
+
+    /**
+     * 主题描述
+     */
+    @ExcelProperty(value = "主题描述")
+    private String description;
 
     /**
      * 备注

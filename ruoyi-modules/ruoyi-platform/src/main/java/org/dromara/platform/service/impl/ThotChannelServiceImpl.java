@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -18,6 +19,7 @@ import org.dromara.platform.service.IThotChannelService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 频道信息Service业务层处理
@@ -61,12 +63,10 @@ public class ThotChannelServiceImpl implements IThotChannelService {
     private LambdaQueryWrapper<ThotChannel> buildQueryWrapper(ThotChannelBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotChannel> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getAppId() != null, ThotChannel::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), ThotChannel::getAppId, bo.getAppId());
         lqw.eq(StringUtils.isNotBlank(bo.getChannelCode()), ThotChannel::getChannelCode, bo.getChannelCode());
         lqw.like(StringUtils.isNotBlank(bo.getChannelName()), ThotChannel::getChannelName, bo.getChannelName());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotChannel::getDescription, bo.getDescription());
-        lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
-            ThotChannel::getCreateTime ,params.get("beginCreateTime"), params.get("endCreateTime"));
         return lqw;
     }
 
@@ -92,6 +92,21 @@ public class ThotChannelServiceImpl implements IThotChannelService {
         ThotChannel update = MapstructUtils.convert(bo, ThotChannel.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改频道状态
+     *
+     * @param channelId 频道ID
+     * @param status 频道状态
+     * @return 结果
+     */
+    @Override
+    public int updateChannelStatus(Long channelId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<ThotChannel>()
+                .set(ThotChannel::getStatus, status)
+                .eq(ThotChannel::getChannelId, channelId));
     }
 
     /**

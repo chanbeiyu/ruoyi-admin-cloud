@@ -1,5 +1,6 @@
 package org.dromara.platform.domain.bo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import org.dromara.platform.domain.SocialTag;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
@@ -55,5 +56,10 @@ public class SocialTagBo extends BaseEntity {
      */
     @NotNull(message = "所属主题不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long subjectId;
+
+    /**
+     * 主题描述
+     */
+    private String description;
 
 }

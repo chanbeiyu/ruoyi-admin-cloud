@@ -2,6 +2,8 @@ package org.dromara.platform.domain.vo;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.platform.constant.SocialTransConstant;
 import org.dromara.platform.domain.ThotCampaign;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -39,8 +41,11 @@ public class ThotCampaignVo implements Serializable {
     /**
      * 接入App
      */
-    @ExcelProperty(value = "接入App")
     private String appId;
+
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
+    private String appName;
 
     /**
      * 活动编号

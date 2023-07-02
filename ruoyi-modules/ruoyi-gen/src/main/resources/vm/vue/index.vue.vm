@@ -259,9 +259,13 @@
       </template>
     </el-dialog>
 
+      <el-descriptions :column="2" border>
+          <el-descriptions-item label="应用名称">{{ form.appName }}</el-descriptions-item>
+      </el-descriptions>
+
     <!-- 查看${functionName}对话框 -->
     <el-dialog :title="dialogView.title" v-model="dialogView.visible" width="900px" append-to-body>
-        <el-form ref="${businessName}FormRef" :model="form" :rules="rules" label-width="120px">
+        <el-descriptions :column="2" border>
             <el-row>
             #foreach($column in $columns)
                 #set($field=$column.javaField)
@@ -276,32 +280,24 @@
                     #if($column.htmlType == "input" || $column.htmlType == "textarea"
                             || $column.htmlType == "datetime" || $column.htmlType == "editor"
                             || $column.htmlType == "fileUpload")
-                    <el-col :span="24">
-                        <el-form-item label="${comment}" prop="${field}">{{ form.${field} }}</el-form-item>
-                    </el-col>
+                    <el-descriptions-item label="${comment}">{{ form.${field} }}</el-descriptions-item>
                     #elseif($column.htmlType == "imageUpload")
-                    <el-col :span="24">
-                        <el-form-item label="${comment}" prop="${field}">
-                            <img :src="form.${field}" alt="${comment}" />
-                        </el-form-item>
-                    </el-col>
+                    <el-descriptions-item label="${comment}">{{ form.${field} }}</el-descriptions-item>
                     #elseif($column.htmlType == "radio" || $column.htmlType == "select")
-                    <el-col :span="24">
-                        <el-form-item label="${comment}" prop="${field}">
-                            <template v-for="dict in ${dictType}">
-                                #if($column.javaType == "Integer" || $column.javaType == "Long")
+                    <el-descriptions-item label="${comment}">
+                        <template v-for="dict in ${dictType}">
+                            #if($column.javaType == "Integer" || $column.javaType == "Long")
                                 <div v-if="form.${field} === parseInt(dict.value)">{{dict.label}}</div>
-                                #else
+                            #else
                                 <div v-if="form.${field} == dict.value">{{dict.label}}</div>
-                                #end
-                            </template>
-                        </el-form-item>
-                    </el-col>
+                            #end
+                        </template>
+                    </el-descriptions-item>
                     #end
                 #end
             #end
             </el-row>
-        </el-form>
+        </el-descriptions>
         <template #footer>
             <div class="dialog-footer">
                 <el-button @click="cancelView">关 闭</el-button>
@@ -425,7 +421,6 @@ const cancel = () => {
   dialog.visible = false;
 }
 const cancelView = () => {
-    reset();
     dialogView.visible = false;
 }
 

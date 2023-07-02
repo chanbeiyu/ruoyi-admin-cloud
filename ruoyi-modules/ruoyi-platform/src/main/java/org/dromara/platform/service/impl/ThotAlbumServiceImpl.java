@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.ThotChannel;
+import org.dromara.platform.domain.ThotThought;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotAlbumBo;
 import org.dromara.platform.domain.vo.ThotAlbumVo;
@@ -65,6 +67,8 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
         lqw.eq(StringUtils.isNotBlank(bo.getAlbumTitle()), ThotAlbum::getAlbumTitle, bo.getAlbumTitle());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotAlbum::getDescription, bo.getDescription());
         lqw.eq(bo.getStatus() != null, ThotAlbum::getStatus, bo.getStatus());
+        lqw.between(params.get("beginPublishTime") != null && params.get("endPublishTime") != null,
+            ThotAlbum::getPublishTime ,params.get("beginPublishTime"), params.get("endPublishTime"));
         return lqw;
     }
 

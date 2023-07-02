@@ -18,6 +18,7 @@ import org.dromara.platform.service.IAppInfoService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 应用信息Service业务层处理
@@ -63,6 +64,7 @@ public class AppInfoServiceImpl implements IAppInfoService {
         LambdaQueryWrapper<AppInfo> lqw = Wrappers.lambdaQuery();
         lqw.like(StringUtils.isNotBlank(bo.getAppCode()), AppInfo::getAppCode, bo.getAppCode());
         lqw.like(StringUtils.isNotBlank(bo.getAppName()), AppInfo::getAppName, bo.getAppName());
+        lqw.eq(Objects.nonNull(bo.getIsInternal()), AppInfo::getIsInternal, bo.getIsInternal());
         lqw.eq(StringUtils.isNotBlank(bo.getAccessKeyId()), AppInfo::getAccessKeyId, bo.getAccessKeyId());
         lqw.eq(StringUtils.isNotBlank(bo.getSecretAccessKey()), AppInfo::getSecretAccessKey, bo.getSecretAccessKey());
         lqw.eq(StringUtils.isNotBlank(bo.getSalt()), AppInfo::getSalt, bo.getSalt());

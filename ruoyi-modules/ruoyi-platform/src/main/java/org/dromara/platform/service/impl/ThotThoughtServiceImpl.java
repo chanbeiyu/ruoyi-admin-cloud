@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.ThotAlbum;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotThoughtBo;
 import org.dromara.platform.domain.vo.ThotThoughtVo;
@@ -70,7 +71,8 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
         lqw.eq(StringUtils.isNotBlank(bo.getContent()), ThotThought::getContent, bo.getContent());
         lqw.eq(bo.getCententStyle() != null, ThotThought::getCententStyle, bo.getCententStyle());
         lqw.eq(bo.getStatus() != null, ThotThought::getStatus, bo.getStatus());
-        lqw.eq(bo.getPublishTime() != null, ThotThought::getPublishTime, bo.getPublishTime());
+        lqw.between(params.get("beginPublishTime") != null && params.get("endPublishTime") != null,
+            ThotThought::getPublishTime ,params.get("beginPublishTime"), params.get("endPublishTime"));
         return lqw;
     }
 

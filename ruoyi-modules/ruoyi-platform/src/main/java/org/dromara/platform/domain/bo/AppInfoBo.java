@@ -39,6 +39,12 @@ public class AppInfoBo extends BaseEntity {
     private String appName;
 
     /**
+     * 是否为内部项目
+     */
+    @NotNull(message = "请选择是否为内部项目", groups = { AddGroup.class, EditGroup.class })
+    private Integer isInternal;
+
+    /**
      * AccessKeyId
      */
     private String accessKeyId;

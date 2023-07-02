@@ -42,6 +42,8 @@ public interface IThotChannelService {
      */
     Boolean updateByBo(ThotChannelBo bo);
 
+    int updateChannelStatus(Long channelId, String status);
+
     /**
      * 校验并批量删除频道信息信息
      */

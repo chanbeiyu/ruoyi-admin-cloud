@@ -1,5 +1,7 @@
 package org.dromara.platform.domain.vo;
 
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.platform.constant.SocialTransConstant;
 import org.dromara.platform.domain.ThotAlbum;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -37,8 +39,11 @@ public class ThotAlbumVo implements Serializable {
     /**
      * 接入App
      */
-    @ExcelProperty(value = "接入App")
     private Long appId;
+
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
+    private String appName;
 
     /**
      * 思绪编号
@@ -58,6 +63,12 @@ public class ThotAlbumVo implements Serializable {
     @ExcelProperty(value = "活动状态", converter = ExcelDictConvert.class)
     @ExcelDictFormat(readConverterExp = "0=创建1发布2结束3删除")
     private Integer status;
+
+    /**
+     * 发布时间
+     */
+    @ExcelProperty(value = "发布时间")
+    private Date publishTime;
 
     /**
      * 创建时间

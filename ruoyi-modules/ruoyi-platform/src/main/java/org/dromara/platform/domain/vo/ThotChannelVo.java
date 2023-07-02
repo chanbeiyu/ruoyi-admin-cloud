@@ -1,5 +1,7 @@
 package org.dromara.platform.domain.vo;
 
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.platform.constant.SocialTransConstant;
 import org.dromara.platform.domain.ThotChannel;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -37,8 +39,11 @@ public class ThotChannelVo implements Serializable {
     /**
      * 接入App标识
      */
-    @ExcelProperty(value = "接入App标识")
     private Long appId;
+
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)
+    private String appName;
 
     /**
      * 频道编码
@@ -53,6 +58,13 @@ public class ThotChannelVo implements Serializable {
     private String channelName;
 
     /**
+     * 状态0正常1锁定
+     */
+    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "en_yes_no")
+    private String status;
+
+    /**
      * 频道描述
      */
     @ExcelProperty(value = "频道描述")
@@ -63,6 +75,5 @@ public class ThotChannelVo implements Serializable {
      */
     @ExcelProperty(value = "创建时间")
     private Date createTime;
-
 
 }

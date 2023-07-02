@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
+import java.util.Date;
 
 /**
  * 思集信息对象 thot_album
@@ -46,6 +47,11 @@ public class ThotAlbum extends TenantEntity {
      * 活动状态（0创建1发布2结束3删除）
      */
     private Integer status;
+
+    /**
+     * 发布时间
+     */
+    private Date publishTime;
 
     /**
      * 备注

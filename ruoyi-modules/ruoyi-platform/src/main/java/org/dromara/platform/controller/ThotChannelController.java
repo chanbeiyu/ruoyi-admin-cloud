@@ -91,6 +91,16 @@ public class ThotChannelController extends BaseController {
     }
 
     /**
+     * 状态修改
+     */
+    @SaCheckPermission("thoughts:channel:edit")
+    @Log(title = "频道状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/changeStatus")
+    public R<Void> changeStatus(@RequestBody ThotChannelBo bo) {
+        return toAjax(thotChannelService.updateChannelStatus(bo.getChannelId(), bo.getStatus()));
+    }
+
+    /**
      * 删除频道信息
      *
      * @param channelIds 主键串

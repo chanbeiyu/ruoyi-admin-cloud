@@ -1,5 +1,8 @@
 package org.dromara.platform.domain.bo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import org.dromara.common.excel.annotation.ExcelDictFormat;
+import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.platform.domain.ThotStyle;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
@@ -51,10 +54,13 @@ public class ThotStyleBo extends BaseEntity {
     private String styleContent;
 
     /**
+     * 状态0正常1锁定
+     */
+    private String status;
+
+    /**
      * 样式描述
      */
-    @NotBlank(message = "样式描述不能为空", groups = { AddGroup.class, EditGroup.class })
     private String description;
-
 
 }

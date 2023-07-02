@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.Date;
+
 /**
  * 思集信息业务对象 thot_album
  *
@@ -50,5 +52,9 @@ public class ThotAlbumBo extends BaseEntity {
     @NotNull(message = "活动状态（0创建1发布2结束3删除）不能为空", groups = { AddGroup.class, EditGroup.class })
     private Integer status;
 
+    /**
+     * 发布时间
+     */
+    private Date publishTime;
 
 }

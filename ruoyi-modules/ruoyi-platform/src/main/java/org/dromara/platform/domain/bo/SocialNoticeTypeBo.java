@@ -45,10 +45,13 @@ public class SocialNoticeTypeBo extends BaseEntity {
     private String noticeTypeName;
 
     /**
+     * 主题描述
+     */
+    private String description;
+
+    /**
      * 备注
      */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
     private String remark;
-
 
 }

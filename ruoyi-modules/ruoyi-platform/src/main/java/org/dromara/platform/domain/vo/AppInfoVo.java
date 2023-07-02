@@ -1,5 +1,7 @@
 package org.dromara.platform.domain.vo;
 
+import org.dromara.common.excel.annotation.ExcelDictFormat;
+import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.common.sensitive.annotation.Sensitive;
 import org.dromara.common.sensitive.core.SensitiveStrategy;
 import org.dromara.platform.domain.AppInfo;
@@ -43,6 +45,10 @@ public class AppInfoVo implements Serializable {
      */
     @ExcelProperty(value = "名称")
     private String appName;
+
+    @ExcelProperty(value = "内部项目", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "en_yes_no")
+    private Integer isInternal;
 
     /**
      * AccessKeyId

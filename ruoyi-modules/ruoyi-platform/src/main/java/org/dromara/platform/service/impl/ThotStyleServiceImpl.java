@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -91,6 +92,21 @@ public class ThotStyleServiceImpl implements IThotStyleService {
         ThotStyle update = MapstructUtils.convert(bo, ThotStyle.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改样式状态
+     *
+     * @param styleId 样式ID
+     * @param status 样式状态
+     * @return 结果
+     */
+    @Override
+    public int updateStyleStatus(Long styleId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<ThotStyle>()
+                .set(ThotStyle::getStatus, status)
+                .eq(ThotStyle::getStyleId, styleId));
     }
 
     /**
