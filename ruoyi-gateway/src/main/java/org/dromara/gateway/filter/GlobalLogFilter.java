@@ -1,8 +1,6 @@
 package org.dromara.gateway.filter;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.IdUtil;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.gateway.config.properties.CustomGatewayProperties;
 import org.dromara.gateway.utils.WebFluxUtils;
@@ -41,8 +39,6 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String path = WebFluxUtils.getOriginalRequestUrl(exchange);
         String url = request.getMethod().name() + " " + path;
-
-        long requestId = IdUtil.getSnowflakeNextId();
 
         // 打印请求参数
         if (WebFluxUtils.isJsonRequest(exchange)) {
