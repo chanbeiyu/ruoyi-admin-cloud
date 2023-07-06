@@ -110,6 +110,17 @@ public interface BaseMapperPlus<T, V> extends BaseMapper<T> {
         return MapstructUtils.convert(obj, voClass);
     }
 
+    /**
+     * 根据 ID 查询
+     */
+    default <C> C selectVoById(Serializable id, Function<T, C> mapper) {
+        T obj = this.selectById(id);
+        if (ObjectUtil.isNull(obj)) {
+            return null;
+        }
+        return mapper.apply(obj);
+    }
+
     default List<V> selectVoBatchIds(Collection<? extends Serializable> idList) {
         return selectVoBatchIds(idList, this.currentVoClass());
     }
@@ -172,6 +183,14 @@ public interface BaseMapperPlus<T, V> extends BaseMapper<T> {
             return CollUtil.newArrayList();
         }
         return MapstructUtils.convert(list, voClass);
+    }
+
+    default <C> List<C> selectVoList(Wrapper<T> wrapper, Function<T, C> mapper) {
+        List<T> list = this.selectList(wrapper);
+        if (CollUtil.isEmpty(list)) {
+            return CollUtil.newArrayList();
+        }
+        return list.stream().map(mapper).collect(Collectors.toList());
     }
 
     default <P extends IPage<V>> P selectVoPage(IPage<T> page, Wrapper<T> wrapper) {
