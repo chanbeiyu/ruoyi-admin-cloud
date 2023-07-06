@@ -82,14 +82,11 @@ public class ThotThoughtBo extends BaseEntity {
     /**
      * 活动状态（0创建1发布2结束3删除）
      */
-    @NotNull(message = "活动状态（0创建1发布2结束3删除）不能为空", groups = { AddGroup.class, EditGroup.class })
     private Integer status;
 
     /**
      * 发布时间
      */
-    @NotNull(message = "发布时间不能为空", groups = { AddGroup.class, EditGroup.class })
     private Date publishTime;
-
 
 }

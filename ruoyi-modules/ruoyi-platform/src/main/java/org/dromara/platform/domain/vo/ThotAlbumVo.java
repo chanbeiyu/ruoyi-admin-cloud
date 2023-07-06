@@ -13,7 +13,7 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 
 
 /**
@@ -76,5 +76,6 @@ public class ThotAlbumVo implements Serializable {
     @ExcelProperty(value = "创建时间")
     private Date createTime;
 
+    private List<ThotThoughtVo> thoughts;
 
 }

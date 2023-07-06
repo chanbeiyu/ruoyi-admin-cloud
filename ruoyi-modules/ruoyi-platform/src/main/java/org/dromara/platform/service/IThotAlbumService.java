@@ -5,6 +5,7 @@ import org.dromara.platform.domain.vo.ThotAlbumVo;
 import org.dromara.platform.domain.bo.ThotAlbumBo;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.mybatis.core.page.PageQuery;
+import org.dromara.platform.domain.vo.ThotThoughtVo;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,6 +32,8 @@ public interface IThotAlbumService {
      * 查询思集信息列表
      */
     List<ThotAlbumVo> queryList(ThotAlbumBo bo);
+
+    TableDataInfo<ThotThoughtVo> queryAlbumThoughts(Long albumId);
 
     /**
      * 新增思集信息

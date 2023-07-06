@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
@@ -30,7 +31,8 @@ import java.util.stream.Collectors;
  * @since 2021-05-13
  */
 @SuppressWarnings("unchecked")
-public interface BaseMapperPlus<T, V> extends BaseMapper<T> {
+//public interface BaseMapperPlus<T, V> extends BaseMapper<T> {
+public interface BaseMapperPlus<T, V> extends MPJBaseMapper<T> {
 
     Log log = LogFactory.getLog(BaseMapperPlus.class);
 

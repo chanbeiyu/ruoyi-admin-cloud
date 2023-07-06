@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.dromara.platform.domain.*;
+import org.dromara.platform.domain.vo.ThotThoughtVo;
+import org.dromara.platform.service.IThotAlbumThoughtService;
+import org.dromara.platform.service.IThotThoughtService;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotAlbumBo;
 import org.dromara.platform.domain.vo.ThotAlbumVo;
@@ -31,6 +34,10 @@ import java.util.Collection;
 public class ThotAlbumServiceImpl implements IThotAlbumService {
 
     private final ThotAlbumMapper baseMapper;
+
+    private final IThotAlbumThoughtService thotAlbumThoughtService;
+
+    private final IThotThoughtService thotThoughtService;
 
     /**
      * 查询思集信息
@@ -57,6 +64,28 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
     public List<ThotAlbumVo> queryList(ThotAlbumBo bo) {
         LambdaQueryWrapper<ThotAlbum> lqw = buildQueryWrapper(bo);
         return baseMapper.selectVoList(lqw);
+    }
+
+    /**
+     * 查询思集信息列表
+     */
+    @Override
+    public TableDataInfo<ThotThoughtVo> queryAlbumThoughts(Long albumId) {
+        ThotAlbumVo thotAlbumVo = baseMapper.selectVoById(albumId);
+        List<ThotThoughtVo> thoughts = null;
+        List<ThotAlbumThought> thotAlbumThoughts = thotAlbumThoughtService.queryByAlbumId(albumId);
+        if(CollectionUtils.isNotEmpty(thotAlbumThoughts)) {
+            thoughts = thotAlbumThoughts.parallelStream()
+                .map(o -> {
+                    ThotThoughtVo thotThoughtVo = thotThoughtService.queryById(o.getThoughtId());
+                    thotThoughtVo.setAlbumId(o.getAlbumId());
+                    thotThoughtVo.setAlbumTitle(thotAlbumVo.getAlbumTitle());
+                    thotThoughtVo.setAlbumIsCover(o.getIsCover());
+                    thotThoughtVo.setAlbumCreateTime(o.getCreateTime());
+                    return thotThoughtVo;
+                }).toList();
+        }
+        return TableDataInfo.build(thoughts);
     }
 
     private LambdaQueryWrapper<ThotAlbum> buildQueryWrapper(ThotAlbumBo bo) {

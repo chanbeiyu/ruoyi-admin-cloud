@@ -1,6 +1,5 @@
 package org.dromara.platform.service;
 
-import org.dromara.platform.domain.AppAdvice;
 import org.dromara.platform.domain.vo.AppAdviceVo;
 import org.dromara.platform.domain.bo.AppAdviceBo;
 import org.dromara.common.mybatis.core.page.TableDataInfo;

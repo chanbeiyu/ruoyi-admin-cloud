@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.platform.domain.vo.ThotThoughtVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -66,6 +67,17 @@ public class ThotAlbumController extends BaseController {
     public R<ThotAlbumVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable Long albumId) {
         return R.ok(thotAlbumService.queryById(albumId));
+    }
+
+    /**
+     * 获取思集信息详细信息
+     *
+     * @param albumId 主键
+     */
+    @SaCheckPermission("thoughts:album:query")
+    @GetMapping("/{albumId}/thoughts")
+    public TableDataInfo<ThotThoughtVo> queryThoughts(@NotNull(message = "主键不能为空") @PathVariable Long albumId) {
+        return thotAlbumService.queryAlbumThoughts(albumId);
     }
 
     /**

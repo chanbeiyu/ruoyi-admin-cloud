@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 表格分页数据对象
@@ -66,8 +67,10 @@ public class TableDataInfo<T> implements Serializable {
         TableDataInfo<T> rspData = new TableDataInfo<>();
         rspData.setCode(HttpStatus.HTTP_OK);
         rspData.setMsg("查询成功");
-        rspData.setRows(list);
-        rspData.setTotal(list.size());
+        if(Objects.nonNull(list)) {
+            rspData.setRows(list);
+            rspData.setTotal(list.size());
+        }
         return rspData;
     }
 

@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.vo.SocialSubjectVo;
+import org.dromara.platform.service.ISocialSubjectService;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialTagBo;
 import org.dromara.platform.domain.vo.SocialTagVo;
@@ -30,6 +32,8 @@ import java.util.Collection;
 public class SocialTagServiceImpl implements ISocialTagService {
 
     private final SocialTagMapper baseMapper;
+
+    private final ISocialSubjectService socialSubjectService;
 
     /**
      * 查询标签信息
@@ -76,9 +80,20 @@ public class SocialTagServiceImpl implements ISocialTagService {
     @Override
     public Boolean insertByBo(SocialTagBo bo) {
         SocialTag add = MapstructUtils.convert(bo, SocialTag.class);
+        if(add == null) {
+            return false;
+        }
+
+        SocialSubjectVo socialSubjectVo = socialSubjectService.queryById(bo.getSubjectId());
+        if(socialSubjectVo == null) {
+            return false;
+        }
+
         validEntityBeforeSave(add);
+        add.setAppId(socialSubjectVo.getAppId());
         boolean flag = baseMapper.insert(add) > 0;
-        if (flag) {
+
+        if (flag && add != null) {
             bo.setTagId(add.getTagId());
         }
         return flag;
@@ -90,7 +105,17 @@ public class SocialTagServiceImpl implements ISocialTagService {
     @Override
     public Boolean updateByBo(SocialTagBo bo) {
         SocialTag update = MapstructUtils.convert(bo, SocialTag.class);
+        if(update == null) {
+            return false;
+        }
+
         validEntityBeforeSave(update);
+
+        SocialSubjectVo socialSubjectVo = socialSubjectService.queryById(bo.getSubjectId());
+        if(socialSubjectVo == null) {
+            return false;
+        }
+        update.setAppId(socialSubjectVo.getAppId());
         return baseMapper.updateById(update) > 0;
     }
 
