@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -33,6 +35,7 @@ public class ThotThoughtBo extends BaseEntity {
      */
     @NotNull(message = "接入App不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 思绪编号

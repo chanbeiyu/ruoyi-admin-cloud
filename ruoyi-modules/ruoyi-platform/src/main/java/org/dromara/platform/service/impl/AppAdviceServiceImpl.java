@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -62,6 +63,7 @@ public class AppAdviceServiceImpl implements IAppAdviceService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<AppAdvice> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getAppId() != null, AppAdvice::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), AppAdvice::getAppId, bo.getAppIds());
         lqw.eq(bo.getMemberId() != null, AppAdvice::getMemberId, bo.getMemberId());
         lqw.eq(StringUtils.isNotBlank(bo.getContact()), AppAdvice::getContact, bo.getContact());
         lqw.eq(StringUtils.isNotBlank(bo.getContent()), AppAdvice::getContent, bo.getContent());

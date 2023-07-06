@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 思集信息业务对象 thot_album
@@ -33,23 +34,22 @@ public class ThotAlbumBo extends BaseEntity {
      */
     @NotNull(message = "接入App不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 思绪编号
      */
-    @NotBlank(message = "思绪编号不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "思绪标题不能为空", groups = { AddGroup.class, EditGroup.class })
     private String albumTitle;
 
     /**
      * 思绪描述
      */
-    @NotBlank(message = "思绪描述不能为空", groups = { AddGroup.class, EditGroup.class })
     private String description;
 
     /**
      * 活动状态（0创建1发布2结束3删除）
      */
-    @NotNull(message = "活动状态（0创建1发布2结束3删除）不能为空", groups = { AddGroup.class, EditGroup.class })
     private Integer status;
 
     /**

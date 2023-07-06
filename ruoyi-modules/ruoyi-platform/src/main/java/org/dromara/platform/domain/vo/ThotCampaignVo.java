@@ -51,7 +51,7 @@ public class ThotCampaignVo implements Serializable {
      * 活动编号
      */
     @ExcelProperty(value = "活动编号")
-    private Long campaignCode;
+    private String campaignCode;
 
     /**
      * 活动名称

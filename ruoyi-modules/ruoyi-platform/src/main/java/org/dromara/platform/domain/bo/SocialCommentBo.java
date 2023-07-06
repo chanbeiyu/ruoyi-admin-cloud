@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 评论信息业务对象 social_comment
@@ -37,7 +38,8 @@ public class SocialCommentBo extends BaseEntity {
      * 接入App标识
      */
     @NotBlank(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String appId;
+    private Long appId;
+    private List<Long> appIds;
 
     /**
      * 评论用户id

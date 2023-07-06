@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialLikeBo;
 import org.dromara.platform.domain.vo.SocialLikeVo;
@@ -18,6 +20,7 @@ import org.dromara.platform.service.ISocialLikeService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 点赞信息Service业务层处理
@@ -61,7 +64,8 @@ public class SocialLikeServiceImpl implements ISocialLikeService {
     private LambdaQueryWrapper<SocialLike> buildQueryWrapper(SocialLikeBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialLike> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialLike::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), SocialLike::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialLike::getAppId, bo.getAppIds());
         lqw.eq(bo.getMemberId() != null, SocialLike::getMemberId, bo.getMemberId());
         lqw.eq(bo.getToMemberId() != null, SocialLike::getToMemberId, bo.getToMemberId());
         lqw.eq(bo.getSubjectId() != null, SocialLike::getSubjectId, bo.getSubjectId());

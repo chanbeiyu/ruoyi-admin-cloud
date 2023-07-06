@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppVersion;
+import org.dromara.platform.domain.SocialNoticeType;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotTopicBo;
 import org.dromara.platform.domain.vo.ThotTopicVo;
@@ -62,6 +65,7 @@ public class ThotTopicServiceImpl implements IThotTopicService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotTopic> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getAppId()), ThotTopic::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotTopic::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getTopicCode()), ThotTopic::getTopicCode, bo.getTopicCode());
         lqw.like(StringUtils.isNotBlank(bo.getTopicName()), ThotTopic::getTopicName, bo.getTopicName());
         lqw.eq(StringUtils.isNotBlank(bo.getTopicBannerImg()), ThotTopic::getTopicBannerImg, bo.getTopicBannerImg());

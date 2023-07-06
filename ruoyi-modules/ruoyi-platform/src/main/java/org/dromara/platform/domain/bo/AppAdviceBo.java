@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 意见反馈信息业务对象 app_advice
  *
@@ -31,6 +33,7 @@ public class AppAdviceBo extends BaseEntity {
      */
     @NotNull(message = "AppId不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 成员id

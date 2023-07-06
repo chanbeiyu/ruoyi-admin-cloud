@@ -1,6 +1,7 @@
 package org.dromara.platform.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -9,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppVersion;
+import org.dromara.platform.domain.SocialNoticeType;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotChannelBo;
 import org.dromara.platform.domain.vo.ThotChannelVo;
@@ -64,9 +67,11 @@ public class ThotChannelServiceImpl implements IThotChannelService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotChannel> lqw = Wrappers.lambdaQuery();
         lqw.eq(Objects.nonNull(bo.getAppId()), ThotChannel::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotChannel::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getChannelCode()), ThotChannel::getChannelCode, bo.getChannelCode());
         lqw.like(StringUtils.isNotBlank(bo.getChannelName()), ThotChannel::getChannelName, bo.getChannelName());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotChannel::getDescription, bo.getDescription());
+        lqw.eq(StringUtils.isNotBlank(bo.getStatus()), ThotChannel::getStatus, bo.getStatus());
         return lqw;
     }
 

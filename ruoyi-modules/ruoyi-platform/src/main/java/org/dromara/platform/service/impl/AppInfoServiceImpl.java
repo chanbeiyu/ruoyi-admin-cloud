@@ -62,6 +62,7 @@ public class AppInfoServiceImpl implements IAppInfoService {
     private LambdaQueryWrapper<AppInfo> buildQueryWrapper(AppInfoBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<AppInfo> lqw = Wrappers.lambdaQuery();
+        lqw.eq(Objects.nonNull(bo.getAppId()), AppInfo::getAppId, bo.getAppId());
         lqw.like(StringUtils.isNotBlank(bo.getAppCode()), AppInfo::getAppCode, bo.getAppCode());
         lqw.like(StringUtils.isNotBlank(bo.getAppName()), AppInfo::getAppName, bo.getAppName());
         lqw.eq(Objects.nonNull(bo.getIsInternal()), AppInfo::getIsInternal, bo.getIsInternal());

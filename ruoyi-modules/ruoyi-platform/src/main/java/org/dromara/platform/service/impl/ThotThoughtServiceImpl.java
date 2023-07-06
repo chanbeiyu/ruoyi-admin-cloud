@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppVersion;
+import org.dromara.platform.domain.SocialNoticeType;
 import org.dromara.platform.domain.ThotAlbum;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotThoughtBo;
@@ -63,6 +66,7 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotThought> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getAppId() != null, ThotThought::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotThought::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getCode()), ThotThought::getCode, bo.getCode());
         lqw.eq(StringUtils.isNotBlank(bo.getMainImg()), ThotThought::getMainImg, bo.getMainImg());
         lqw.eq(StringUtils.isNotBlank(bo.getBannerImg()), ThotThought::getBannerImg, bo.getBannerImg());

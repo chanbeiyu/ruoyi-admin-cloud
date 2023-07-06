@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 应用扩展信息业务对象 app_extend
  *
@@ -31,6 +33,7 @@ public class AppExtendBo extends BaseEntity {
      */
     @NotNull(message = "AppId不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 联系微信

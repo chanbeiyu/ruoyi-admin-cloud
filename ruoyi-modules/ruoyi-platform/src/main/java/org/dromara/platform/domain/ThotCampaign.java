@@ -37,7 +37,7 @@ public class ThotCampaign extends TenantEntity {
     /**
      * 活动编号
      */
-    private Long campaignCode;
+    private String campaignCode;
 
     /**
      * 活动名称

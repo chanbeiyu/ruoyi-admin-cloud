@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -33,12 +35,13 @@ public class ThotCampaignBo extends BaseEntity {
      */
     @NotBlank(message = "接入App不能为空", groups = { AddGroup.class, EditGroup.class })
     private String appId;
+    private List<Long> appIds;
 
     /**
      * 活动编号
      */
     @NotNull(message = "活动编号不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Long campaignCode;
+    private String campaignCode;
 
     /**
      * 活动名称
@@ -73,7 +76,6 @@ public class ThotCampaignBo extends BaseEntity {
     /**
      * 活动状态（0创建1发布2结束3删除）
      */
-    @NotNull(message = "活动状态（0创建1发布2结束3删除）不能为空", groups = { AddGroup.class, EditGroup.class })
     private Integer status;
 
     /**

@@ -66,6 +66,7 @@ public class SocialTagServiceImpl implements ISocialTagService {
         lqw.eq(StringUtils.isNotBlank(bo.getTagType()), SocialTag::getTagType, bo.getTagType());
         lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialTag::getAppId, bo.getAppId());
         lqw.eq(bo.getSubjectId() != null, SocialTag::getSubjectId, bo.getSubjectId());
+        lqw.in(bo.getSubjectIds() != null, SocialTag::getSubjectId, bo.getSubjectIds());
         return lqw;
     }
 

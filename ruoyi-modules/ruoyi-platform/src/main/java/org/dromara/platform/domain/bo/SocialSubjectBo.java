@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 内容主题业务对象 social_subject
  *
@@ -29,8 +31,9 @@ public class SocialSubjectBo extends BaseEntity {
     /**
      * 接入App标识
      */
-    @NotBlank(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String appId;
+    @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Long appId;
+    private List<Long> appIds;
 
     /**
      * 主题编码

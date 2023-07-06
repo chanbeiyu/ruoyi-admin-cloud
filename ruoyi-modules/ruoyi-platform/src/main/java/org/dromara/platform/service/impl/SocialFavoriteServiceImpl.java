@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialFavoriteBo;
 import org.dromara.platform.domain.vo.SocialFavoriteVo;
@@ -18,6 +20,7 @@ import org.dromara.platform.service.ISocialFavoriteService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 收藏信息Service业务层处理
@@ -61,7 +64,8 @@ public class SocialFavoriteServiceImpl implements ISocialFavoriteService {
     private LambdaQueryWrapper<SocialFavorite> buildQueryWrapper(SocialFavoriteBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialFavorite> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialFavorite::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), SocialFavorite::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialFavorite::getAppId, bo.getAppIds());
         lqw.eq(bo.getMemberId() != null, SocialFavorite::getMemberId, bo.getMemberId());
         lqw.eq(bo.getToMemberId() != null, SocialFavorite::getToMemberId, bo.getToMemberId());
         lqw.eq(bo.getSubjectId() != null, SocialFavorite::getSubjectId, bo.getSubjectId());

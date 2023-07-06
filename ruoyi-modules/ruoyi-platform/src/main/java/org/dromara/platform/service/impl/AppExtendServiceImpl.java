@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppAdvice;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.AppExtendBo;
 import org.dromara.platform.domain.vo.AppExtendVo;
@@ -62,6 +64,7 @@ public class AppExtendServiceImpl implements IAppExtendService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<AppExtend> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getExtendId() != null, AppExtend::getExtendId, bo.getExtendId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), AppExtend::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getContactWechat()), AppExtend::getContactWechat, bo.getContactWechat());
         lqw.eq(StringUtils.isNotBlank(bo.getContactPhone()), AppExtend::getContactPhone, bo.getContactPhone());
         lqw.eq(StringUtils.isNotBlank(bo.getContactEmail()), AppExtend::getContactEmail, bo.getContactEmail());

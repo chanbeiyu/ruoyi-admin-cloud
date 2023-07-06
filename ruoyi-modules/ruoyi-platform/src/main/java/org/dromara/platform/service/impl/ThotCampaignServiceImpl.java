@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppVersion;
+import org.dromara.platform.domain.SocialNoticeType;
 import org.dromara.platform.domain.ThotThought;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotCampaignBo;
@@ -63,6 +66,7 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotCampaign> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getAppId()), ThotCampaign::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotCampaign::getAppId, bo.getAppIds());
         lqw.eq(bo.getCampaignCode() != null, ThotCampaign::getCampaignCode, bo.getCampaignCode());
         lqw.like(StringUtils.isNotBlank(bo.getCampaignName()), ThotCampaign::getCampaignName, bo.getCampaignName());
         lqw.eq(StringUtils.isNotBlank(bo.getCampaignBannerImg()), ThotCampaign::getCampaignBannerImg, bo.getCampaignBannerImg());

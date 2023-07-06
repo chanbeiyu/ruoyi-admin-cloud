@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialMemberBo;
 import org.dromara.platform.domain.vo.SocialMemberVo;
@@ -18,6 +20,7 @@ import org.dromara.platform.service.ISocialMemberService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 成员信息Service业务层处理
@@ -62,7 +65,8 @@ public class SocialMemberServiceImpl implements ISocialMemberService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialMember> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getUnionId()), SocialMember::getUnionId, bo.getUnionId());
-        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialMember::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), SocialMember::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialMember::getAppId, bo.getAppIds());
         lqw.eq(bo.getVipLevel() != null, SocialMember::getVipLevel, bo.getVipLevel());
         lqw.eq(bo.getPoints() != null, SocialMember::getPoints, bo.getPoints());
         lqw.eq(bo.getPointsLevel() != null, SocialMember::getPointsLevel, bo.getPointsLevel());

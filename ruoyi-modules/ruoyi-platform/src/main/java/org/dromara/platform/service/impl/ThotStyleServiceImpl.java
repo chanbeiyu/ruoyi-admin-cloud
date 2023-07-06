@@ -1,6 +1,7 @@
 package org.dromara.platform.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -9,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppVersion;
+import org.dromara.platform.domain.SocialNoticeType;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotStyleBo;
 import org.dromara.platform.domain.vo.ThotStyleVo;
@@ -63,10 +66,12 @@ public class ThotStyleServiceImpl implements IThotStyleService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotStyle> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getAppId() != null, ThotStyle::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotStyle::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getStyleCode()), ThotStyle::getStyleCode, bo.getStyleCode());
         lqw.like(StringUtils.isNotBlank(bo.getStyleName()), ThotStyle::getStyleName, bo.getStyleName());
         lqw.eq(StringUtils.isNotBlank(bo.getStyleContent()), ThotStyle::getStyleContent, bo.getStyleContent());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotStyle::getDescription, bo.getDescription());
+        lqw.eq(StringUtils.isNotBlank(bo.getStatus()), ThotStyle::getStatus, bo.getStatus());
         return lqw;
     }
 

@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,12 +9,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.platform.domain.ThotChannel;
-import org.dromara.platform.domain.ThotThought;
+import org.dromara.platform.domain.*;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotAlbumBo;
 import org.dromara.platform.domain.vo.ThotAlbumVo;
-import org.dromara.platform.domain.ThotAlbum;
 import org.dromara.platform.mapper.ThotAlbumMapper;
 import org.dromara.platform.service.IThotAlbumService;
 
@@ -64,6 +63,7 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotAlbum> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getAppId() != null, ThotAlbum::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotAlbum::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getAlbumTitle()), ThotAlbum::getAlbumTitle, bo.getAlbumTitle());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotAlbum::getDescription, bo.getDescription());
         lqw.eq(bo.getStatus() != null, ThotAlbum::getStatus, bo.getStatus());

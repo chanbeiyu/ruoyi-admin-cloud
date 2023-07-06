@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -15,9 +16,7 @@ import org.dromara.platform.domain.SocialSubject;
 import org.dromara.platform.mapper.SocialSubjectMapper;
 import org.dromara.platform.service.ISocialSubjectService;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * 内容主题Service业务层处理
@@ -61,7 +60,8 @@ public class SocialSubjectServiceImpl implements ISocialSubjectService {
     private LambdaQueryWrapper<SocialSubject> buildQueryWrapper(SocialSubjectBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialSubject> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialSubject::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), SocialSubject::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialSubject::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getSubjectCode()), SocialSubject::getSubjectCode, bo.getSubjectCode());
         lqw.like(StringUtils.isNotBlank(bo.getSubjectName()), SocialSubject::getSubjectName, bo.getSubjectName());
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), SocialSubject::getDescription, bo.getDescription());

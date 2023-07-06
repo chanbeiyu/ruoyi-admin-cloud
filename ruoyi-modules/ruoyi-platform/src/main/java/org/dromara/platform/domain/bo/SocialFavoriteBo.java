@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 收藏信息业务对象 social_favorite
  *
@@ -30,7 +32,8 @@ public class SocialFavoriteBo extends BaseEntity {
      * 接入App标识
      */
     @NotBlank(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String appId;
+    private Long appId;
+    private List<Long> appIds;
 
     /**
      * 收藏用户id

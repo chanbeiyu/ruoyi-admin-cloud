@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 标签信息业务对象 social_tag
  *
@@ -56,6 +58,8 @@ public class SocialTagBo extends BaseEntity {
      */
     @NotNull(message = "所属主题不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long subjectId;
+
+    private List<Long> subjectIds;
 
     /**
      * 主题描述

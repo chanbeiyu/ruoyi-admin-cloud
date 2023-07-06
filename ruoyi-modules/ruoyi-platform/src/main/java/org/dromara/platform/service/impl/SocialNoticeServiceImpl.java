@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialNoticeBo;
 import org.dromara.platform.domain.vo.SocialNoticeVo;
@@ -18,6 +20,7 @@ import org.dromara.platform.service.ISocialNoticeService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 信息通知Service业务层处理
@@ -61,7 +64,8 @@ public class SocialNoticeServiceImpl implements ISocialNoticeService {
     private LambdaQueryWrapper<SocialNotice> buildQueryWrapper(SocialNoticeBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialNotice> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialNotice::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), SocialNotice::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialNotice::getAppId, bo.getAppIds());
         lqw.eq(bo.getMemberId() != null, SocialNotice::getMemberId, bo.getMemberId());
         lqw.eq(bo.getTriggerMemberId() != null, SocialNotice::getTriggerMemberId, bo.getTriggerMemberId());
         lqw.eq(StringUtils.isNotBlank(bo.getTriggerId()), SocialNotice::getTriggerId, bo.getTriggerId());

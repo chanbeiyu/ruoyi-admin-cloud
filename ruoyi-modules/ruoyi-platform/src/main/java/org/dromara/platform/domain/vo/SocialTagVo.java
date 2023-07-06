@@ -56,7 +56,7 @@ public class SocialTagVo implements Serializable {
     /**
      * 接入App标识
      */
-    private String appId;
+    private Long appId;
 
     @ExcelProperty(value = "应用名称")
     @Translation(type = SocialTransConstant.SOCIAL_ID_TO_NAME, mapper = "appId", other = SocialTransConstant.Other.APP)

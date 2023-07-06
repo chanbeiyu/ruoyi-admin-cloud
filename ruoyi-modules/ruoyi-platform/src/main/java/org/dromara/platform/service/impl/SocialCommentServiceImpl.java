@@ -1,10 +1,12 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialCommentBo;
 import org.dromara.platform.domain.vo.SocialCommentVo;
@@ -15,6 +17,7 @@ import org.dromara.platform.service.ISocialCommentService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 评论信息Service业务层处理
@@ -50,7 +53,8 @@ public class SocialCommentServiceImpl implements ISocialCommentService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SocialComment> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getCommentPid() != null, SocialComment::getCommentPid, bo.getCommentPid());
-        lqw.eq(StringUtils.isNotBlank(bo.getAppId()), SocialComment::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), SocialComment::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialComment::getAppId, bo.getAppIds());
         lqw.eq(bo.getMemberId() != null, SocialComment::getMemberId, bo.getMemberId());
         lqw.eq(bo.getToMemberId() != null, SocialComment::getToMemberId, bo.getToMemberId());
         lqw.eq(bo.getSubjectId() != null, SocialComment::getSubjectId, bo.getSubjectId());

@@ -12,6 +12,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 样式信息业务对象 thot_style
  *
@@ -34,6 +36,7 @@ public class ThotStyleBo extends BaseEntity {
      */
     @NotNull(message = "接入App不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 样式编码

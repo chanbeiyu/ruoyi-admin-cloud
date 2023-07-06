@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.domain.AppAdvice;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.AppVersionBo;
 import org.dromara.platform.domain.vo.AppVersionVo;
@@ -62,6 +64,7 @@ public class AppVersionServiceImpl implements IAppVersionService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<AppVersion> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getAppId() != null, AppVersion::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), AppVersion::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getVersion()), AppVersion::getVersion, bo.getVersion());
         lqw.eq(StringUtils.isNotBlank(bo.getBuildVersion()), AppVersion::getBuildVersion, bo.getBuildVersion());
         lqw.eq(bo.getForced() != null, AppVersion::getForced, bo.getForced());

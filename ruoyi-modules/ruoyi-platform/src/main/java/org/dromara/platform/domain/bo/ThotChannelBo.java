@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 频道信息业务对象 thot_channel
  *
@@ -31,6 +33,7 @@ public class ThotChannelBo extends BaseEntity {
      */
     @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 频道编码
