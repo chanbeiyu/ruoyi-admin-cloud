@@ -22,6 +22,21 @@ public enum BusinessType {
     UPDATE,
 
     /**
+     * 发布
+     */
+    PUBLISH,
+
+    /**
+     * 锁定
+     */
+    LOCK,
+
+    /**
+     * 解锁
+     */
+    UNLOCK,
+
+    /**
      * 删除
      */
     DELETE,

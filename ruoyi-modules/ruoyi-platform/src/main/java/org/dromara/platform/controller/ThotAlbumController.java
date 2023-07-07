@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.vo.ThotThoughtVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
@@ -100,6 +101,45 @@ public class ThotAlbumController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody ThotAlbumBo bo) {
         return toAjax(thotAlbumService.updateByBo(bo));
+    }
+
+    /**
+     * 发布思集信息
+     *
+     * @param albumIds 主键串
+     */
+    @SaCheckPermission("thoughts:topic:publish")
+    @Log(title = "思集信息", businessType = BusinessType.PUBLISH)
+    @PatchMapping("/publish/{albumIds}")
+    public R<Void> publish(@NotEmpty(message = "主键不能为空")
+                           @PathVariable Long[] albumIds) {
+        return toAjax(thotAlbumService.updateStatus(List.of(albumIds), DataStatus1.PUBLISH));
+    }
+
+    /**
+     * 锁定思集信息
+     *
+     * @param albumIds 主键串
+     */
+    @SaCheckPermission("thoughts:topic:lock")
+    @Log(title = "思集信息", businessType = BusinessType.LOCK)
+    @PatchMapping("/lock/{albumIds}")
+    public R<Void> lock(@NotEmpty(message = "主键不能为空")
+                        @PathVariable Long[] albumIds) {
+        return toAjax(thotAlbumService.updateStatus(List.of(albumIds), DataStatus1.LOCK));
+    }
+
+    /**
+     * 解锁思集信息
+     *
+     * @param albumIds 主键串
+     */
+    @SaCheckPermission("thoughts:topic:unlock")
+    @Log(title = "思集信息", businessType = BusinessType.UNLOCK)
+    @PatchMapping("/unlock/{albumIds}")
+    public R<Void> unlock(@NotEmpty(message = "主键不能为空")
+                          @PathVariable Long[] albumIds) {
+        return toAjax(thotAlbumService.updateStatus(List.of(albumIds), DataStatus1.UNLOCK));
     }
 
     /**

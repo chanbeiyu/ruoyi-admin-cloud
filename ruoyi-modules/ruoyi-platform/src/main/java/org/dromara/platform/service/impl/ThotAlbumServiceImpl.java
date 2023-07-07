@@ -1,27 +1,30 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import org.dromara.platform.domain.*;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.platform.constant.DataStatus1;
+import org.dromara.platform.domain.ThotAlbum;
+import org.dromara.platform.domain.ThotAlbumThought;
+import org.dromara.platform.domain.bo.ThotAlbumBo;
+import org.dromara.platform.domain.vo.ThotAlbumVo;
 import org.dromara.platform.domain.vo.ThotThoughtVo;
+import org.dromara.platform.mapper.ThotAlbumMapper;
+import org.dromara.platform.service.IThotAlbumService;
 import org.dromara.platform.service.IThotAlbumThoughtService;
 import org.dromara.platform.service.IThotThoughtService;
 import org.springframework.stereotype.Service;
-import org.dromara.platform.domain.bo.ThotAlbumBo;
-import org.dromara.platform.domain.vo.ThotAlbumVo;
-import org.dromara.platform.mapper.ThotAlbumMapper;
-import org.dromara.platform.service.IThotAlbumService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 思集信息Service业务层处理
@@ -43,7 +46,7 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
      * 查询思集信息
      */
     @Override
-    public ThotAlbumVo queryById(Long albumId){
+    public ThotAlbumVo queryById(Long albumId) {
         return baseMapper.selectVoById(albumId);
     }
 
@@ -74,7 +77,7 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
         ThotAlbumVo thotAlbumVo = baseMapper.selectVoById(albumId);
         List<ThotThoughtVo> thoughts = null;
         List<ThotAlbumThought> thotAlbumThoughts = thotAlbumThoughtService.queryByAlbumId(albumId);
-        if(CollectionUtils.isNotEmpty(thotAlbumThoughts)) {
+        if (CollectionUtils.isNotEmpty(thotAlbumThoughts)) {
             thoughts = thotAlbumThoughts.parallelStream()
                 .map(o -> {
                     ThotThoughtVo thotThoughtVo = thotThoughtService.queryById(o.getThoughtId());
@@ -97,7 +100,7 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
         lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotAlbum::getDescription, bo.getDescription());
         lqw.eq(bo.getStatus() != null, ThotAlbum::getStatus, bo.getStatus());
         lqw.between(params.get("beginPublishTime") != null && params.get("endPublishTime") != null,
-            ThotAlbum::getPublishTime ,params.get("beginPublishTime"), params.get("endPublishTime"));
+            ThotAlbum::getPublishTime, params.get("beginPublishTime"), params.get("endPublishTime"));
         return lqw;
     }
 
@@ -128,8 +131,19 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
     /**
      * 保存前的数据校验
      */
-    private void validEntityBeforeSave(ThotAlbum entity){
+    private void validEntityBeforeSave(ThotAlbum entity) {
         //TODO 做一些数据校验,如唯一约束
+    }
+
+    /**
+     * 修改思集状态
+     */
+    @Override
+    public int updateStatus(Collection<Long> ids, DataStatus1 dataStatus) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<ThotAlbum>()
+                .set(ThotAlbum::getStatus, dataStatus.status)
+                .in(ThotAlbum::getAlbumId, ids));
     }
 
     /**
@@ -137,7 +151,7 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
      */
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
-        if(isValid){
+        if (isValid) {
             //TODO 做一些业务上的校验,判断是否需要校验
         }
         return baseMapper.deleteBatchIds(ids) > 0;

@@ -1,5 +1,6 @@
 package org.dromara.platform.service;
 
+import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.ThotAlbum;
 import org.dromara.platform.domain.vo.ThotAlbumVo;
 import org.dromara.platform.domain.bo.ThotAlbumBo;
@@ -44,6 +45,8 @@ public interface IThotAlbumService {
      * 修改思集信息
      */
     Boolean updateByBo(ThotAlbumBo bo);
+
+    int updateStatus(Collection<Long> ids, DataStatus1 dataStatus);
 
     /**
      * 校验并批量删除思集信息信息

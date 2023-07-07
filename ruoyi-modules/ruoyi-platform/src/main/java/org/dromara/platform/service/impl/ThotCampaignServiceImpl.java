@@ -1,27 +1,26 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import org.dromara.platform.domain.AppVersion;
-import org.dromara.platform.domain.SocialNoticeType;
-import org.dromara.platform.domain.ThotThought;
-import org.springframework.stereotype.Service;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.platform.constant.DataStatus1;
+import org.dromara.platform.domain.ThotCampaign;
 import org.dromara.platform.domain.bo.ThotCampaignBo;
 import org.dromara.platform.domain.vo.ThotCampaignVo;
-import org.dromara.platform.domain.ThotCampaign;
 import org.dromara.platform.mapper.ThotCampaignMapper;
 import org.dromara.platform.service.IThotCampaignService;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 活动信息Service业务层处理
@@ -39,7 +38,7 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
      * 查询活动信息
      */
     @Override
-    public ThotCampaignVo queryById(Long campaignId){
+    public ThotCampaignVo queryById(Long campaignId) {
         return baseMapper.selectVoById(campaignId);
     }
 
@@ -75,9 +74,9 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
         lqw.eq(StringUtils.isNotBlank(bo.getTypeCode()), ThotCampaign::getTypeCode, bo.getTypeCode());
         lqw.eq(bo.getStatus() != null, ThotCampaign::getStatus, bo.getStatus());
         lqw.between(params.get("beginBeginTime") != null && params.get("endBeginTime") != null,
-            ThotCampaign::getBeginTime ,params.get("beginBeginTime"), params.get("endBeginTime"));
+            ThotCampaign::getBeginTime, params.get("beginBeginTime"), params.get("endBeginTime"));
         lqw.between(params.get("beginEndTime") != null && params.get("endEndTime") != null,
-            ThotCampaign::getEndTime ,params.get("beginEndTime"), params.get("endEndTime"));
+            ThotCampaign::getEndTime, params.get("beginEndTime"), params.get("endEndTime"));
         return lqw;
     }
 
@@ -108,8 +107,19 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
     /**
      * 保存前的数据校验
      */
-    private void validEntityBeforeSave(ThotCampaign entity){
+    private void validEntityBeforeSave(ThotCampaign entity) {
         //TODO 做一些数据校验,如唯一约束
+    }
+
+    /**
+     * 修改活动状态
+     */
+    @Override
+    public int updateStatus(Collection<Long> ids, DataStatus1 dataStatus) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<ThotCampaign>()
+                .set(ThotCampaign::getStatus, dataStatus.status)
+                .in(ThotCampaign::getCampaignId, ids));
     }
 
     /**
@@ -117,7 +127,7 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
      */
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
-        if(isValid){
+        if (isValid) {
             //TODO 做一些业务上的校验,判断是否需要校验
         }
         return baseMapper.deleteBatchIds(ids) > 0;

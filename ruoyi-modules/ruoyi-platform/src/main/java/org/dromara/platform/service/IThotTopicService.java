@@ -1,5 +1,6 @@
 package org.dromara.platform.service;
 
+import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.ThotTopic;
 import org.dromara.platform.domain.vo.ThotTopicVo;
 import org.dromara.platform.domain.bo.ThotTopicBo;
@@ -41,6 +42,11 @@ public interface IThotTopicService {
      * 修改话题信息
      */
     Boolean updateByBo(ThotTopicBo bo);
+
+    /**
+     * 修改话题状态
+     */
+    int updateStatus(Collection<Long> ids, DataStatus1 dataStatus);
 
     /**
      * 校验并批量删除话题信息信息

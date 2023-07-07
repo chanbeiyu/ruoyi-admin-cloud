@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.platform.constant.DataStatus1;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -88,6 +89,45 @@ public class ThotThoughtController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody ThotThoughtBo bo) {
         return toAjax(thotThoughtService.updateByBo(bo));
+    }
+
+    /**
+     * 发布思绪信息
+     *
+     * @param thoughtIds 主键串
+     */
+    @SaCheckPermission("thoughts:thought:publish")
+    @Log(title = "话题信息", businessType = BusinessType.PUBLISH)
+    @PatchMapping("/publish/{thoughtIds}")
+    public R<Void> publish(@NotEmpty(message = "主键不能为空")
+                           @PathVariable Long[] thoughtIds) {
+        return toAjax(thotThoughtService.updateStatus(List.of(thoughtIds), DataStatus1.PUBLISH));
+    }
+
+    /**
+     * 锁定思绪信息
+     *
+     * @param thoughtIds 主键串
+     */
+    @SaCheckPermission("thoughts:thought:lock")
+    @Log(title = "思绪信息", businessType = BusinessType.LOCK)
+    @PatchMapping("/lock/{thoughtIds}")
+    public R<Void> lock(@NotEmpty(message = "主键不能为空")
+                        @PathVariable Long[] thoughtIds) {
+        return toAjax(thotThoughtService.updateStatus(List.of(thoughtIds), DataStatus1.LOCK));
+    }
+
+    /**
+     * 解锁思绪信息
+     *
+     * @param thoughtIds 主键串
+     */
+    @SaCheckPermission("thoughts:thought:unlock")
+    @Log(title = "思绪信息", businessType = BusinessType.UNLOCK)
+    @PatchMapping("/unlock/{thoughtIds}")
+    public R<Void> unlock(@NotEmpty(message = "主键不能为空")
+                          @PathVariable Long[] thoughtIds) {
+        return toAjax(thotThoughtService.updateStatus(List.of(thoughtIds), DataStatus1.UNLOCK));
     }
 
     /**

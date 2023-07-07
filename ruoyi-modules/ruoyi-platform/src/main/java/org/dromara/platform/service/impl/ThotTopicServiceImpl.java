@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -9,8 +10,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.AppVersion;
 import org.dromara.platform.domain.SocialNoticeType;
+import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.ThotTopicBo;
 import org.dromara.platform.domain.vo.ThotTopicVo;
@@ -106,6 +109,17 @@ public class ThotTopicServiceImpl implements IThotTopicService {
      */
     private void validEntityBeforeSave(ThotTopic entity){
         //TODO 做一些数据校验,如唯一约束
+    }
+
+    /**
+     * 修改话题状态
+     */
+    @Override
+    public int updateStatus(Collection<Long> ids, DataStatus1 dataStatus) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<ThotTopic>()
+                .set(ThotTopic::getStatus, dataStatus.status)
+                .in(ThotTopic::getTopicId, ids));
     }
 
     /**

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.platform.constant.DataStatus1;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -88,6 +89,45 @@ public class ThotCampaignController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody ThotCampaignBo bo) {
         return toAjax(thotCampaignService.updateByBo(bo));
+    }
+
+    /**
+     * 发布活动信息
+     *
+     * @param campaignIds 主键串
+     */
+    @SaCheckPermission("thoughts:topic:publish")
+    @Log(title = "活动信息", businessType = BusinessType.PUBLISH)
+    @PatchMapping("/publish/{campaignIds}")
+    public R<Void> publish(@NotEmpty(message = "主键不能为空")
+                           @PathVariable Long[] campaignIds) {
+        return toAjax(thotCampaignService.updateStatus(List.of(campaignIds), DataStatus1.PUBLISH));
+    }
+
+    /**
+     * 锁定活动信息
+     *
+     * @param campaignIds 主键串
+     */
+    @SaCheckPermission("thoughts:topic:lock")
+    @Log(title = "活动信息", businessType = BusinessType.LOCK)
+    @PatchMapping("/lock/{campaignIds}")
+    public R<Void> lock(@NotEmpty(message = "主键不能为空")
+                        @PathVariable Long[] campaignIds) {
+        return toAjax(thotCampaignService.updateStatus(List.of(campaignIds), DataStatus1.LOCK));
+    }
+
+    /**
+     * 解锁活动信息
+     *
+     * @param campaignIds 主键串
+     */
+    @SaCheckPermission("thoughts:topic:unlock")
+    @Log(title = "活动信息", businessType = BusinessType.UNLOCK)
+    @PatchMapping("/unlock/{campaignIds}")
+    public R<Void> unlock(@NotEmpty(message = "主键不能为空")
+                          @PathVariable Long[] campaignIds) {
+        return toAjax(thotCampaignService.updateStatus(List.of(campaignIds), DataStatus1.UNLOCK));
     }
 
     /**

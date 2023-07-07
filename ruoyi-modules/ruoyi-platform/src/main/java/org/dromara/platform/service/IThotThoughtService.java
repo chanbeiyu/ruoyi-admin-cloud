@@ -1,5 +1,6 @@
 package org.dromara.platform.service;
 
+import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.ThotThought;
 import org.dromara.platform.domain.vo.ThotThoughtVo;
 import org.dromara.platform.domain.bo.ThotThoughtBo;
@@ -41,6 +42,8 @@ public interface IThotThoughtService {
      * 修改思绪信息
      */
     Boolean updateByBo(ThotThoughtBo bo);
+
+    int updateStatus(Collection<Long> ids, DataStatus1 dataStatus);
 
     /**
      * 校验并批量删除思绪信息信息

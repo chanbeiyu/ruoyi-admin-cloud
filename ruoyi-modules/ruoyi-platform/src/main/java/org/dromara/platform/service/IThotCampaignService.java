@@ -1,5 +1,6 @@
 package org.dromara.platform.service;
 
+import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.ThotCampaign;
 import org.dromara.platform.domain.vo.ThotCampaignVo;
 import org.dromara.platform.domain.bo.ThotCampaignBo;
@@ -41,6 +42,8 @@ public interface IThotCampaignService {
      * 修改活动信息
      */
     Boolean updateByBo(ThotCampaignBo bo);
+
+    int updateStatus(Collection<Long> ids, DataStatus1 dataStatus);
 
     /**
      * 校验并批量删除活动信息信息

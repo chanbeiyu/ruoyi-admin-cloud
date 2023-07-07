@@ -1,27 +1,26 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import lombok.RequiredArgsConstructor;
-import org.dromara.platform.domain.AppVersion;
-import org.dromara.platform.domain.SocialNoticeType;
-import org.dromara.platform.domain.ThotAlbum;
-import org.springframework.stereotype.Service;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.platform.constant.DataStatus1;
+import org.dromara.platform.domain.ThotThought;
 import org.dromara.platform.domain.bo.ThotThoughtBo;
 import org.dromara.platform.domain.vo.ThotThoughtVo;
-import org.dromara.platform.domain.ThotThought;
 import org.dromara.platform.mapper.ThotThoughtMapper;
 import org.dromara.platform.service.IThotThoughtService;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 思绪信息Service业务层处理
@@ -39,7 +38,7 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
      * 查询思绪信息
      */
     @Override
-    public ThotThoughtVo queryById(Long thoughtId){
+    public ThotThoughtVo queryById(Long thoughtId) {
         return baseMapper.selectVoById(thoughtId);
     }
 
@@ -76,7 +75,7 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
         lqw.eq(bo.getCententStyle() != null, ThotThought::getCententStyle, bo.getCententStyle());
         lqw.eq(bo.getStatus() != null, ThotThought::getStatus, bo.getStatus());
         lqw.between(params.get("beginPublishTime") != null && params.get("endPublishTime") != null,
-            ThotThought::getPublishTime ,params.get("beginPublishTime"), params.get("endPublishTime"));
+            ThotThought::getPublishTime, params.get("beginPublishTime"), params.get("endPublishTime"));
         return lqw;
     }
 
@@ -107,8 +106,19 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
     /**
      * 保存前的数据校验
      */
-    private void validEntityBeforeSave(ThotThought entity){
+    private void validEntityBeforeSave(ThotThought entity) {
         //TODO 做一些数据校验,如唯一约束
+    }
+
+    /**
+     * 修改思绪状态
+     */
+    @Override
+    public int updateStatus(Collection<Long> ids, DataStatus1 dataStatus) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<ThotThought>()
+                .set(ThotThought::getStatus, dataStatus.status)
+                .in(ThotThought::getThoughtId, ids));
     }
 
     /**
@@ -116,7 +126,7 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
      */
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
-        if(isValid){
+        if (isValid) {
             //TODO 做一些业务上的校验,判断是否需要校验
         }
         return baseMapper.deleteBatchIds(ids) > 0;
