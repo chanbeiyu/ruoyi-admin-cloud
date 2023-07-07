@@ -49,4 +49,15 @@ public class SearchController extends BaseController {
         return searchService.searchSubjectList(query, appId, cascade);
     }
 
+    /**
+     * 查询主题列表，用于搜索/选择
+     */
+    //@SaCheckPermission("platfrom:search:style")
+    @GetMapping("/style")
+    public TableDataInfo<SearchVo> searchStyle(@RequestParam(required = false) String query,
+                                                 @RequestParam(required = false) Long appId,
+                                                 @RequestParam(required = false, defaultValue = "false") boolean cascade) {
+        return searchService.searchStyleList(query, appId, cascade);
+    }
+
 }
