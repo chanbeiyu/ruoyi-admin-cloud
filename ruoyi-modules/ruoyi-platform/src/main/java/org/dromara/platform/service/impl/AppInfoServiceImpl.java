@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -66,11 +67,7 @@ public class AppInfoServiceImpl implements IAppInfoService {
         lqw.like(StringUtils.isNotBlank(bo.getAppCode()), AppInfo::getAppCode, bo.getAppCode());
         lqw.like(StringUtils.isNotBlank(bo.getAppName()), AppInfo::getAppName, bo.getAppName());
         lqw.eq(Objects.nonNull(bo.getIsInternal()), AppInfo::getIsInternal, bo.getIsInternal());
-        lqw.eq(StringUtils.isNotBlank(bo.getAccessKeyId()), AppInfo::getAccessKeyId, bo.getAccessKeyId());
-        lqw.eq(StringUtils.isNotBlank(bo.getSecretAccessKey()), AppInfo::getSecretAccessKey, bo.getSecretAccessKey());
-        lqw.eq(StringUtils.isNotBlank(bo.getSalt()), AppInfo::getSalt, bo.getSalt());
-        lqw.eq(StringUtils.isNotBlank(bo.getDomains()), AppInfo::getDomains, bo.getDomains());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), AppInfo::getDescription, bo.getDescription());
+        lqw.eq(StringUtils.isNotBlank(bo.getStatus()), AppInfo::getStatus, bo.getStatus());
         return lqw;
     }
 
@@ -96,6 +93,21 @@ public class AppInfoServiceImpl implements IAppInfoService {
         AppInfo update = MapstructUtils.convert(bo, AppInfo.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改APP状态
+     *
+     * @param appId APPID
+     * @param status 状态
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long appId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<AppInfo>()
+                .set(AppInfo::getStatus, status)
+                .eq(AppInfo::getAppId, appId));
     }
 
     /**

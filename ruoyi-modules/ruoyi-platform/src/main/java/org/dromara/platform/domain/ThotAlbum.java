@@ -44,7 +44,7 @@ public class ThotAlbum extends TenantEntity {
     private String description;
 
     /**
-     * 活动状态（0创建1发布2结束3删除）
+     * 活动状态
      */
     private Integer status;
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.platform.domain.bo.AppInfoBo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -88,6 +89,16 @@ public class SocialNoticeTypeController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody SocialNoticeTypeBo bo) {
         return toAjax(socialNoticeTypeService.updateByBo(bo));
+    }
+
+    /**
+     * 状态修改
+     */
+    @SaCheckPermission("social:noticeType:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/status")
+    public R<Void> changeStatus(@RequestBody SocialNoticeTypeBo bo) {
+        return toAjax(socialNoticeTypeService.updateStatus(bo.getNoticeTypeId(), bo.getStatus()));
     }
 
     /**

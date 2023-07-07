@@ -47,8 +47,8 @@ public class AppInfoVo implements Serializable {
     private String appName;
 
     @ExcelProperty(value = "内部项目", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "en_yes_no")
-    private Integer isInternal;
+    @ExcelDictFormat(dictType = "sys_yes_no")
+    private String isInternal;
 
     /**
      * AccessKeyId
@@ -75,6 +75,13 @@ public class AppInfoVo implements Serializable {
      */
     @ExcelProperty(value = "允许的域,支持模糊匹配")
     private String domains;
+
+    /**
+     * 状态
+     */
+    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "sys_yes_no")
+    private String status;
 
     /**
      * 描述

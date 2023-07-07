@@ -43,9 +43,9 @@ public class ThotChannel extends TenantEntity {
     private String channelName;
 
     /**
-     * 状态0正常1锁定
+     * 状态
      */
-    private Integer status;
+    private String status;
 
     /**
      * 频道描述

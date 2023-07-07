@@ -1,5 +1,8 @@
 package org.dromara.platform.domain.bo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import org.dromara.common.excel.annotation.ExcelDictFormat;
+import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.platform.domain.AppInfo;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
@@ -42,7 +45,7 @@ public class AppInfoBo extends BaseEntity {
      * 是否为内部项目
      */
     @NotNull(message = "请选择是否为内部项目", groups = { AddGroup.class, EditGroup.class })
-    private Integer isInternal;
+    private String isInternal;
 
     /**
      * AccessKeyId
@@ -63,6 +66,11 @@ public class AppInfoBo extends BaseEntity {
      * 允许的域,支持模糊匹配
      */
     private String domains;
+
+    /**
+     * 状态
+     */
+    private String status;
 
     /**
      * 描述

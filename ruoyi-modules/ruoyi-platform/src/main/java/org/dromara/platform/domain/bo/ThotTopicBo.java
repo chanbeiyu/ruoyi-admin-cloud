@@ -68,9 +68,8 @@ public class ThotTopicBo extends BaseEntity {
     private String topicContent;
 
     /**
-     * 话题状态（0创建1发布2结束3删除）
+     * 状态
      */
-    //@NotNull(message = "话题状态（0创建1发布2结束3删除）不能为空", groups = { AddGroup.class, EditGroup.class })
     private Integer status;
 
     /**
@@ -84,6 +83,5 @@ public class ThotTopicBo extends BaseEntity {
      */
     @NotNull(message = "结束时间不能为空", groups = { AddGroup.class, EditGroup.class })
     private Date endTime;
-
 
 }

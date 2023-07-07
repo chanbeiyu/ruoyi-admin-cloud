@@ -41,6 +41,8 @@ public interface ISocialNoticeTypeService {
      */
     Boolean updateByBo(SocialNoticeTypeBo bo);
 
+    int updateStatus(Long noticeId, String status);
+
     /**
      * 校验并批量删除信息通知类型信息
      */

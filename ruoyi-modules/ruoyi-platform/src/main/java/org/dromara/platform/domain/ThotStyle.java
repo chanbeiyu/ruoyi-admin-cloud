@@ -48,9 +48,9 @@ public class ThotStyle extends TenantEntity {
     private String styleContent;
 
     /**
-     * 状态0正常1锁定
+     * 状态
      */
-    private Integer status;
+    private String status;
 
     /**
      * 样式描述

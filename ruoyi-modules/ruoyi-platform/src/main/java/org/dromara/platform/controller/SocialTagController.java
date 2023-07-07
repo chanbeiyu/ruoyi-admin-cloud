@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.platform.domain.bo.SocialSubjectBo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -88,6 +89,16 @@ public class SocialTagController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody SocialTagBo bo) {
         return toAjax(socialTagService.updateByBo(bo));
+    }
+
+    /**
+     * 状态修改
+     */
+    @SaCheckPermission("social:subject:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/status")
+    public R<Void> changeStatus(@RequestBody SocialTagBo bo) {
+        return toAjax(socialTagService.updateStatus(bo.getTagId(), bo.getStatus()));
     }
 
     /**

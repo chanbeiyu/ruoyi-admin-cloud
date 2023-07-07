@@ -1,6 +1,5 @@
 package org.dromara.platform.service;
 
-import org.dromara.platform.domain.ThotStyle;
 import org.dromara.platform.domain.vo.ThotStyleVo;
 import org.dromara.platform.domain.bo.ThotStyleBo;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -42,7 +41,7 @@ public interface IThotStyleService {
      */
     Boolean updateByBo(ThotStyleBo bo);
 
-    int updateStyleStatus(Long styleId, String status);
+    int updateStatus(Long styleId, String status);
 
     /**
      * 校验并批量删除样式信息信息

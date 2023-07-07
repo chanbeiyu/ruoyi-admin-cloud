@@ -41,6 +41,8 @@ public interface IAppInfoService {
      */
     Boolean updateByBo(AppInfoBo bo);
 
+    int updateStatus(Long appId, String status);
+
     /**
      * 校验并批量删除应用信息信息
      */

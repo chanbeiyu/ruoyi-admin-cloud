@@ -41,6 +41,8 @@ public interface ISocialTagService {
      */
     Boolean updateByBo(SocialTagBo bo);
 
+    int updateStatus(Long tagId, String status);
+
     /**
      * 校验并批量删除标签信息信息
      */

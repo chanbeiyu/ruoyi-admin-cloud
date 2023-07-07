@@ -1,6 +1,5 @@
 package org.dromara.platform.service;
 
-import org.dromara.platform.domain.ThotChannel;
 import org.dromara.platform.domain.vo.ThotChannelVo;
 import org.dromara.platform.domain.bo.ThotChannelBo;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -42,7 +41,7 @@ public interface IThotChannelService {
      */
     Boolean updateByBo(ThotChannelBo bo);
 
-    int updateChannelStatus(Long channelId, String status);
+    int updateStatus(Long channelId, String status);
 
     /**
      * 校验并批量删除频道信息信息

@@ -60,7 +60,7 @@ public class ThotTopic extends TenantEntity {
     private String topicContent;
 
     /**
-     * 话题状态（0创建1发布2结束3删除）
+     * 话题状态
      */
     private Integer status;
 
@@ -78,6 +78,5 @@ public class ThotTopic extends TenantEntity {
      * 备注
      */
     private String remark;
-
 
 }

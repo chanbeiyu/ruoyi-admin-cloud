@@ -78,10 +78,10 @@ public class ThotTopicVo implements Serializable {
     private String topicContent;
 
     /**
-     * 话题状态（0创建1发布2结束3删除）
+     * 话题状态
      */
     @ExcelProperty(value = "话题状态", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(readConverterExp = "0=创建1发布2结束3删除")
+    @ExcelDictFormat(dictType = "en_data_status2")
     private Integer status;
 
     /**

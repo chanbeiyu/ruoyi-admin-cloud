@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -9,7 +10,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.platform.domain.SocialSubject;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.bo.SocialNoticeTypeBo;
 import org.dromara.platform.domain.vo.SocialNoticeTypeVo;
@@ -68,6 +68,7 @@ public class SocialNoticeTypeServiceImpl implements ISocialNoticeTypeService {
         lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialNoticeType::getAppId, bo.getAppIds());
         lqw.like(StringUtils.isNotBlank(bo.getNoticeTypeCode()), SocialNoticeType::getNoticeTypeCode, bo.getNoticeTypeCode());
         lqw.like(StringUtils.isNotBlank(bo.getNoticeTypeName()), SocialNoticeType::getNoticeTypeName, bo.getNoticeTypeName());
+        lqw.like(StringUtils.isNotBlank(bo.getStatus()), SocialNoticeType::getStatus, bo.getStatus());
         return lqw;
     }
 
@@ -93,6 +94,21 @@ public class SocialNoticeTypeServiceImpl implements ISocialNoticeTypeService {
         SocialNoticeType update = MapstructUtils.convert(bo, SocialNoticeType.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改信息通知状态
+     *
+     * @param noticeId 信息通知ID
+     * @param status 状态
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long noticeId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<SocialNoticeType>()
+                .set(SocialNoticeType::getStatus, status)
+                .eq(SocialNoticeType::getNoticeTypeId, noticeId));
     }
 
     /**

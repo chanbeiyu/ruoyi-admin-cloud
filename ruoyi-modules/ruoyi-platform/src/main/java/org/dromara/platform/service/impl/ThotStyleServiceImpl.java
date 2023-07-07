@@ -22,6 +22,7 @@ import org.dromara.platform.service.IThotStyleService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 样式信息Service业务层处理
@@ -65,12 +66,10 @@ public class ThotStyleServiceImpl implements IThotStyleService {
     private LambdaQueryWrapper<ThotStyle> buildQueryWrapper(ThotStyleBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ThotStyle> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getAppId() != null, ThotStyle::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), ThotStyle::getAppId, bo.getAppId());
         lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotStyle::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getStyleCode()), ThotStyle::getStyleCode, bo.getStyleCode());
         lqw.like(StringUtils.isNotBlank(bo.getStyleName()), ThotStyle::getStyleName, bo.getStyleName());
-        lqw.eq(StringUtils.isNotBlank(bo.getStyleContent()), ThotStyle::getStyleContent, bo.getStyleContent());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotStyle::getDescription, bo.getDescription());
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), ThotStyle::getStatus, bo.getStatus());
         return lqw;
     }
@@ -107,7 +106,7 @@ public class ThotStyleServiceImpl implements IThotStyleService {
      * @return 结果
      */
     @Override
-    public int updateStyleStatus(Long styleId, String status) {
+    public int updateStatus(Long styleId, String status) {
         return baseMapper.update(null,
             new LambdaUpdateWrapper<ThotStyle>()
                 .set(ThotStyle::getStatus, status)

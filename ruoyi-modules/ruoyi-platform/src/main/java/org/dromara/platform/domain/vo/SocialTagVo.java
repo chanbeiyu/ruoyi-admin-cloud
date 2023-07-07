@@ -73,6 +73,13 @@ public class SocialTagVo implements Serializable {
     private String subjectName;
 
     /**
+     * 状态
+     */
+    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "sys_yes_no")
+    private String status;
+
+    /**
      * 主题描述
      */
     @ExcelProperty(value = "主题描述")

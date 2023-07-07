@@ -43,6 +43,11 @@ public class SocialSubject extends BaseEntity {
     private String subjectName;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 主题描述
      */
     private String description;

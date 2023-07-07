@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.dromara.platform.domain.bo.AppInfoBo;
+import org.dromara.platform.domain.bo.ThotStyleBo;
 import org.dromara.platform.domain.vo.AppInfoVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
@@ -89,6 +90,17 @@ public class AppInfoController extends BaseController {
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody AppInfoBo bo) {
         return toAjax(appInfoService.updateByBo(bo));
     }
+
+    /**
+     * 状态修改
+     */
+    @SaCheckPermission("platfrom:app:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/status")
+    public R<Void> changeStatus(@RequestBody AppInfoBo bo) {
+        return toAjax(appInfoService.updateStatus(bo.getAppId(), bo.getStatus()));
+    }
+
 
     /**
      * 删除应用信息

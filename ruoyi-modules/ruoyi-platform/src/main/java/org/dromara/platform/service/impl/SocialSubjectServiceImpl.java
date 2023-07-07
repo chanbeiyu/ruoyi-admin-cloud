@@ -1,5 +1,6 @@
 package org.dromara.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -64,7 +65,7 @@ public class SocialSubjectServiceImpl implements ISocialSubjectService {
         lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), SocialSubject::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getSubjectCode()), SocialSubject::getSubjectCode, bo.getSubjectCode());
         lqw.like(StringUtils.isNotBlank(bo.getSubjectName()), SocialSubject::getSubjectName, bo.getSubjectName());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), SocialSubject::getDescription, bo.getDescription());
+        lqw.eq(StringUtils.isNotBlank(bo.getStatus()), SocialSubject::getStatus, bo.getStatus());
         return lqw;
     }
 
@@ -90,6 +91,21 @@ public class SocialSubjectServiceImpl implements ISocialSubjectService {
         SocialSubject update = MapstructUtils.convert(bo, SocialSubject.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改主题通知状态
+     *
+     * @param subjectId 主题ID
+     * @param status 状态
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long subjectId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<SocialSubject>()
+                .set(SocialSubject::getStatus, status)
+                .eq(SocialSubject::getSubjectId, subjectId));
     }
 
     /**

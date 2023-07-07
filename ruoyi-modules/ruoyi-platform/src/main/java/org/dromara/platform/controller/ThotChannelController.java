@@ -95,9 +95,9 @@ public class ThotChannelController extends BaseController {
      */
     @SaCheckPermission("thoughts:channel:edit")
     @Log(title = "频道状态变更", businessType = BusinessType.UPDATE)
-    @PutMapping("/changeStatus")
+    @PutMapping("/status")
     public R<Void> changeStatus(@RequestBody ThotChannelBo bo) {
-        return toAjax(thotChannelService.updateChannelStatus(bo.getChannelId(), bo.getStatus()));
+        return toAjax(thotChannelService.updateStatus(bo.getChannelId(), bo.getStatus()));
     }
 
     /**

@@ -68,7 +68,7 @@ public class ThotStyleVo implements Serializable {
      * 状态0正常1锁定
      */
     @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "en_yes_no")
+    @ExcelDictFormat(dictType = "sys_yes_no")
     private String status;
 
     /**

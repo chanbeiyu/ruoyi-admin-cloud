@@ -48,6 +48,11 @@ public class SocialTagBo extends BaseEntity {
     private String tagType;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 接入App标识
      */
     @NotBlank(message = "App标识不能为空", groups = { AddGroup.class, EditGroup.class })

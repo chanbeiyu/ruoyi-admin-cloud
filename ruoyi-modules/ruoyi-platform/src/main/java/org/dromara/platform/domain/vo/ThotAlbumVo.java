@@ -61,7 +61,7 @@ public class ThotAlbumVo implements Serializable {
      * 活动状态（0创建1发布2结束3删除）
      */
     @ExcelProperty(value = "活动状态", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(readConverterExp = "0=创建1发布2结束3删除")
+    @ExcelDictFormat(dictType = "en_data_status1")
     private Integer status;
 
     /**

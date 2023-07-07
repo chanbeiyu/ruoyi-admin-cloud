@@ -70,7 +70,6 @@ public class ThotChannelServiceImpl implements IThotChannelService {
         lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotChannel::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getChannelCode()), ThotChannel::getChannelCode, bo.getChannelCode());
         lqw.like(StringUtils.isNotBlank(bo.getChannelName()), ThotChannel::getChannelName, bo.getChannelName());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotChannel::getDescription, bo.getDescription());
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), ThotChannel::getStatus, bo.getStatus());
         return lqw;
     }
@@ -107,7 +106,7 @@ public class ThotChannelServiceImpl implements IThotChannelService {
      * @return 结果
      */
     @Override
-    public int updateChannelStatus(Long channelId, String status) {
+    public int updateStatus(Long channelId, String status) {
         return baseMapper.update(null,
             new LambdaUpdateWrapper<ThotChannel>()
                 .set(ThotChannel::getStatus, status)

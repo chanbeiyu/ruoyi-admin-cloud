@@ -57,7 +57,7 @@ public class ThotStyleBo extends BaseEntity {
     private String styleContent;
 
     /**
-     * 状态0正常1锁定
+     * 状态
      */
     private String status;
 

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.platform.domain.bo.ThotChannelBo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -96,9 +95,9 @@ public class ThotStyleController extends BaseController {
      */
     @SaCheckPermission("thoughts:style:edit")
     @Log(title = "样式状态变更", businessType = BusinessType.UPDATE)
-    @PutMapping("/changeStatus")
+    @PutMapping("/status")
     public R<Void> changeStatus(@RequestBody ThotStyleBo bo) {
-        return toAjax(thotStyleService.updateStyleStatus(bo.getStyleId(), bo.getStatus()));
+        return toAjax(thotStyleService.updateStatus(bo.getStyleId(), bo.getStatus()));
     }
 
     /**

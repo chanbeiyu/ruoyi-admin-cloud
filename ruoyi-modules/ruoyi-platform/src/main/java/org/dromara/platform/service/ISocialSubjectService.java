@@ -41,6 +41,8 @@ public interface ISocialSubjectService {
      */
     Boolean updateByBo(SocialSubjectBo bo);
 
+    int updateStatus(Long subjectId, String status);
+
     /**
      * 校验并批量删除内容主题信息
      */

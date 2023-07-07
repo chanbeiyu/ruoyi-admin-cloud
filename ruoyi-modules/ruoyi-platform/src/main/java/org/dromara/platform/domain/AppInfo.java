@@ -43,7 +43,7 @@ public class AppInfo extends TenantEntity {
     /**
      * 是否为内部项目
      */
-    private Integer isInternal;
+    private String isInternal;
 
     /**
      * AccessKeyId
@@ -64,6 +64,11 @@ public class AppInfo extends TenantEntity {
      * 允许的域,支持模糊匹配
      */
     private String domains;
+
+    /**
+     * 状态
+     */
+    private String status;
 
     /**
      * 描述

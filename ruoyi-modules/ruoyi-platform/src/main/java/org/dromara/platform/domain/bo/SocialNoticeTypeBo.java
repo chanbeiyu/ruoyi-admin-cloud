@@ -48,6 +48,11 @@ public class SocialNoticeTypeBo extends BaseEntity {
     private String noticeTypeName;
 
     /**
+     * 状态
+     */
+    private String status;
+
+    /**
      * 主题描述
      */
     private String description;

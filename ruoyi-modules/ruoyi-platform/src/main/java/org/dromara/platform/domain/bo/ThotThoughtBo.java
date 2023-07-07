@@ -80,7 +80,7 @@ public class ThotThoughtBo extends BaseEntity {
     private Long cententStyle;
 
     /**
-     * 活动状态（0创建1发布2结束3删除）
+     * 状态
      */
     private Integer status;
 

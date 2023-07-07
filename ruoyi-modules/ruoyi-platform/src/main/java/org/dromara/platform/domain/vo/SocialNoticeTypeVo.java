@@ -1,5 +1,6 @@
 package org.dromara.platform.domain.vo;
 
+import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.common.translation.annotation.Translation;
 import org.dromara.platform.constant.SocialTransConstant;
@@ -53,6 +54,13 @@ public class SocialNoticeTypeVo implements Serializable {
      */
     @ExcelProperty(value = "通知类型名称")
     private String noticeTypeName;
+
+    /**
+     * 状态
+     */
+    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "sys_yes_no")
+    private String status;
 
     /**
      * 主题描述
