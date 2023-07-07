@@ -23,6 +23,7 @@ import org.dromara.platform.service.IThotThoughtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -140,10 +141,11 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
      */
     @Override
     public int updateStatus(Collection<Long> ids, DataStatus1 dataStatus) {
-        return baseMapper.update(null,
-            new LambdaUpdateWrapper<ThotAlbum>()
-                .set(ThotAlbum::getStatus, dataStatus.status)
-                .in(ThotAlbum::getAlbumId, ids));
+        LambdaUpdateWrapper<ThotAlbum> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(dataStatus == DataStatus1.PUBLISH, ThotAlbum::getPublishTime, new Date())
+            .set(ThotAlbum::getStatus, dataStatus.status)
+            .in(ThotAlbum::getAlbumId, ids);
+        return baseMapper.update(null, wrapper);
     }
 
     /**

@@ -19,6 +19,7 @@ import org.dromara.platform.service.IThotThoughtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -115,10 +116,11 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
      */
     @Override
     public int updateStatus(Collection<Long> ids, DataStatus1 dataStatus) {
-        return baseMapper.update(null,
-            new LambdaUpdateWrapper<ThotThought>()
-                .set(ThotThought::getStatus, dataStatus.status)
-                .in(ThotThought::getThoughtId, ids));
+        LambdaUpdateWrapper<ThotThought> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(dataStatus == DataStatus1.PUBLISH, ThotThought::getPublishTime, new Date())
+            .set(ThotThought::getStatus, dataStatus.status)
+            .in(ThotThought::getThoughtId, ids);
+        return baseMapper.update(null, wrapper);
     }
 
     /**
