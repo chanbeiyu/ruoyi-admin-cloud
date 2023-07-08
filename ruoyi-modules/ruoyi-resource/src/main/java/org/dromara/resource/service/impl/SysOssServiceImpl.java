@@ -95,6 +95,7 @@ public class SysOssServiceImpl implements ISysOssService {
             SysOss::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
         lqw.eq(ObjectUtil.isNotNull(bo.getCreateBy()), SysOss::getCreateBy, bo.getCreateBy());
         lqw.eq(StringUtils.isNotBlank(bo.getService()), SysOss::getService, bo.getService());
+        lqw.like(StringUtils.isNotBlank(bo.getTags()), SysOss::getTags, bo.getTags());
         return lqw;
     }
 
@@ -123,7 +124,7 @@ public class SysOssServiceImpl implements ISysOssService {
     }
 
     @Override
-    public SysOssVo upload(MultipartFile file) {
+    public SysOssVo upload(MultipartFile file, String tags) {
         String originalfileName = file.getOriginalFilename();
         String suffix = StringUtils.substring(originalfileName, originalfileName.lastIndexOf("."), originalfileName.length());
         OssClient storage = OssFactory.instance();
@@ -134,26 +135,27 @@ public class SysOssServiceImpl implements ISysOssService {
             throw new ServiceException(e.getMessage());
         }
         // 保存文件信息
-        return buildResultEntity(originalfileName, suffix, storage.getConfigKey(), uploadResult);
+        return buildResultEntity(originalfileName, suffix, tags, storage.getConfigKey(), uploadResult);
     }
 
     @Override
-    public SysOssVo upload(File file) {
+    public SysOssVo upload(File file, String tags) {
         String originalfileName = file.getName();
         String suffix = StringUtils.substring(originalfileName, originalfileName.lastIndexOf("."), originalfileName.length());
         OssClient storage = OssFactory.instance();
         UploadResult uploadResult = storage.uploadSuffix(file, suffix);
         // 保存文件信息
-        return buildResultEntity(originalfileName, suffix, storage.getConfigKey(), uploadResult);
+        return buildResultEntity(originalfileName, suffix, tags, storage.getConfigKey(), uploadResult);
     }
 
-    private SysOssVo buildResultEntity(String originalfileName, String suffix, String configKey, UploadResult uploadResult) {
+    private SysOssVo buildResultEntity(String originalfileName, String suffix, String tags, String configKey, UploadResult uploadResult) {
         SysOss oss = new SysOss();
         oss.setUrl(uploadResult.getUrl());
         oss.setFileSuffix(suffix);
         oss.setFileName(uploadResult.getFilename());
         oss.setOriginalName(originalfileName);
         oss.setService(configKey);
+        oss.setTags(tags);
         baseMapper.insert(oss);
         SysOssVo sysOssVo = MapstructUtils.convert(oss, SysOssVo.class);
         return this.matchingUrl(sysOssVo);

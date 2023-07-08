@@ -48,9 +48,9 @@ public class AppVersionVo implements Serializable {
     private String appName;
 
     /**
-     * 版本名称
+     * 版本号
      */
-    @ExcelProperty(value = "版本名称")
+    @ExcelProperty(value = "版本号")
     private String version;
 
     /**
@@ -63,7 +63,7 @@ public class AppVersionVo implements Serializable {
      * 强制升级
      */
     @ExcelProperty(value = "强制升级")
-    private Integer forced;
+    private String forced;
 
     /**
      * 发布时间

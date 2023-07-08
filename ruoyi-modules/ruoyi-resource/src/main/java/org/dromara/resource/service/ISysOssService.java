@@ -28,9 +28,9 @@ public interface ISysOssService {
 
     SysOssVo getById(Long ossId);
 
-    SysOssVo upload(MultipartFile file);
+    SysOssVo upload(MultipartFile file, String tags);
 
-    SysOssVo upload(File file);
+    SysOssVo upload(File file, String tags);
 
     Boolean insertByBo(SysOssBo bo);
 

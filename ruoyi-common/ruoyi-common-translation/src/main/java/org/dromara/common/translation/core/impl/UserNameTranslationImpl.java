@@ -21,6 +21,6 @@ public class UserNameTranslationImpl implements TranslationInterface<String> {
 
     @Override
     public String translation(Object key, String other) {
-        return remoteUserService.selectUserNameById((Long) key);
+        return remoteUserService.selectUserNameById(Long.parseLong(key.toString()));
     }
 }

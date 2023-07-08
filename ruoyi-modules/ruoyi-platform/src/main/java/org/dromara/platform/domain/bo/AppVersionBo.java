@@ -33,14 +33,14 @@ public class AppVersionBo extends BaseEntity {
     /**
      * AppId
      */
-    @NotNull(message = "AppId不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "应用不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
     private List<Long> appIds;
 
     /**
-     * 版本名称
+     * 版本号
      */
-    @NotBlank(message = "版本名称不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "版本号不能为空", groups = { AddGroup.class, EditGroup.class })
     private String version;
 
     /**
@@ -53,13 +53,12 @@ public class AppVersionBo extends BaseEntity {
      * 强制升级
      */
     @NotNull(message = "强制升级不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Integer forced;
+    private String forced;
 
     /**
      * 发布时间
      */
     @NotNull(message = "发布时间不能为空", groups = { AddGroup.class, EditGroup.class })
     private Date publishTime;
-
 
 }

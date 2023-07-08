@@ -9,6 +9,7 @@ import org.dromara.resource.domain.SysOss;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * OSS对象存储视图对象 sys_oss
@@ -51,6 +52,11 @@ public class SysOssVo implements Serializable {
      * 创建时间
      */
     private Date createTime;
+
+    /**
+     * 数据标签
+     */
+    private String tags;
 
     /**
      * 上传人

@@ -35,7 +35,7 @@ public class AppVersion extends TenantEntity {
     private Long appId;
 
     /**
-     * 版本名称
+     * 版本号
      */
     @Version
     private String version;
@@ -48,7 +48,7 @@ public class AppVersion extends TenantEntity {
     /**
      * 强制升级
      */
-    private Integer forced;
+    private String forced;
 
     /**
      * 发布时间
@@ -59,6 +59,5 @@ public class AppVersion extends TenantEntity {
      * 备注
      */
     private String remark;
-
 
 }
