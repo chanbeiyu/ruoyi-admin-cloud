@@ -32,7 +32,9 @@
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.3.1</easyexcel.version>
-        <hutool.version>5.8.18</hutool.version>
+        <!-- mark: 升级 5.8.18 -> 5.8.20 -->
+        <hutool.version>5.8.20</hutool.version>
+        <guava.version>32.1.1-jre</guava.version>
         <redisson.version>3.20.1</redisson.version>
         <lock4j.version>2.2.4</lock4j.version>
         <xxl-job.version>2.4.0</xxl-job.version>
@@ -40,7 +42,8 @@
         <satoken.version>1.35.0.RC</satoken.version>
         <lombok.version>1.18.26</lombok.version>
         <logstash.version>7.2</logstash.version>
-        <easy-es.version>1.1.1</easy-es.version>
+        <!-- mark: 0710 继续修复到 1.1.1 -> 2.0.0-beta1   -->
+        <easy-es.version>2.0.0-beta1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
@@ -51,9 +54,14 @@
         <ip2region.version>2.7.0</ip2region.version>
 
         <!-- 临时修复 snakeyaml 漏洞 -->
-        <snakeyaml.version>1.33</snakeyaml.version>
+        <!-- mark: 0710 继续修复到 1.33 -> 2.0   -->
+        <snakeyaml.version>2.0</snakeyaml.version>
+        <!-- mark: 0710 临时修复 scala library 漏洞 -->
+        <scala-lang-library.version>2.13.11</scala-lang-library.version>
         <!-- 临时修复 fastjson 漏洞 -->
-        <fastjson.version>1.2.83</fastjson.version>
+        <!-- mark: 0710 继续修复到 1.2.83 -> 2.0.34   -->
+        <fastjson.version>2.0.34</fastjson.version>
+        <fastjson2.version>2.0.34</fastjson2.version>
 
         <!-- OSS 配置 -->
         <aws-java-sdk-s3.version>1.12.400</aws-java-sdk-s3.version>
@@ -63,7 +71,7 @@
         <sms4j.version>2.2.0</sms4j.version>
 
         <!-- 微信 WxJava -->
-        <wxjava.version>4.5.0</wxjava.version>
+        <wxjava.version>4.5.1.B</wxjava.version>
 
         <!-- 插件版本 -->
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
@@ -123,6 +131,18 @@
     <dependencyManagement>
         <dependencies>
 
+           <!-- 临时修复 snakeyaml 漏洞 -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala-lang-library.version}</version>
+            </dependency>
+
             <!-- SpringCloud 微服务 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -157,6 +177,12 @@
                 <version>${hutool.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- guava 版本，解决 alibaba-seata 内低版本版本漏洞 -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <!-- common 的依赖配置-->
@@ -408,17 +434,15 @@
                 <version>${ip2region.version}</version>
             </dependency>
 
-            <!-- 临时修复 snakeyaml 漏洞 -->
-            <dependency>
-                <groupId>org.yaml</groupId>
-                <artifactId>snakeyaml</artifactId>
-                <version>${snakeyaml.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
 
             <dependency>

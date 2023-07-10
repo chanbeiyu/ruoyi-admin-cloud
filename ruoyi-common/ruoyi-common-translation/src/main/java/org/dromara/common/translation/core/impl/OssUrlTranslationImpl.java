@@ -7,6 +7,8 @@ import org.dromara.resource.api.RemoteFileService;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
 
+import java.util.Objects;
+
 /**
  * OSS翻译实现
  *
@@ -21,6 +23,13 @@ public class OssUrlTranslationImpl implements TranslationInterface<String> {
 
     @Override
     public String translation(Object key, String other) {
-        return ossService.selectUrlByIds(key.toString());
+        try {
+           return ossService.selectUrlByIds(key.toString());
+        } catch (Exception e) {
+            if(!Objects.equals(other, "noError")) {
+                throw e;
+            }
+        }
+        return "";
     }
 }
