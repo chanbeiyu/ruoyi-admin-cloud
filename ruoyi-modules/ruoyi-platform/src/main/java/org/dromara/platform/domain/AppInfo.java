@@ -1,14 +1,13 @@
 package org.dromara.platform.domain;
 
-import jakarta.validation.constraints.NotBlank;
-import org.dromara.common.core.validate.AddGroup;
-import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.tenant.core.TenantEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.common.tenant.core.TenantEntity;
 
 import java.io.Serial;
+import java.util.Map;
 
 /**
  * 应用信息对象 social_app
@@ -69,6 +68,11 @@ public class AppInfo extends TenantEntity {
      * 状态
      */
     private String status;
+
+    /**
+     * 扩展信息
+     */
+    private String extend;
 
     /**
      * 描述

@@ -1,9 +1,11 @@
 package org.dromara.platform.domain;
 
-import org.dromara.common.tenant.core.TenantEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.common.tenant.core.TenantEntity;
 
 import java.io.Serial;
 
@@ -33,44 +35,36 @@ public class AppExtend extends TenantEntity {
     private Long appId;
 
     /**
-     * 联系微信
+     * 数据key
      */
-    private String contactWechat;
+    @TableField("`key`")
+    private String key;
 
     /**
-     * 联系方式
+     * 数据标签
      */
-    private String contactPhone;
+    @TableField("`label`")
+    private String label;
 
     /**
-     * 联系邮箱
+     * 扩展数据
      */
-    private String contactEmail;
+    @TableField("`value`")
+    private String value;
 
     /**
-     * 服务协议
+     * 扩展数据版本
      */
-    private String serviceAgreement;
+    private String version;
 
     /**
-     * 隐私条款
+     * 数据说明
      */
-    private String privacyPolicy;
-
-    /**
-     * 行为规范
-     */
-    private String behaviourNorm;
-
-    /**
-     * 个人信息收集清单
-     */
-    private String personalInfoChecklist;
+    private String description;
 
     /**
      * 备注
      */
     private String remark;
-
 
 }

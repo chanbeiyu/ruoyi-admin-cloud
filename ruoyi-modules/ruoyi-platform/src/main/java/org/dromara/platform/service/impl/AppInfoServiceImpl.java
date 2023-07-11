@@ -10,7 +10,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.dromara.platform.domain.AppInfo;
+import org.dromara.platform.domain.bo.AppExtendBo;
 import org.dromara.platform.domain.bo.AppInfoBo;
+import org.dromara.platform.service.IAppExtendService;
 import org.springframework.stereotype.Service;
 import org.dromara.platform.domain.vo.AppInfoVo;
 import org.dromara.platform.mapper.AppInfoMapper;
@@ -32,6 +34,7 @@ import java.util.Objects;
 public class AppInfoServiceImpl implements IAppInfoService {
 
     private final AppInfoMapper baseMapper;
+    private final IAppExtendService appExtendService;
 
     /**
      * 查询应用信息
@@ -81,6 +84,9 @@ public class AppInfoServiceImpl implements IAppInfoService {
         boolean flag = baseMapper.insert(add) > 0;
         if (flag) {
             bo.setAppId(add.getAppId());
+            AppExtendBo extendBo = new AppExtendBo();
+            extendBo.setAppId(add.getAppId());
+            appExtendService.insertByBo(extendBo);
         }
         return flag;
     }

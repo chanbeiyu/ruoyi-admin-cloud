@@ -1,17 +1,19 @@
 package org.dromara.platform.domain.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import io.github.linpeilie.annotations.AutoMapper;
+import lombok.Data;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.common.sensitive.annotation.Sensitive;
 import org.dromara.common.sensitive.core.SensitiveStrategy;
 import org.dromara.platform.domain.AppInfo;
-import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
-import com.alibaba.excel.annotation.ExcelProperty;
-import io.github.linpeilie.annotations.AutoMapper;
-import lombok.Data;
+import org.dromara.platform.domain.convert.ExtendMapper1;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -22,7 +24,7 @@ import java.io.Serializable;
  */
 @Data
 @ExcelIgnoreUnannotated
-@AutoMapper(target = AppInfo.class)
+@AutoMapper(target = AppInfo.class, uses = {ExtendMapper1.class})
 public class AppInfoVo implements Serializable {
 
     @Serial
@@ -73,7 +75,7 @@ public class AppInfoVo implements Serializable {
     /**
      * 允许的域,支持模糊匹配
      */
-    @ExcelProperty(value = "允许的域,支持模糊匹配")
+    @ExcelProperty(value = "允许的域")
     private String domains;
 
     /**
@@ -82,6 +84,12 @@ public class AppInfoVo implements Serializable {
     @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_yes_no")
     private String status;
+
+    /**
+     * 扩展信息
+     */
+    @ExcelProperty(value = "扩展信息")
+    private List<Object> extend;
 
     /**
      * 描述

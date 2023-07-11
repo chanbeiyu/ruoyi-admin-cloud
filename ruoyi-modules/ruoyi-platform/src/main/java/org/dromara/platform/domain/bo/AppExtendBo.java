@@ -36,51 +36,36 @@ public class AppExtendBo extends BaseEntity {
     private List<Long> appIds;
 
     /**
-     * 联系微信
+     * 数据key
      */
-    @NotBlank(message = "联系微信不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String contactWechat;
+    @NotBlank(message = "数据key不能为空", groups = { AddGroup.class, EditGroup.class })
+    private String key;
 
     /**
-     * 联系方式
+     * 数据标签
      */
-    @NotBlank(message = "联系方式不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String contactPhone;
+    @NotBlank(message = "数据标签不能为空", groups = { AddGroup.class, EditGroup.class })
+    private String label;
 
     /**
-     * 联系邮箱
+     * 扩展数据
      */
-    @NotBlank(message = "联系邮箱不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String contactEmail;
+    private String value;
 
     /**
-     * 服务协议
+     * 扩展数据版本
      */
-    @NotBlank(message = "服务协议不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String serviceAgreement;
+    @NotBlank(message = "扩展数据版本不能为空", groups = { AddGroup.class, EditGroup.class })
+    private String version;
 
     /**
-     * 隐私条款
+     * 数据说明
      */
-    @NotBlank(message = "隐私条款不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String privacyPolicy;
-
-    /**
-     * 行为规范
-     */
-    @NotBlank(message = "行为规范不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String behaviourNorm;
-
-    /**
-     * 个人信息收集清单
-     */
-    @NotBlank(message = "个人信息收集清单不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String personalInfoChecklist;
+    private String description;
 
     /**
      * 备注
      */
     private String remark;
-
 
 }

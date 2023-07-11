@@ -11,6 +11,10 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
+import org.dromara.platform.domain.convert.ExtendMapper1;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 应用信息业务对象 social_app
@@ -20,7 +24,7 @@ import jakarta.validation.constraints.*;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AutoMapper(target = AppInfo.class, reverseConvertGenerate = false)
+@AutoMapper(target = AppInfo.class, reverseConvertGenerate = false, uses = {ExtendMapper1.class})
 public class AppInfoBo extends BaseEntity {
 
     /**
@@ -71,6 +75,11 @@ public class AppInfoBo extends BaseEntity {
      * 状态
      */
     private String status;
+
+     /**
+     * 扩展信息
+     */
+    private List<Object> extend;
 
     /**
      * 描述

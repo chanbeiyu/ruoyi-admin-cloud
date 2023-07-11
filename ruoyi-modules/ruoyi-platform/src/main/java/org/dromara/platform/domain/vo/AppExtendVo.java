@@ -1,19 +1,16 @@
 package org.dromara.platform.domain.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import io.github.linpeilie.annotations.AutoMapper;
+import lombok.Data;
 import org.dromara.common.translation.annotation.Translation;
 import org.dromara.platform.constant.SocialTransConstant;
 import org.dromara.platform.domain.AppExtend;
-import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
-import com.alibaba.excel.annotation.ExcelProperty;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
-import io.github.linpeilie.annotations.AutoMapper;
-import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-
 
 
 /**
@@ -46,52 +43,38 @@ public class AppExtendVo implements Serializable {
     private String appName;
 
     /**
-     * 联系微信
+     * 数据key
      */
-    @ExcelProperty(value = "联系微信")
-    private String contactWechat;
+    @ExcelProperty(value = "数据key")
+    private String key;
 
     /**
-     * 联系方式
+     * 数据标签
      */
-    @ExcelProperty(value = "联系方式")
-    private String contactPhone;
+    @ExcelProperty(value = "数据标签")
+    private String label;
 
     /**
-     * 联系邮箱
+     * 扩展数据
      */
-    @ExcelProperty(value = "联系邮箱")
-    private String contactEmail;
+    private String value;
 
     /**
-     * 服务协议
+     * 扩展数据版本
      */
-    @ExcelProperty(value = "服务协议")
-    private String serviceAgreement;
+    @ExcelProperty(value = "扩展数据版本")
+    private String version;
 
     /**
-     * 隐私条款
+     * 数据说明
      */
-    @ExcelProperty(value = "隐私条款")
-    private String privacyPolicy;
+    @ExcelProperty(value = "数据说明")
+    private String description;
 
     /**
-     * 行为规范
+     * 创建时间
      */
-    @ExcelProperty(value = "行为规范")
-    private String behaviourNorm;
-
-    /**
-     * 个人信息收集清单
-     */
-    @ExcelProperty(value = "个人信息收集清单")
-    private String personalInfoChecklist;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
+    @ExcelProperty(value = "创建时间")
+    private Date createTime;
 
 }

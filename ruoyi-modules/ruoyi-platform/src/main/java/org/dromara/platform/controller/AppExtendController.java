@@ -71,13 +71,13 @@ public class AppExtendController extends BaseController {
     /**
      * 新增应用扩展信息
      */
-    @SaCheckPermission("app:extend:add")
-    @Log(title = "应用扩展信息", businessType = BusinessType.INSERT)
-    @RepeatSubmit()
-    @PostMapping()
-    public R<Void> add(@Validated(AddGroup.class) @RequestBody AppExtendBo bo) {
-        return toAjax(appExtendService.insertByBo(bo));
-    }
+    // @SaCheckPermission("app:extend:add")
+    // @Log(title = "应用扩展信息", businessType = BusinessType.INSERT)
+    // @RepeatSubmit()
+    // @PostMapping()
+    // public R<Void> add(@Validated(AddGroup.class) @RequestBody AppExtendBo bo) {
+    //     return toAjax(appExtendService.insertByBo(bo));
+    // }
 
     /**
      * 修改应用扩展信息

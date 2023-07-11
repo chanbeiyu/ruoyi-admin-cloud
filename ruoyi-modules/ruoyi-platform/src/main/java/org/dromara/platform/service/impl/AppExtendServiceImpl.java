@@ -63,15 +63,10 @@ public class AppExtendServiceImpl implements IAppExtendService {
     private LambdaQueryWrapper<AppExtend> buildQueryWrapper(AppExtendBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<AppExtend> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getExtendId() != null, AppExtend::getExtendId, bo.getExtendId());
-        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), AppExtend::getAppId, bo.getAppIds());
-        lqw.eq(StringUtils.isNotBlank(bo.getContactWechat()), AppExtend::getContactWechat, bo.getContactWechat());
-        lqw.eq(StringUtils.isNotBlank(bo.getContactPhone()), AppExtend::getContactPhone, bo.getContactPhone());
-        lqw.eq(StringUtils.isNotBlank(bo.getContactEmail()), AppExtend::getContactEmail, bo.getContactEmail());
-        lqw.eq(StringUtils.isNotBlank(bo.getServiceAgreement()), AppExtend::getServiceAgreement, bo.getServiceAgreement());
-        lqw.eq(StringUtils.isNotBlank(bo.getPrivacyPolicy()), AppExtend::getPrivacyPolicy, bo.getPrivacyPolicy());
-        lqw.eq(StringUtils.isNotBlank(bo.getBehaviourNorm()), AppExtend::getBehaviourNorm, bo.getBehaviourNorm());
-        lqw.eq(StringUtils.isNotBlank(bo.getPersonalInfoChecklist()), AppExtend::getPersonalInfoChecklist, bo.getPersonalInfoChecklist());
+        lqw.eq(bo.getAppId() != null, AppExtend::getAppId, bo.getAppId());
+        lqw.like(StringUtils.isNotBlank(bo.getKey()), AppExtend::getKey, bo.getKey());
+        lqw.like(StringUtils.isNotBlank(bo.getLabel()), AppExtend::getLabel, bo.getLabel());
+        lqw.like(StringUtils.isNotBlank(bo.getVersion()), AppExtend::getVersion, bo.getVersion());
         return lqw;
     }
 
