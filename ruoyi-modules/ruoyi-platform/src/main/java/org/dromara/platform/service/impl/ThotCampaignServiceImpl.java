@@ -47,7 +47,8 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
      */
     @Override
     public TableDataInfo<ThotCampaignVo> queryPageList(ThotCampaignBo bo, PageQuery pageQuery) {
-        LambdaQueryWrapper<ThotCampaign> lqw = buildQueryWrapper(bo);
+        LambdaQueryWrapper<ThotCampaign> lqw = buildQueryWrapper(bo)
+            .select(ThotCampaign.class, f -> !f.getColumn().equals("campaign_content"));
         Page<ThotCampaignVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -57,7 +58,8 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
      */
     @Override
     public List<ThotCampaignVo> queryList(ThotCampaignBo bo) {
-        LambdaQueryWrapper<ThotCampaign> lqw = buildQueryWrapper(bo);
+        LambdaQueryWrapper<ThotCampaign> lqw = buildQueryWrapper(bo)
+            .select(ThotCampaign.class, f -> !f.getColumn().equals("campaign_content"));
         return baseMapper.selectVoList(lqw);
     }
 
@@ -68,9 +70,6 @@ public class ThotCampaignServiceImpl implements IThotCampaignService {
         lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotCampaign::getAppId, bo.getAppIds());
         lqw.eq(bo.getCampaignCode() != null, ThotCampaign::getCampaignCode, bo.getCampaignCode());
         lqw.like(StringUtils.isNotBlank(bo.getCampaignName()), ThotCampaign::getCampaignName, bo.getCampaignName());
-        lqw.eq(StringUtils.isNotBlank(bo.getCampaignBannerImg()), ThotCampaign::getCampaignBannerImg, bo.getCampaignBannerImg());
-        lqw.eq(StringUtils.isNotBlank(bo.getCampaignContent()), ThotCampaign::getCampaignContent, bo.getCampaignContent());
-        lqw.eq(StringUtils.isNotBlank(bo.getDescription()), ThotCampaign::getDescription, bo.getDescription());
         lqw.eq(StringUtils.isNotBlank(bo.getTypeCode()), ThotCampaign::getTypeCode, bo.getTypeCode());
         lqw.eq(bo.getStatus() != null, ThotCampaign::getStatus, bo.getStatus());
         lqw.between(params.get("beginBeginTime") != null && params.get("endBeginTime") != null,

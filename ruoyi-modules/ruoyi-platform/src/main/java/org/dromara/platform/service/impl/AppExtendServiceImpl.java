@@ -46,7 +46,8 @@ public class AppExtendServiceImpl implements IAppExtendService {
      */
     @Override
     public TableDataInfo<AppExtendVo> queryPageList(AppExtendBo bo, PageQuery pageQuery) {
-        LambdaQueryWrapper<AppExtend> lqw = buildQueryWrapper(bo);
+        LambdaQueryWrapper<AppExtend> lqw = buildQueryWrapper(bo)
+            .select(AppExtend.class, f -> !f.getColumn().equals("value"));
         Page<AppExtendVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -56,7 +57,8 @@ public class AppExtendServiceImpl implements IAppExtendService {
      */
     @Override
     public List<AppExtendVo> queryList(AppExtendBo bo) {
-        LambdaQueryWrapper<AppExtend> lqw = buildQueryWrapper(bo);
+        LambdaQueryWrapper<AppExtend> lqw = buildQueryWrapper(bo)
+            .select(AppExtend.class, f -> !f.getColumn().equals("value"));
         return baseMapper.selectVoList(lqw);
     }
 

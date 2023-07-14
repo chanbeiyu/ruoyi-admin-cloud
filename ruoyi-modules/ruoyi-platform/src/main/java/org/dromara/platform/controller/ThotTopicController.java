@@ -64,9 +64,19 @@ public class ThotTopicController extends BaseController {
      * @param topicId 主键
      */
     @SaCheckPermission("thoughts:topic:query")
+    @GetMapping("/content/{topicId}")
+    public String getContent(@NotNull(message = "主键不能为空") @PathVariable Long topicId) {
+        return thotTopicService.queryById(topicId).getTopicContent();
+    }
+
+    /**
+     * 获取话题信息详细信息
+     *
+     * @param topicId 主键
+     */
+    @SaCheckPermission("thoughts:topic:query")
     @GetMapping("/{topicId}")
-    public R<ThotTopicVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long topicId) {
+    public R<ThotTopicVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long topicId) {
         return R.ok(thotTopicService.queryById(topicId));
     }
 

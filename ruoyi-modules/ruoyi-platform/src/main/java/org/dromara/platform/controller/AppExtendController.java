@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -57,14 +58,24 @@ public class AppExtendController extends BaseController {
     }
 
     /**
+     * 获取应用扩展内容信息
+     *
+     * @param appId 主键
+     */
+    @SaCheckPermission("app:extend:query")
+    @GetMapping(value = "/content/{appId}", produces = MediaType.TEXT_HTML_VALUE)
+    public String getContent(@NotNull(message = "主键不能为空") @PathVariable Long appId) {
+        return appExtendService.queryById(appId).getValue();
+    }
+
+    /**
      * 获取应用扩展信息详细信息
      *
      * @param appId 主键
      */
     @SaCheckPermission("app:extend:query")
     @GetMapping("/{appId}")
-    public R<AppExtendVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long appId) {
+    public R<AppExtendVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long appId) {
         return R.ok(appExtendService.queryById(appId));
     }
 

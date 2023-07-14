@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.dromara.platform.constant.DataStatus1;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -57,6 +58,17 @@ public class ThotCampaignController extends BaseController {
         ExcelUtil.exportExcel(list, "活动信息", ThotCampaignVo.class, response);
     }
 
+     /**
+     * 获取活动信息详细信息
+     *
+     * @param campaignId 主键
+     */
+    @SaCheckPermission("thoughts:campaign:query")
+    @GetMapping(value = "/content/{campaignId}", produces = MediaType.TEXT_HTML_VALUE)
+    public String getContent(@NotNull(message = "主键不能为空") @PathVariable Long campaignId) {
+        return thotCampaignService.queryById(campaignId).getCampaignContent();
+    }
+
     /**
      * 获取活动信息详细信息
      *
@@ -64,8 +76,7 @@ public class ThotCampaignController extends BaseController {
      */
     @SaCheckPermission("thoughts:campaign:query")
     @GetMapping("/{campaignId}")
-    public R<ThotCampaignVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long campaignId) {
+    public R<ThotCampaignVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long campaignId) {
         return R.ok(thotCampaignService.queryById(campaignId));
     }
 

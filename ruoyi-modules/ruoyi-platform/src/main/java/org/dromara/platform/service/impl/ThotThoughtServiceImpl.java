@@ -48,7 +48,8 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
      */
     @Override
     public TableDataInfo<ThotThoughtVo> queryPageList(ThotThoughtBo bo, PageQuery pageQuery) {
-        LambdaQueryWrapper<ThotThought> lqw = buildQueryWrapper(bo);
+        LambdaQueryWrapper<ThotThought> lqw = buildQueryWrapper(bo)
+            .select(ThotThought.class, f -> !f.getColumn().equals("content"));
         Page<ThotThoughtVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -58,7 +59,8 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
      */
     @Override
     public List<ThotThoughtVo> queryList(ThotThoughtBo bo) {
-        LambdaQueryWrapper<ThotThought> lqw = buildQueryWrapper(bo);
+        LambdaQueryWrapper<ThotThought> lqw = buildQueryWrapper(bo)
+            .select(ThotThought.class, f -> !f.getColumn().equals("content"));
         return baseMapper.selectVoList(lqw);
     }
 
@@ -68,12 +70,7 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
         lqw.eq(bo.getAppId() != null, ThotThought::getAppId, bo.getAppId());
         lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), ThotThought::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getCode()), ThotThought::getCode, bo.getCode());
-        lqw.eq(StringUtils.isNotBlank(bo.getMainImg()), ThotThought::getMainImg, bo.getMainImg());
-        lqw.eq(StringUtils.isNotBlank(bo.getBannerImg()), ThotThought::getBannerImg, bo.getBannerImg());
         lqw.eq(StringUtils.isNotBlank(bo.getTitle()), ThotThought::getTitle, bo.getTitle());
-        lqw.eq(bo.getTitleStyle() != null, ThotThought::getTitleStyle, bo.getTitleStyle());
-        lqw.eq(StringUtils.isNotBlank(bo.getContent()), ThotThought::getContent, bo.getContent());
-        lqw.eq(bo.getCententStyle() != null, ThotThought::getCententStyle, bo.getCententStyle());
         lqw.eq(bo.getStatus() != null, ThotThought::getStatus, bo.getStatus());
         lqw.between(params.get("beginPublishTime") != null && params.get("endPublishTime") != null,
             ThotThought::getPublishTime, params.get("beginPublishTime"), params.get("endPublishTime"));

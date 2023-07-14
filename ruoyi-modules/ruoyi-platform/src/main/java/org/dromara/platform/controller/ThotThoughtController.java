@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import org.dromara.platform.constant.DataStatus1;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -55,6 +56,17 @@ public class ThotThoughtController extends BaseController {
     public void export(ThotThoughtBo bo, HttpServletResponse response) {
         List<ThotThoughtVo> list = thotThoughtService.queryList(bo);
         ExcelUtil.exportExcel(list, "思绪信息", ThotThoughtVo.class, response);
+    }
+
+    /**
+     * 获取思绪信息详细信息
+     *
+     * @param thoughtId 主键
+     */
+    @SaCheckPermission("thoughts:thought:query")
+    @GetMapping(value = "/content/{thoughtId}", produces = MediaType.TEXT_HTML_VALUE)
+    public String getContent(@NotNull(message = "主键不能为空") @PathVariable Long thoughtId) {
+        return thotThoughtService.queryById(thoughtId).getContent();
     }
 
     /**
