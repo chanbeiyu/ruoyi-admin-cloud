@@ -8,10 +8,12 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.platform.domain.AppInfo;
 import org.dromara.platform.domain.SocialSubject;
 import org.dromara.platform.domain.ThotStyle;
+import org.dromara.platform.domain.ThotThought;
 import org.dromara.platform.domain.search.SearchVo;
 import org.dromara.platform.mapper.AppInfoMapper;
 import org.dromara.platform.mapper.SocialSubjectMapper;
 import org.dromara.platform.mapper.ThotStyleMapper;
+import org.dromara.platform.mapper.ThotThoughtMapper;
 import org.dromara.platform.service.ISearchService;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +32,29 @@ import java.util.stream.Collectors;
 public class SearchServiceImpl implements ISearchService {
 
     private final AppInfoMapper appInfoMapper;
+    private final ThotThoughtMapper thotThoughtMapper;
     private final SocialSubjectMapper socialSubjectMapper;
     private final ThotStyleMapper thotStyleMapper;
 
     @Override
     public TableDataInfo<SearchVo> searchAppList(String query, Long appId) {
         return TableDataInfo.build(searchApp(query, appId));
+    }
+
+    @Override
+    public TableDataInfo<SearchVo> searchThoughtList(String query, Long appId, boolean cascade) {
+        List<SearchVo> thoughts = searchThought(query, appId);
+        if (cascade) {
+            List<SearchVo> apps = searchApp(null, appId);
+            Map<Long, List<SearchVo>> thoughtMap = thoughts
+                .stream().
+                collect(Collectors.groupingBy(SearchVo::getParentValue));
+            apps.forEach(app -> {
+                app.setChildren(thoughtMap.get(app.getValue()));
+            });
+            return TableDataInfo.build(apps);
+        }
+        return TableDataInfo.build(thoughts);
     }
 
     @Override
@@ -101,6 +120,25 @@ public class SearchServiceImpl implements ISearchService {
             .value(appInfo.getAppId())
             .code(appInfo.getAppCode())
             .label(appInfo.getAppName())
+            .build());
+    }
+
+    private List<SearchVo> searchThought(String query, Long appId) {
+
+        LambdaQueryWrapper<ThotThought> lqw = Wrappers.lambdaQuery();
+        lqw.eq(appId != null, ThotThought::getAppId, appId);
+
+        if (StringUtils.isNotBlank(query)) {
+            lqw.and(i -> i.like(ThotThought::getThoughtId, query)
+                .or().like(ThotThought::getTitle, query)
+                .or().like(ThotThought::getCode, query));
+        }
+
+        return thotThoughtMapper.selectVoList(lqw, thotThought -> SearchVo.builder()
+            .value(thotThought.getThoughtId())
+            .code(thotThought.getCode())
+            .label(thotThought.getTitle())
+            .parentValue(thotThought.getAppId())
             .build());
     }
 

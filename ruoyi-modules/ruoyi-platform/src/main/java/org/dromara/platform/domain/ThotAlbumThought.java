@@ -32,7 +32,7 @@ public class ThotAlbumThought {
     /**
      * 是否为封面
      */
-    private Integer isCover;
+    private String isCover = "N";
 
     /**
      * 创建时间

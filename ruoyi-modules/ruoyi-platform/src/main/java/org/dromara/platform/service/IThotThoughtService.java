@@ -23,6 +23,8 @@ public interface IThotThoughtService {
      */
     ThotThoughtVo queryById(Long thoughtId);
 
+    List<ThotThoughtVo> queryById(List<Long> thoughtIds);
+
     /**
      * 查询思绪信息列表
      */

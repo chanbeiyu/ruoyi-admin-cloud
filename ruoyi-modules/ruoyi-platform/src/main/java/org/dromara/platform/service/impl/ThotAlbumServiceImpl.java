@@ -14,6 +14,8 @@ import org.dromara.platform.constant.DataStatus1;
 import org.dromara.platform.domain.ThotAlbum;
 import org.dromara.platform.domain.ThotAlbumThought;
 import org.dromara.platform.domain.bo.ThotAlbumBo;
+import org.dromara.platform.domain.bo.ThotAlbumThoughtBo;
+import org.dromara.platform.domain.vo.ThotAlbumThoughtVo;
 import org.dromara.platform.domain.vo.ThotAlbumVo;
 import org.dromara.platform.domain.vo.ThotThoughtVo;
 import org.dromara.platform.mapper.ThotAlbumMapper;
@@ -39,16 +41,36 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
 
     private final ThotAlbumMapper baseMapper;
 
-    private final IThotAlbumThoughtService thotAlbumThoughtService;
-
     private final IThotThoughtService thotThoughtService;
+    private final IThotAlbumThoughtService thotAlbumThoughtService;
 
     /**
      * 查询思集信息
      */
     @Override
     public ThotAlbumVo queryById(Long albumId) {
-        return baseMapper.selectVoById(albumId);
+        ThotAlbumVo thotAlbumVo = baseMapper.selectVoById(albumId);
+        List<ThotAlbumThoughtVo> thotAlbumThoughts = thotAlbumThoughtService.queryByAlbumId(albumId);
+        thotAlbumVo.setAlbumThoughts(thotAlbumThoughts);
+        return thotAlbumVo;
+    }
+
+    /**
+     * 查询思集信息
+     */
+    @Override
+    public List<ThotAlbumThoughtVo> queryAlbumThoughtByIds(List<Long> thoughtIds) {
+        List<ThotThoughtVo> thotAlbumVo = thotThoughtService.queryById(thoughtIds);
+        return thotAlbumVo.stream().map(o -> {
+            ThotAlbumThoughtVo thotAlbumThoughtVo = new ThotAlbumThoughtVo();
+            thotAlbumThoughtVo.setThoughtId(o.getThoughtId());
+            thotAlbumThoughtVo.setCode(o.getCode());
+            thotAlbumThoughtVo.setTitle(o.getTitle());
+            thotAlbumThoughtVo.setMainImg(o.getMainImg());
+            thotAlbumThoughtVo.setStatus(o.getStatus());
+            thotAlbumThoughtVo.setIsCover("N");
+            return thotAlbumThoughtVo;
+        }).toList();
     }
 
     /**
@@ -57,7 +79,13 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
     @Override
     public TableDataInfo<ThotAlbumVo> queryPageList(ThotAlbumBo bo, PageQuery pageQuery) {
         LambdaQueryWrapper<ThotAlbum> lqw = buildQueryWrapper(bo);
-        Page<ThotAlbumVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+        Page<ThotAlbumVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw, thotAlbum -> {
+            ThotAlbumVo albumVo = MapstructUtils.convert(thotAlbum, ThotAlbumVo.class);
+            assert albumVo != null;
+            List<ThotAlbumThoughtVo> thotAlbumThoughts = thotAlbumThoughtService.queryByAlbumId(thotAlbum.getAlbumId());
+            albumVo.setAlbumThoughts(thotAlbumThoughts);
+            return albumVo;
+        });
         return TableDataInfo.build(result);
     }
 
@@ -68,28 +96,6 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
     public List<ThotAlbumVo> queryList(ThotAlbumBo bo) {
         LambdaQueryWrapper<ThotAlbum> lqw = buildQueryWrapper(bo);
         return baseMapper.selectVoList(lqw);
-    }
-
-    /**
-     * 查询思集信息列表
-     */
-    @Override
-    public TableDataInfo<ThotThoughtVo> queryAlbumThoughts(Long albumId) {
-        ThotAlbumVo thotAlbumVo = baseMapper.selectVoById(albumId);
-        List<ThotThoughtVo> thoughts = null;
-        List<ThotAlbumThought> thotAlbumThoughts = thotAlbumThoughtService.queryByAlbumId(albumId);
-        if (CollectionUtils.isNotEmpty(thotAlbumThoughts)) {
-            thoughts = thotAlbumThoughts.parallelStream()
-                .map(o -> {
-                    ThotThoughtVo thotThoughtVo = thotThoughtService.queryById(o.getThoughtId());
-                    thotThoughtVo.setAlbumId(o.getAlbumId());
-                    thotThoughtVo.setAlbumTitle(thotAlbumVo.getAlbumTitle());
-                    thotThoughtVo.setAlbumIsCover(o.getIsCover());
-                    thotThoughtVo.setAlbumCreateTime(o.getCreateTime());
-                    return thotThoughtVo;
-                }).toList();
-        }
-        return TableDataInfo.build(thoughts);
     }
 
     private LambdaQueryWrapper<ThotAlbum> buildQueryWrapper(ThotAlbumBo bo) {
@@ -112,10 +118,22 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
     public Boolean insertByBo(ThotAlbumBo bo) {
         ThotAlbum add = MapstructUtils.convert(bo, ThotAlbum.class);
         validEntityBeforeSave(add);
+
         boolean flag = baseMapper.insert(add) > 0;
-        if (flag) {
-            bo.setAlbumId(add.getAlbumId());
-        }
+        assert add != null;
+        bo.setAlbumId(add.getAlbumId());
+
+        List<ThotAlbumThought> albumThoughtList = MapstructUtils.convert(bo.getAlbumThoughts(), ThotAlbumThought.class);
+        flag = flag && thotAlbumThoughtService.insertBatch(albumThoughtList);
+
+        List<ThotAlbumThoughtBo> albumThoughts = bo.getAlbumThoughts();
+        List<ThotAlbumThought> thotAlbumThoughts = MapstructUtils.convert(albumThoughts, ThotAlbumThought.class);
+        thotAlbumThoughtService.deleteByIds(bo.getAlbumId());
+        thotAlbumThoughts.forEach(o -> {
+            o.setAlbumId(bo.getAlbumId());
+            o.setIsCover(o.getIsCover());
+        });
+        thotAlbumThoughtService.insertBatch(thotAlbumThoughts);
         return flag;
     }
 
@@ -125,6 +143,14 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
     @Override
     public Boolean updateByBo(ThotAlbumBo bo) {
         ThotAlbum update = MapstructUtils.convert(bo, ThotAlbum.class);
+        List<ThotAlbumThoughtBo> albumThoughts = bo.getAlbumThoughts();
+        List<ThotAlbumThought> thotAlbumThoughts = MapstructUtils.convert(albumThoughts, ThotAlbumThought.class);
+        thotAlbumThoughtService.deleteByIds(bo.getAlbumId());
+        thotAlbumThoughts.forEach(o -> {
+            o.setAlbumId(bo.getAlbumId());
+            o.setIsCover(o.getIsCover());
+        });
+        thotAlbumThoughtService.insertBatch(thotAlbumThoughts);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
     }
@@ -146,6 +172,14 @@ public class ThotAlbumServiceImpl implements IThotAlbumService {
             .set(ThotAlbum::getStatus, dataStatus.status)
             .in(ThotAlbum::getAlbumId, ids);
         return baseMapper.update(null, wrapper);
+    }
+
+    /**
+     * 修改封面状态
+     */
+    @Override
+    public Boolean updateCoverStatus(Long id, String cover) {
+        return thotAlbumThoughtService.updateIsCover(id, cover);
     }
 
     /**

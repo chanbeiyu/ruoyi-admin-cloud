@@ -1,28 +1,29 @@
 package org.dromara.platform.controller;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.platform.constant.DataStatus1;
-import org.dromara.platform.domain.vo.ThotThoughtVo;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
-import org.dromara.platform.domain.vo.ThotAlbumVo;
-import org.dromara.platform.domain.bo.ThotAlbumBo;
-import org.dromara.platform.service.IThotAlbumService;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.constant.DataStatus1;
+import org.dromara.platform.domain.bo.ThotAlbumBo;
+import org.dromara.platform.domain.vo.ThotAlbumThoughtVo;
+import org.dromara.platform.domain.vo.ThotAlbumVo;
+import org.dromara.platform.service.IThotAlbumService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 思集信息
@@ -65,20 +66,19 @@ public class ThotAlbumController extends BaseController {
      */
     @SaCheckPermission("thoughts:album:query")
     @GetMapping("/{albumId}")
-    public R<ThotAlbumVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long albumId) {
+    public R<ThotAlbumVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long albumId) {
         return R.ok(thotAlbumService.queryById(albumId));
     }
 
     /**
      * 获取思集信息详细信息
      *
-     * @param albumId 主键
+     * @param thoughtIds 思绪主键
      */
-    @SaCheckPermission("thoughts:album:query")
-    @GetMapping("/{albumId}/thoughts")
-    public TableDataInfo<ThotThoughtVo> queryThoughts(@NotNull(message = "主键不能为空") @PathVariable Long albumId) {
-        return thotAlbumService.queryAlbumThoughts(albumId);
+    @SaCheckPermission("thoughts:album:edit")
+    @GetMapping("/album-thought")
+    public R<List<ThotAlbumThoughtVo>> getAlbumThought(@NotNull(message = "主键不能为空") @RequestParam List<Long> thoughtIds) {
+        return R.ok(thotAlbumService.queryAlbumThoughtByIds(thoughtIds));
     }
 
     /**
@@ -154,4 +154,15 @@ public class ThotAlbumController extends BaseController {
                           @PathVariable Long[] albumIds) {
         return toAjax(thotAlbumService.deleteWithValidByIds(List.of(albumIds), true));
     }
+
+    /**
+     * 思集封面状态修改
+     */
+    @SaCheckPermission("thoughts:album:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/cover/status")
+    public R<Void> changeStatus(@RequestBody ThotAlbumThoughtVo bo) {
+        return toAjax(thotAlbumService.updateCoverStatus(bo.getId(), bo.getIsCover()));
+    }
+
 }

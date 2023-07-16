@@ -103,23 +103,4 @@ public class ThotThoughtVo implements Serializable {
     @ExcelProperty(value = "发布时间")
     private Date publishTime;
 
-
-
-
-    @ExcelProperty(value = "思集ID")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long albumId;
-
-    @ExcelProperty(value = "思集标题")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String albumTitle;
-
-    @ExcelProperty(value = "是否为封面")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer albumIsCover;
-
-    @ExcelProperty(value = "加入时间")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Date albumCreateTime;
-
 }

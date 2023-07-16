@@ -19,22 +19,17 @@ public interface IThotAlbumThoughtService {
      */
     ThotAlbumThoughtVo queryById(Long id);
 
-    List<ThotAlbumThought> queryByAlbumId(Long albumId);
+    ThotAlbumThoughtVo queryById(Long albumId, Long thoughtId);
 
-    List<ThotAlbumThought> queryByThoughtId(Long thoughtId);
+    List<ThotAlbumThoughtVo> queryByAlbumId(Long albumId);
 
-    /**
-     * 新增思集信息
-     */
-    Boolean insertByBo(ThotAlbumThought add);
+    List<ThotAlbumThoughtVo> queryByThoughtId(Long thoughtId);
 
-    /**
-     * 修改思集信息
-     */
-    Boolean updateByBo(ThotAlbumThought update);
+    Boolean insertBatch(List<ThotAlbumThought> adds);
 
-    /**
-     * 校验并批量删除思集信息信息
-     */
-    Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+    Boolean updateIsCover(Long id, String isCover);
+
+    Boolean deleteByIds(Long albumId);
+
+    Boolean deleteByIds(Collection<Long> ids);
 }

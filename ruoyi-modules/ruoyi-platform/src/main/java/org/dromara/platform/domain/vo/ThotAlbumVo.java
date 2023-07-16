@@ -48,7 +48,7 @@ public class ThotAlbumVo implements Serializable {
     /**
      * 思绪编号
      */
-    @ExcelProperty(value = "思绪编号")
+    @ExcelProperty(value = "思绪标题")
     private String albumTitle;
 
     /**
@@ -76,6 +76,6 @@ public class ThotAlbumVo implements Serializable {
     @ExcelProperty(value = "创建时间")
     private Date createTime;
 
-    private List<ThotThoughtVo> thoughts;
+    private List<ThotAlbumThoughtVo> albumThoughts;
 
 }

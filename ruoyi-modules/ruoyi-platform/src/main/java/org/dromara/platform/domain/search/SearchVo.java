@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,5 +41,11 @@ public class SearchVo implements Serializable {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SearchVo> children;
+
+    public SearchVo putExtend(String key, Object obj) {
+        if (extend == null) extend = new HashMap<>();
+        extend.put(key, obj);
+        return this;
+    }
 
 }

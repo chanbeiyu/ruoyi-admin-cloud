@@ -1,7 +1,10 @@
-package org.dromara.platform.domain.vo;
+package org.dromara.platform.domain.bo;
 
 import io.github.linpeilie.annotations.AutoMapper;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.dromara.common.core.validate.AddGroup;
+import org.dromara.common.core.validate.EditGroup;
 import org.dromara.platform.domain.ThotAlbumThought;
 
 import java.io.Serial;
@@ -17,59 +20,27 @@ import java.util.Date;
  */
 @Data
 @AutoMapper(target = ThotAlbumThought.class)
-public class ThotAlbumThoughtVo implements Serializable {
+public class ThotAlbumThoughtBo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 关联信息ID
-     */
-    private Long id;
-
-    /**
-     * 思集ID
-     */
-    private Long albumId;
-
-    /**
      * 思绪ID
      */
+    @NotNull(message = "思集ID不能为空", groups = {AddGroup.class, EditGroup.class})
     private Long thoughtId;
-
-    /**
-     * 思绪编号
-     */
-    private String code;
-
-    /**
-     * 思绪标题
-     */
-    private String title;
-
-    /**
-     * 主图
-     */
-    private String mainImg;
-
-    /**
-     * banner图
-     */
-    private String bannerImg;
 
     /**
      * 是否为封面
      */
+    @NotNull(message = "思集ID不能为空", groups = {AddGroup.class, EditGroup.class})
     private String isCover;
-
-    /**
-     * 状态
-     */
-    private Integer status;
 
     /**
      * 加入时间
      */
+    @NotNull(message = "思集ID不能为空", groups = {AddGroup.class, EditGroup.class})
     private Date createTime;
 
 }

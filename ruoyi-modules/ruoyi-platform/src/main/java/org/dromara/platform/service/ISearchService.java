@@ -15,6 +15,8 @@ public interface ISearchService {
 
     TableDataInfo<SearchVo> searchAppList(String query, Long appId);
 
+    TableDataInfo<SearchVo> searchThoughtList(String query, Long appId, boolean cascade);
+
     TableDataInfo<SearchVo> searchSubjectList(String query, Long appId, boolean cascade);
 
     TableDataInfo<SearchVo> searchStyleList(String query, Long appId, boolean cascade);

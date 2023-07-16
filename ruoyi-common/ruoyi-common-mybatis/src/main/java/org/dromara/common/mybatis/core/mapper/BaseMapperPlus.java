@@ -4,15 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.github.yulichang.base.MPJBaseMapper;
-import org.dromara.common.core.utils.MapstructUtils;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
+import org.dromara.common.core.utils.MapstructUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -138,6 +137,17 @@ public interface BaseMapperPlus<T, V> extends MPJBaseMapper<T> {
         return MapstructUtils.convert(list, voClass);
     }
 
+    /**
+     * 查询（根据ID 批量查询）
+     */
+    default <C> List<C> selectVoBatchIds(Collection<? extends Serializable> idList, Function<T, C> mapper) {
+        List<T> list = this.selectBatchIds(idList);
+        if (CollUtil.isEmpty(list)) {
+            return CollUtil.newArrayList();
+        }
+        return list.stream().map(mapper).toList();
+    }
+
     default List<V> selectVoByMap(Map<String, Object> map) {
         return selectVoByMap(map, this.currentVoClass());
     }
@@ -153,6 +163,17 @@ public interface BaseMapperPlus<T, V> extends MPJBaseMapper<T> {
         return MapstructUtils.convert(list, voClass);
     }
 
+    /**
+     * 查询（根据 columnMap 条件）
+     */
+    default <C> List<C> selectVoByMap(Map<String, Object> map, Function<T, C> mapper) {
+        List<T> list = this.selectByMap(map);
+        if (CollUtil.isEmpty(list)) {
+            return CollUtil.newArrayList();
+        }
+        return list.stream().map(mapper).toList();
+    }
+
     default V selectVoOne(Wrapper<T> wrapper) {
         return selectVoOne(wrapper, this.currentVoClass());
     }
@@ -166,6 +187,17 @@ public interface BaseMapperPlus<T, V> extends MPJBaseMapper<T> {
             return null;
         }
         return MapstructUtils.convert(obj, voClass);
+    }
+
+    /**
+     * 根据 entity 条件，查询一条记录
+     */
+    default <C> C selectVoOne(Wrapper<T> wrapper, Function<T, C> mapper) {
+        T obj = this.selectOne(wrapper);
+        if (ObjectUtil.isNull(obj)) {
+            return null;
+        }
+        return mapper.apply(obj);
     }
 
     default List<V> selectVoList() {
@@ -209,6 +241,23 @@ public interface BaseMapperPlus<T, V> extends MPJBaseMapper<T> {
             return (P) voPage;
         }
         voPage.setRecords(MapstructUtils.convert(pageData.getRecords(), voClass));
+        return (P) voPage;
+    }
+
+    /**
+     * 分页查询VO
+     */
+    default <C, P extends IPage<C>> P selectVoPage(IPage<T> page, Wrapper<T> wrapper, Function<T, C> mapper) {
+        IPage<T> pageData = this.selectPage(page, wrapper);
+        IPage<C> voPage = new Page<>(pageData.getCurrent(), pageData.getSize(), pageData.getTotal());
+        if (CollUtil.isEmpty(pageData.getRecords())) {
+            return (P) voPage;
+        }
+        List<C> rList = pageData.getRecords()
+            .stream()
+            .map(mapper)
+            .toList();
+        voPage.setRecords(rList);
         return (P) voPage;
     }
 

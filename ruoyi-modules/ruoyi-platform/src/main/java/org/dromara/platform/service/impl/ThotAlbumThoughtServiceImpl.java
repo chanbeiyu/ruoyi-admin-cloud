@@ -1,20 +1,17 @@
 package org.dromara.platform.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.platform.domain.vo.ThotThoughtVo;
-import org.dromara.platform.service.IThotThoughtService;
-import org.springframework.stereotype.Service;
-import org.dromara.platform.domain.vo.ThotAlbumThoughtVo;
 import org.dromara.platform.domain.ThotAlbumThought;
+import org.dromara.platform.domain.vo.ThotAlbumThoughtVo;
 import org.dromara.platform.mapper.ThotAlbumThoughtMapper;
 import org.dromara.platform.service.IThotAlbumThoughtService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 思集信息Service业务层处理
@@ -28,30 +25,27 @@ public class ThotAlbumThoughtServiceImpl implements IThotAlbumThoughtService {
 
     private final ThotAlbumThoughtMapper baseMapper;
 
-    private final IThotThoughtService thotThoughtService;
-
     /**
      * 查询思集信息
      */
     @Override
-    public ThotAlbumThoughtVo queryById(Long id){
+    public ThotAlbumThoughtVo queryById(Long id) {
         return baseMapper.selectVoById(id);
     }
 
     @Override
-    public List<ThotAlbumThought> queryByAlbumId(Long albumId){
-        ThotAlbumThought thotAlbumThought = new ThotAlbumThought();
-        thotAlbumThought.setAlbumId(albumId);
-        LambdaQueryWrapper<ThotAlbumThought> lqw = buildQueryWrapper(thotAlbumThought);
-        return baseMapper.selectList(lqw);
+    public ThotAlbumThoughtVo queryById(Long albumId, Long thoughtId) {
+        return baseMapper.selectAlbumThought(albumId, thoughtId);
     }
 
     @Override
-    public List<ThotAlbumThought> queryByThoughtId(Long thoughtId){
-        ThotAlbumThought thotAlbumThought = new ThotAlbumThought();
-        thotAlbumThought.setThoughtId(thoughtId);
-        LambdaQueryWrapper<ThotAlbumThought> lqw = buildQueryWrapper(thotAlbumThought);
-        return baseMapper.selectList(lqw);
+    public List<ThotAlbumThoughtVo> queryByAlbumId(Long albumId) {
+        return baseMapper.selectAlbumThoughtByAlbumId(albumId);
+    }
+
+    @Override
+    public List<ThotAlbumThoughtVo> queryByThoughtId(Long thoughtId) {
+        return baseMapper.selectAlbumThoughtByThoughtId(thoughtId);
     }
 
     private LambdaQueryWrapper<ThotAlbumThought> buildQueryWrapper(ThotAlbumThought thotAlbumThought) {
@@ -62,39 +56,28 @@ public class ThotAlbumThoughtServiceImpl implements IThotAlbumThoughtService {
         return lqw;
     }
 
-    /**
-     * 新增思集信息
-     */
     @Override
-    public Boolean insertByBo(ThotAlbumThought add) {
-        validEntityBeforeSave(add);
-        return baseMapper.insert(add) > 0;
+    public Boolean insertBatch(List<ThotAlbumThought> adds) {
+        return baseMapper.insertBatch(adds);
     }
 
-    /**
-     * 修改思集信息
-     */
     @Override
-    public Boolean updateByBo(ThotAlbumThought update) {
-        validEntityBeforeSave(update);
+    public Boolean updateIsCover(Long id, String isCover) {
+        ThotAlbumThought update = new ThotAlbumThought();
+        update.setId(id);
+        update.setIsCover(isCover);
         return baseMapper.updateById(update) > 0;
     }
 
-    /**
-     * 保存前的数据校验
-     */
-    private void validEntityBeforeSave(ThotAlbumThought entity){
-        //TODO 做一些数据校验,如唯一约束
+    @Override
+    public Boolean deleteByIds(Long albumId) {
+        QueryWrapper<ThotAlbumThought> wrapper = new QueryWrapper<>();
+        wrapper.eq("album_id", albumId);
+        return baseMapper.delete(wrapper) > 0;
     }
 
-    /**
-     * 批量删除思集信息
-     */
     @Override
-    public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
-        if(isValid){
-            //TODO 做一些业务上的校验,判断是否需要校验
-        }
+    public Boolean deleteByIds(Collection<Long> ids) {
         return baseMapper.deleteBatchIds(ids) > 0;
     }
 }

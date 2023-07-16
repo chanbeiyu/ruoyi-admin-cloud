@@ -44,6 +44,14 @@ public class ThotThoughtServiceImpl implements IThotThoughtService {
     }
 
     /**
+     * 查询思绪信息
+     */
+    @Override
+    public List<ThotThoughtVo> queryById(List<Long> thoughtIds) {
+        return baseMapper.selectVoBatchIds(thoughtIds, ThotThoughtVo.class);
+    }
+
+    /**
      * 查询思绪信息列表
      */
     @Override
