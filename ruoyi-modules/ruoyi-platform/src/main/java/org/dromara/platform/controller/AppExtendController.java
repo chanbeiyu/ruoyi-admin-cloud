@@ -1,27 +1,28 @@
 package org.dromara.platform.controller;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
-import org.dromara.platform.domain.vo.AppExtendVo;
-import org.dromara.platform.domain.bo.AppExtendBo;
-import org.dromara.platform.service.IAppExtendService;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.bo.AppExtendBo;
+import org.dromara.platform.domain.vo.AppExtendVo;
+import org.dromara.platform.service.IAppExtendService;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 应用扩展信息
@@ -82,13 +83,13 @@ public class AppExtendController extends BaseController {
     /**
      * 新增应用扩展信息
      */
-    // @SaCheckPermission("app:extend:add")
-    // @Log(title = "应用扩展信息", businessType = BusinessType.INSERT)
-    // @RepeatSubmit()
-    // @PostMapping()
-    // public R<Void> add(@Validated(AddGroup.class) @RequestBody AppExtendBo bo) {
-    //     return toAjax(appExtendService.insertByBo(bo));
-    // }
+    @SaCheckPermission("app:extend:add")
+    @Log(title = "应用扩展信息", businessType = BusinessType.INSERT)
+    @RepeatSubmit()
+    @PostMapping()
+    public R<Void> add(@Validated(AddGroup.class) @RequestBody AppExtendBo bo) {
+        return toAjax(appExtendService.insertByBo(bo));
+    }
 
     /**
      * 修改应用扩展信息
