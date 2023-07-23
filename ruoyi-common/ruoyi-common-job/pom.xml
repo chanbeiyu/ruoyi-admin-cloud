@@ -54,7 +54,6 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
         </dependency>
-
         <dependency>
             <groupId>tech.powerjob</groupId>
             <artifactId>powerjob-official-processors</artifactId>

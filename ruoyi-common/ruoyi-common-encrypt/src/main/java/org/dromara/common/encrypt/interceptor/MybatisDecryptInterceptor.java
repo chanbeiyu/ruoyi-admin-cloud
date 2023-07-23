@@ -1,7 +1,12 @@
 package org.dromara.common.encrypt.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.resultset.ResultSetHandler;
+import org.apache.ibatis.plugin.*;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.encrypt.annotation.EncryptField;
 import org.dromara.common.encrypt.core.EncryptContext;
@@ -9,10 +14,6 @@ import org.dromara.common.encrypt.core.EncryptorManager;
 import org.dromara.common.encrypt.enumd.AlgorithmType;
 import org.dromara.common.encrypt.enumd.EncodeType;
 import org.dromara.common.encrypt.properties.EncryptorProperties;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.executor.resultset.ResultSetHandler;
-import org.apache.ibatis.plugin.*;
 
 import java.lang.reflect.Field;
 import java.sql.Statement;
@@ -75,7 +76,7 @@ public class MybatisDecryptInterceptor implements Interceptor {
         Set<Field> fields = encryptorManager.getFieldCache(sourceObject.getClass());
         try {
             for (Field field : fields) {
-                field.set(sourceObject, this.decryptField(String.valueOf(field.get(sourceObject)), field));
+                field.set(sourceObject, this.decryptField(Convert.toStr(field.get(sourceObject)), field));
             }
         } catch (Exception e) {
             log.error("处理解密字段时出错", e);

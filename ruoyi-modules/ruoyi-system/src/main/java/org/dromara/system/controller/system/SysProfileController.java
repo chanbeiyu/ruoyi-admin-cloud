@@ -25,7 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.stringtemplate.v4.ST;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -111,14 +110,13 @@ public class SysProfileController extends BaseController {
     @GlobalTransactional(rollbackFor = Exception.class)
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public R<AvatarVo> avatar(@RequestPart("avatarfile") MultipartFile avatarfile,
-                              @RequestParam(defaultValue = "avatar") String tags) throws IOException {
+    public R<AvatarVo> avatar(@RequestPart("avatarfile") MultipartFile avatarfile) throws IOException {
         if (!avatarfile.isEmpty()) {
             String extension = FileUtil.extName(avatarfile.getOriginalFilename());
             if (!StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION)) {
                 return R.fail("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
             }
-            RemoteFile oss = remoteFileService.upload(avatarfile.getName(), avatarfile.getOriginalFilename(), avatarfile.getContentType(), tags, avatarfile.getBytes());
+            RemoteFile oss = remoteFileService.upload(avatarfile.getName(), avatarfile.getOriginalFilename(), avatarfile.getContentType(), avatarfile.getBytes());
             String avatar = oss.getUrl();
             if (userService.updateUserAvatar(LoginHelper.getUserId(), oss.getOssId())) {
                 AvatarVo avatarVo = new AvatarVo();

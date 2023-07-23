@@ -46,7 +46,7 @@
 #elseif($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
           <el-form-item label="${comment}" style="width: 308px">
             <el-date-picker
-                v-model="daterange${AttrName}"
+                v-model="dateRange${AttrName}"
                 value-format="YYYY-MM-DD HH:mm:ss"
                 type="daterange"
                 range-separator="-"
@@ -366,9 +366,20 @@ const data = reactive<PageData<${BusinessName}Form, ${BusinessName}Query>>({
     pageSize: 10,
 #foreach ($column in $columns)
 #if($column.query)
+    #if($column.htmlType != "datetime" || $column.queryType != "BETWEEN")
     $column.javaField: undefined#if($foreach.count != $columns.size()),#end
+    #end
 #end
 #end
+    params: {
+    #foreach ($column in $columns)
+    #if($column.query)
+        #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+      $column.javaField: undefined#if($foreach.count != $columns.size()),#end
+        #end
+    #end
+    #end
+    }
   },
   rules: {
 #foreach ($column in $columns)
@@ -403,10 +414,7 @@ const getList = async () => {
 #foreach ($column in $columns)
 #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
-  if (null != daterange${AttrName} && '' != daterange${AttrName}) {
-    queryParams.value.params["begin${AttrName}"] = daterange${AttrName}.value[0];
-    queryParams.value.params["end${AttrName}"] = daterange${AttrName}.value[1];
-  }
+  proxy?.addDateRange(queryParams.value, dateRange${AttrName}.value, '${AttrName}');
 #end
 #end
   const res = await list${BusinessName}(queryParams.value);
@@ -441,10 +449,10 @@ const resetQuery = () => {
 #foreach ($column in $columns)
 #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
-  daterange${AttrName}.value = [];
+  dateRange${AttrName}.value = ['', ''];
 #end
 #end
-  queryFormRef.value.resetFields();
+  queryFormRef.value?.resetFields();
   handleQuery();
 }
 
@@ -492,7 +500,7 @@ const handleUpdate = (row?: ${BusinessName}VO) => {
 
 /** 提交按钮 */
 const submitForm = () => {
-  ${businessName}FormRef.value.validate(async (valid: boolean) => {
+  ${businessName}FormRef.value?.validate(async (valid: boolean) => {
     if (valid) {
       buttonLoading.value = true;
       #foreach ($column in $columns)

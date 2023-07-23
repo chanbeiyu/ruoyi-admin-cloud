@@ -33,6 +33,15 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
+    public RemoteFile upload(String name, String originalFilename, String contentType, byte[] file) throws ServiceException {
+        return upload(name, originalFilename, contentType, null, file);
+    }
+
+    /**
+     * 文件上传请求
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
     public RemoteFile upload(String name, String originalFilename, String contentType, String tags, byte[] file) throws ServiceException {
         try {
             String suffix = StringUtils.substring(originalFilename, originalFilename.lastIndexOf("."), originalFilename.length());

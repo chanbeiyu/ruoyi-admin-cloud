@@ -61,8 +61,13 @@ public class SysOssVo implements Serializable {
     /**
      * 上传人
      */
-    @Translation(type = TransConstant.USER_ID_TO_NAME)
-    private String createBy;
+    private Long createBy;
+
+    /**
+     * 上传人名称
+     */
+    @Translation(type = TransConstant.USER_ID_TO_NAME, mapper = "createBy")
+    private String createByName;
 
     /**
      * 服务商

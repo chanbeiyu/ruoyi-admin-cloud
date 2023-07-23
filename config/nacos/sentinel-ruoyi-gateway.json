@@ -16,7 +16,7 @@
     "controlBehavior": 0
   },
   {
-    "resource": "ruoyi-thoughts",
+    "resource": "ruoyi-platform",
     "count": 1000,
     "grade": 1,
     "limitApp": "default",

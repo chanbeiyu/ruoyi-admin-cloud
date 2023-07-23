@@ -43,14 +43,14 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
         // 打印请求参数
         if (WebFluxUtils.isJsonRequest(exchange)) {
             String jsonParam = WebFluxUtils.resolveBodyFromCacheRequest(exchange);
-            log.info("[PLUS-{}]开始请求 => [] URL[{}]，参数类型[json]，参数:[{}]", request.getId(), url, jsonParam);
+            log.info("[PLUS]开始请求 => URL[{}],参数类型[json],参数:[{}]", url, jsonParam);
         } else {
             MultiValueMap<String, String> parameterMap = request.getQueryParams();
             if (MapUtil.isNotEmpty(parameterMap)) {
                 String parameters = JsonUtils.toJsonString(parameterMap);
-                log.info("[PLUS-{}]开始请求 => URL[{}]，参数类型[param]，参数:[{}]", request.getId(), url, parameters);
+                log.info("[PLUS]开始请求 => URL[{}],参数类型[param],参数:[{}]", url, parameters);
             } else {
-                log.info("[PLUS-{}]开始请求 => URL[{}]，无参数", request.getId(), url);
+                log.info("[PLUS]开始请求 => URL[{}],无参数", url);
             }
         }
 
@@ -59,7 +59,7 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
             Long startTime = exchange.getAttribute(START_TIME);
             if (startTime != null) {
                 long executeTime = (System.currentTimeMillis() - startTime);
-                log.info("[PLUS-{}]结束请求 => URL[{}]，耗时:[{}]毫秒", request.getId(), url, executeTime);
+                log.info("[PLUS]结束请求 => URL[{}],耗时:[{}]毫秒", url, executeTime);
             }
         }));
     }
