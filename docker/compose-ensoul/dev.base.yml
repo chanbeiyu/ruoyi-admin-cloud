@@ -1,0 +1,81 @@
+version: "3"
+services:
+  seata-server:
+    image: ruoyi/${RUOYI_SEATA_SERVER_NAME}:${RUOYI_VERSION}
+    container_name: seata
+    privileged: true
+    hostname: seata
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_SEATA_SERVER_NAME}
+        - SERVICE_PORT=${RUOYI_SEATA_SERVER_PORT}
+    ports:
+      - ${RUOYI_SEATA_SERVER_PORT1}:${RUOYI_SEATA_SERVER_PORT1}
+      - ${RUOYI_SEATA_SERVER_PORT2}:${RUOYI_SEATA_SERVER_PORT2}
+    volumes:
+      - ../services/seata/logs:/home/app/logs
+    environment:
+      # 注意 此处ip如果是外网使用 要改为外网ip
+      # SEATA_IP: 127.0.0.1
+      SEATA_PORT: 8091
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  sentinel-server:
+    image: ruoyi/${RUOYI_SENTINEL_SERVER_NAME}:${RUOYI_VERSION}
+    container_name: sentinel
+    privileged: true
+    hostname: sentinel
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_SENTINEL_SERVER_NAME}
+        - SERVICE_PORT=${RUOYI_SENTINEL_SERVER_PORT}
+    ports:
+      - ${RUOYI_SENTINEL_SERVER_PORT}:${RUOYI_SENTINEL_SERVER_PORT}
+    volumes:
+      - ../services/sentinel/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  xxl-job-server:
+    image: ruoyi/${RUOYI_XXLJOB_SERVER_NAME}:${RUOYI_VERSION}
+    container_name: xxljob
+    privileged: true
+    hostname: xxljob
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_XXLJOB_SERVER_NAME}
+        - SERVICE_PORT=${RUOYI_XXLJOB_SERVER_PORT}
+    ports:
+      - ${RUOYI_XXLJOB_SERVER_PORT}:${RUOYI_XXLJOB_SERVER_PORT}
+    volumes:
+      - ../services/xxl-job/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  powerjob-server:
+    image: ruoyi/${RUOYI_POWERJOB_SERVER_NAME}:${RUOYI_POWERJOB_SERVER_VERSION}
+    container_name: powerjob
+    privileged: true
+    hostname: powerjob
+    ports:
+      - ${RUOYI_POWERJOB_SERVER_PORT1}:${RUOYI_POWERJOB_SERVER_PORT1}
+      - ${RUOYI_POWERJOB_SERVER_PORT2}:${RUOYI_POWERJOB_SERVER_PORT2}
+      - ${RUOYI_POWERJOB_SERVER_PORT3}:${RUOYI_POWERJOB_SERVER_PORT3}
+    volumes:
+      - /services/powerjob/logs/:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+

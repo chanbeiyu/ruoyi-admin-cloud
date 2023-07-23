@@ -1,0 +1,163 @@
+version: '3'
+
+services:
+  ruoyi-monitor:
+    image: ruoyi/${RUOYI_MONITOR_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: monitor
+    privileged: true
+    hostname: monitor
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_MONITOR_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_MONITOR_SERVICE_PORT}
+    ports:
+      - ${RUOYI_MONITOR_SERVICE_PORT}:${RUOYI_MONITOR_SERVICE_PORT}
+    volumes:
+      - ../services/monitor/logs/monitor:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-gateway:
+    image: ruoyi/${RUOYI_GATEWAY_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: gateway
+    privileged: true
+    hostname: gateway
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_GATEWAY_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_GATEWAY_SERVICE_PORT}
+    ports:
+      - ${RUOYI_GATEWAY_SERVICE_PORT}:${RUOYI_GATEWAY_SERVICE_PORT}
+    volumes:
+      - ../services/gateway/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-auth:
+    image: ruoyi/${RUOYI_AUTH_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: auth
+    privileged: true
+    hostname: auth
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_AUTH_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_AUTH_SERVICE_PORT}
+    ports:
+      - ${RUOYI_AUTH_SERVICE_PORT}:${RUOYI_AUTH_SERVICE_PORT}
+    volumes:
+      - ../services/auth/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-system:
+    image: ruoyi/${RUOYI_SYSTEM_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: system
+    privileged: true
+    hostname: system
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_SYSTEM_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_SYSTEM_SERVICE_PORT}
+    ports:
+      - ${RUOYI_SYSTEM_SERVICE_PORT}:${RUOYI_SYSTEM_SERVICE_PORT}
+    volumes:
+      - ../services/system/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-gen:
+    image: ruoyi/${RUOYI_GEN_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: gen
+    privileged: true
+    hostname: gen
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_GEN_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_GEN_SERVICE_PORT}
+    ports:
+      - ${RUOYI_GEN_SERVICE_PORT}:${RUOYI_GEN_SERVICE_PORT}
+    volumes:
+      - ../services/gen/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-job:
+    image: ruoyi/${RUOYI_JOB_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: job
+    privileged: true
+    hostname: job
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_JOB_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_JOB_SERVICE_PORT}
+    ports:
+      - ${RUOYI_JOB_SERVICE_PORT}:${RUOYI_JOB_SERVICE_PORT}
+    volumes:
+      - ../services/job/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-resource:
+    image: ruoyi/${RUOYI_RESOURCE_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: resource
+    privileged: true
+    hostname: resource
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_RESOURCE_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_RESOURCE_SERVICE_PORT}
+    ports:
+      - ${RUOYI_RESOURCE_SERVICE_PORT}:${RUOYI_RESOURCE_SERVICE_PORT}
+    volumes:
+      - ../services/resource/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
+  ruoyi-platform:
+    image: ruoyi/${RUOYI_PLATFORM_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: platform
+    privileged: true
+    hostname: platform
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_PLATFORM_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_PLATFORM_SERVICE_PORT}
+    ports:
+      - ${RUOYI_PLATFORM_SERVICE_PORT}:${RUOYI_PLATFORM_SERVICE_PORT}
+    volumes:
+      - ../services/platform/logs:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+
