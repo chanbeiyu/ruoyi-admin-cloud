@@ -11,7 +11,7 @@ services:
       args:
         - VERSION=${RUOYI_VERSION}
         - SERVICE_NAME=${RUOYI_SEATA_SERVER_NAME}
-        - SERVICE_PORT=${RUOYI_SEATA_SERVER_PORT}
+        - SERVICE_PORT1=${RUOYI_SEATA_SERVER_PORT1}
     ports:
       - ${RUOYI_SEATA_SERVER_PORT1}:${RUOYI_SEATA_SERVER_PORT1}
       - ${RUOYI_SEATA_SERVER_PORT2}:${RUOYI_SEATA_SERVER_PORT2}
@@ -23,6 +23,9 @@ services:
       SEATA_PORT: 8091
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - default
+      - common_default
 
   sentinel-server:
     image: ruoyi/${RUOYI_SENTINEL_SERVER_NAME}:${RUOYI_VERSION}
@@ -43,6 +46,9 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - default
+      - common_default
 
   xxl-job-server:
     image: ruoyi/${RUOYI_XXLJOB_SERVER_NAME}:${RUOYI_VERSION}
@@ -63,6 +69,9 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - default
+      - common_default
 
   powerjob-server:
     image: ruoyi/${RUOYI_POWERJOB_SERVER_NAME}:${RUOYI_POWERJOB_SERVER_VERSION}
@@ -78,4 +87,33 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - default
+      - common_default
 
+  ruoyi-monitor:
+    image: ruoyi/${RUOYI_MONITOR_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: monitor
+    privileged: true
+    hostname: monitor
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_MONITOR_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_MONITOR_SERVICE_PORT}
+    ports:
+      - ${RUOYI_MONITOR_SERVICE_PORT}:${RUOYI_MONITOR_SERVICE_PORT}
+    volumes:
+      - ../services/monitor/logs/monitor:/home/app/logs
+    environment:
+      LANG: ${LANG}
+      TZ: ${TZ}
+    networks:
+      - default
+      - common_default
+
+networks:
+  common_default:
+    external: true

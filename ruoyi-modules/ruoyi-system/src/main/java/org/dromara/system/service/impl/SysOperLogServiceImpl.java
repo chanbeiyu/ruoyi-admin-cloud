@@ -47,7 +47,7 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
             .eq(operLog.getStatus() != null,
                 SysOperLog::getStatus, operLog.getStatus())
             .like(StringUtils.isNotBlank(operLog.getOperName()), SysOperLog::getOperName, operLog.getOperName())
-            .between(params.get("beginTime") != null && params.get("endTime") != null,
+            .between(StringUtils.isNotEmpty(params.get("beginTime"), params.get("endTime")),
                 SysOperLog::getOperTime, params.get("beginTime"), params.get("endTime"));
         if (StringUtils.isBlank(pageQuery.getOrderByColumn())) {
             pageQuery.setOrderByColumn("oper_id");
@@ -90,7 +90,7 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
             .eq(operLog.getStatus() != null && operLog.getStatus() > 0,
                 SysOperLog::getStatus, operLog.getStatus())
             .like(StringUtils.isNotBlank(operLog.getOperName()), SysOperLog::getOperName, operLog.getOperName())
-            .between(params.get("beginTime") != null && params.get("endTime") != null,
+            .between(StringUtils.isNotEmpty(params.get("beginTime"), params.get("endTime")),
                 SysOperLog::getOperTime, params.get("beginTime"), params.get("endTime"))
             .orderByDesc(SysOperLog::getOperId));
     }

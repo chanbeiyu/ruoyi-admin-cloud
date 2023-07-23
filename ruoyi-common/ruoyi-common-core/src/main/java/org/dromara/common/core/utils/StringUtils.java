@@ -43,13 +43,40 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * * 判断一个字符串是否为非空串
+     * 判断一个字符串是否为非空串
      *
      * @param str String
      * @return true：非空串 false：空串
      */
     public static boolean isNotEmpty(String str) {
         return !isEmpty(str);
+    }
+
+    /**
+     * 判断多个对象是否为空串
+     *
+     * @param objs Object[]
+     * @return true：为空 false：非空
+     */
+    public static boolean isEmpty(Object... objs) {
+        if (objs != null) {
+            for (Object obj : objs) {
+                if (obj != null && StrUtil.isNotEmpty((String) obj)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * * 判断多个对象是否为非空串
+     *
+     * @param objs Object[]
+     * @return true：非空串 false：空串
+     */
+    public static boolean isNotEmpty(Object... objs) {
+        return !isEmpty(objs);
     }
 
     /**

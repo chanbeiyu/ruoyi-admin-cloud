@@ -110,7 +110,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         lqw.like(StringUtils.isNotBlank(bo.getConfigName()), SysConfig::getConfigName, bo.getConfigName());
         lqw.eq(StringUtils.isNotBlank(bo.getConfigType()), SysConfig::getConfigType, bo.getConfigType());
         lqw.like(StringUtils.isNotBlank(bo.getConfigKey()), SysConfig::getConfigKey, bo.getConfigKey());
-        lqw.between(params.get("beginTime") != null && params.get("endTime") != null,
+        lqw.between(StringUtils.isNotEmpty(params.get("beginTime"), params.get("endTime")),
             SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
         return lqw;
     }

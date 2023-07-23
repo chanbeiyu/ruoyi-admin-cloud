@@ -3,9 +3,11 @@ package org.dromara.system.domain.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;
+import io.github.linpeilie.annotations.AutoMappers;
 import lombok.Data;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
+import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.domain.SysClient;
 
 import java.io.Serial;
@@ -20,7 +22,10 @@ import java.util.List;
  */
 @Data
 @ExcelIgnoreUnannotated
-@AutoMapper(target = SysClient.class)
+@AutoMappers({
+    @AutoMapper(target = SysClient.class),
+    @AutoMapper(target = RemoteClientVo.class)
+})
 public class SysClientVo implements Serializable {
 
     @Serial

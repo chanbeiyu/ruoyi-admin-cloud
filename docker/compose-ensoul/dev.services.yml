@@ -1,26 +1,6 @@
 version: '3'
 
 services:
-  ruoyi-monitor:
-    image: ruoyi/${RUOYI_MONITOR_SERVICE_NAME}:${RUOYI_VERSION}
-    container_name: monitor
-    privileged: true
-    hostname: monitor
-    build:
-      context: ../context
-      dockerfile: development/Dockerfile
-      args:
-        - VERSION=${RUOYI_VERSION}
-        - SERVICE_NAME=${RUOYI_MONITOR_SERVICE_NAME}
-        - SERVICE_PORT=${RUOYI_MONITOR_SERVICE_PORT}
-    ports:
-      - ${RUOYI_MONITOR_SERVICE_PORT}:${RUOYI_MONITOR_SERVICE_PORT}
-    volumes:
-      - ../services/monitor/logs/monitor:/home/app/logs
-    environment:
-      LANG: ${LANG}
-      TZ: ${TZ}
-
   ruoyi-gateway:
     image: ruoyi/${RUOYI_GATEWAY_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: gateway
