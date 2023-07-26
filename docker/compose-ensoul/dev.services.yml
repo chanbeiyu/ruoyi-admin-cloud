@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 
 services:
   ruoyi-gateway:
@@ -20,6 +20,10 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-auth:
     image: ruoyi/${RUOYI_AUTH_SERVICE_NAME}:${RUOYI_VERSION}
@@ -40,6 +44,10 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-system:
     image: ruoyi/${RUOYI_SYSTEM_SERVICE_NAME}:${RUOYI_VERSION}
@@ -60,6 +68,10 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-gen:
     image: ruoyi/${RUOYI_GEN_SERVICE_NAME}:${RUOYI_VERSION}
@@ -80,6 +92,10 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-job:
     image: ruoyi/${RUOYI_JOB_SERVICE_NAME}:${RUOYI_VERSION}
@@ -100,6 +116,10 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-resource:
     image: ruoyi/${RUOYI_RESOURCE_SERVICE_NAME}:${RUOYI_VERSION}
@@ -120,6 +140,10 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-platform:
     image: ruoyi/${RUOYI_PLATFORM_SERVICE_NAME}:${RUOYI_VERSION}
@@ -140,4 +164,18 @@ services:
     environment:
       LANG: ${LANG}
       TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
+
+networks:
+  ruoyi_services_net:
+    external: true
+  microserv_net:
+    external: true
+  database_net:
+    external: true
+  common_net:
+    external: true
 

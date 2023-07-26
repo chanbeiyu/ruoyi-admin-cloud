@@ -1,5 +1,6 @@
-FROM findepi/graalvm:java17-native
-#FROM bellsoft/liberica-openjdk-debian:8u352-8
+#FROM findepi/graalvm:java17-native
+#FROM bellsoft/liberica-openjdk-debian:17
+FROM bellsoft/liberica-openjdk-alpine:17
 #FROM openjdk:17-jdk
 
 # 作者

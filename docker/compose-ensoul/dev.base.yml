@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   seata-server:
     image: ruoyi/${RUOYI_SEATA_SERVER_NAME}:${RUOYI_VERSION}
@@ -19,13 +19,14 @@ services:
       - ../services/seata/logs:/home/app/logs
     environment:
       # 注意 此处ip如果是外网使用 要改为外网ip
-      # SEATA_IP: 127.0.0.1
+      SEATA_IP: ${HOST_DOMAIN}
       SEATA_PORT: 8091
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - default
-      - common_default
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   sentinel-server:
     image: ruoyi/${RUOYI_SENTINEL_SERVER_NAME}:${RUOYI_VERSION}
@@ -47,8 +48,9 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - default
-      - common_default
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   xxl-job-server:
     image: ruoyi/${RUOYI_XXLJOB_SERVER_NAME}:${RUOYI_VERSION}
@@ -70,8 +72,9 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - default
-      - common_default
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   powerjob-server:
     image: ruoyi/${RUOYI_POWERJOB_SERVER_NAME}:${RUOYI_POWERJOB_SERVER_VERSION}
@@ -88,8 +91,9 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - default
-      - common_default
+      - ruoyi_services_net
+      - database_net
+      - microserv_net
 
   ruoyi-monitor:
     image: ruoyi/${RUOYI_MONITOR_SERVICE_NAME}:${RUOYI_VERSION}
@@ -111,9 +115,13 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - default
-      - common_default
+      - ruoyi_services_net
+      - microserv_net
 
 networks:
-  common_default:
+  ruoyi_services_net:
+    external: true
+  microserv_net:
+    external: true
+  database_net:
     external: true
