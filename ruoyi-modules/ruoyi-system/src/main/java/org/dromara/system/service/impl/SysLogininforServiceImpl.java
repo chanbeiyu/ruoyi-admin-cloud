@@ -47,7 +47,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
             .like(StringUtils.isNotBlank(logininfor.getIpaddr()), SysLogininfor::getIpaddr, logininfor.getIpaddr())
             .eq(StringUtils.isNotBlank(logininfor.getStatus()), SysLogininfor::getStatus, logininfor.getStatus())
             .like(StringUtils.isNotBlank(logininfor.getUserName()), SysLogininfor::getUserName, logininfor.getUserName())
-            .between(StringUtils.isNotEmpty(params.get("beginTime"), params.get("endTime")),
+            .between(StringUtils.isAllNotEmpty(params.get("beginTime"), params.get("endTime")),
                 SysLogininfor::getLoginTime, params.get("beginTime"), params.get("endTime"));
         if (StringUtils.isBlank(pageQuery.getOrderByColumn())) {
             pageQuery.setOrderByColumn("info_id");
@@ -82,7 +82,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
             .like(StringUtils.isNotBlank(logininfor.getIpaddr()), SysLogininfor::getIpaddr, logininfor.getIpaddr())
             .eq(StringUtils.isNotBlank(logininfor.getStatus()), SysLogininfor::getStatus, logininfor.getStatus())
             .like(StringUtils.isNotBlank(logininfor.getUserName()), SysLogininfor::getUserName, logininfor.getUserName())
-            .between(StringUtils.isNotEmpty(params.get("beginTime"), params.get("endTime")),
+            .between(StringUtils.isAllNotEmpty(params.get("beginTime"), params.get("endTime")),
                 SysLogininfor::getLoginTime, params.get("beginTime"), params.get("endTime"))
             .orderByDesc(SysLogininfor::getInfoId));
     }

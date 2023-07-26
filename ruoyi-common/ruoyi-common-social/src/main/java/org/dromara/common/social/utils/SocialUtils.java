@@ -22,6 +22,10 @@ public class SocialUtils  {
 
     private static final AuthRedisStateCache STATE_CACHE = SpringUtils.getBean(AuthRedisStateCache.class);
 
+    public static String getAuthId(AuthUser authUser) throws AuthException {
+        return authUser.getSource() + authUser.getUuid();
+    }
+
     @SuppressWarnings("unchecked")
     public static AuthResponse<AuthUser> loginAuth(LoginBody loginBody, SocialProperties socialProperties) throws AuthException {
         AuthRequest authRequest = getAuthRequest(loginBody.getSource(), socialProperties);

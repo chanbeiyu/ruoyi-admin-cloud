@@ -2,13 +2,19 @@ package org.dromara.system.api.domain.bo;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * 社会化关系业务对象 sys_social
  *
  * @author Michelle.Chung
  */
 @Data
-public class RemoteSocialBo {
+public class RemoteSocialBo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 主键

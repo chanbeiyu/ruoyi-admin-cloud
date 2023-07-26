@@ -21,6 +21,7 @@ import org.dromara.common.core.utils.*;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.social.utils.SocialUtils;
 import org.dromara.common.tenant.exception.TenantException;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteSocialService;
@@ -66,7 +67,7 @@ public class SysLoginService {
     public void socialRegister(AuthUser authUserData) {
         RemoteSocialBo bo = new RemoteSocialBo();
         bo.setUserId(LoginHelper.getUserId());
-        bo.setAuthId(authUserData.getSource() + authUserData.getUuid());
+        bo.setAuthId(SocialUtils.getAuthId(authUserData));
         bo.setOpenId(authUserData.getUuid());
         bo.setUserName(authUserData.getUsername());
         BeanUtils.copyProperties(authUserData, bo);

@@ -58,7 +58,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @param objs Object[]
      * @return true：为空 false：非空
      */
-    public static boolean isEmpty(Object... objs) {
+    public static boolean isAllEmpty(Object... objs) {
         if (objs != null) {
             for (Object obj : objs) {
                 if (obj != null && StrUtil.isNotEmpty((String) obj)) {
@@ -75,8 +75,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @param objs Object[]
      * @return true：非空串 false：空串
      */
-    public static boolean isNotEmpty(Object... objs) {
-        return !isEmpty(objs);
+    public static boolean isAllNotEmpty(Object... objs) {
+        return !isAllEmpty(objs);
     }
 
     /**

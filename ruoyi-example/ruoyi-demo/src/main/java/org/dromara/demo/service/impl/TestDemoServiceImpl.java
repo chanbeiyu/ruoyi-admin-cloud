@@ -63,7 +63,7 @@ public class TestDemoServiceImpl implements ITestDemoService {
         LambdaQueryWrapper<TestDemo> lqw = Wrappers.lambdaQuery();
         lqw.like(StringUtils.isNotBlank(bo.getTestKey()), TestDemo::getTestKey, bo.getTestKey());
         lqw.eq(StringUtils.isNotBlank(bo.getValue()), TestDemo::getValue, bo.getValue());
-        lqw.between(StringUtils.isNotEmpty(params.get("beginCreateTime"), params.get("endCreateTime")),
+        lqw.between(StringUtils.isAllNotEmpty(params.get("beginCreateTime"), params.get("endCreateTime")),
             TestDemo::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
         return lqw;
     }
