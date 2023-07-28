@@ -11,6 +11,7 @@ import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.ServletUtils;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
@@ -42,6 +43,23 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysPermissionService permissionService;
     private final ISysConfigService configService;
     private final SysUserMapper userMapper;
+
+    @Override
+    public LoginUser getUserInfoById(Long userId) throws UserException {
+        SysUser sysUser = userMapper.selectById(userId);
+        if (ObjectUtil.isNull(sysUser)) {
+            throw new UserException("user.not.exists", sysUser.getUserId());
+        }
+        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
+            throw new UserException("user.blocked", sysUser.getUserName());
+        }
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
+        if (TenantHelper.isEnable()) {
+            return buildLoginUser(userMapper.selectTenantUserByUserName(sysUser.getUserName(), sysUser.getTenantId()));
+        }
+        return buildLoginUser(userMapper.selectUserByUserName(sysUser.getUserName()));
+    }
 
     @Override
     public LoginUser getUserInfo(String username, String tenantId) throws UserException {
@@ -166,10 +184,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      * @param userId 用户ID
      */
     @Override
-    public void recordLoginInfo(Long userId) {
+    public void recordLoginInfo(Long userId, String clientIP) {
         SysUser sysUser = new SysUser();
         sysUser.setUserId(userId);
-        sysUser.setLoginIp(ServletUtils.getClientIP());
+        sysUser.setLoginIp(StringUtils.isEmpty(clientIP) ? ServletUtils.getClientIP() : clientIP);
         sysUser.setLoginDate(DateUtils.getNowDate());
         sysUser.setUpdateBy(userId);
         userMapper.updateById(sysUser);
