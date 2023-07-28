@@ -12,6 +12,8 @@ import org.dromara.system.api.model.XcxLoginUser;
  */
 public interface RemoteUserService {
 
+    LoginUser getUserInfoById(Long userId) throws UserException;
+
     /**
      * 通过用户名查询用户信息
      *
@@ -63,5 +65,5 @@ public interface RemoteUserService {
      */
     String selectUserNameById(Long userId);
 
-    void recordLoginInfo(Long userId);
+    void recordLoginInfo(Long userId, String clientIP);
 }
