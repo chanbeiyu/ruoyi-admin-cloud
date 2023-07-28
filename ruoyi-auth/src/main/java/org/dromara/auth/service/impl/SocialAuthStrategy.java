@@ -19,6 +19,7 @@ import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.domain.model.LoginBody;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.MessageUtils;
+import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.core.validate.auth.SocialGroup;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -68,7 +69,7 @@ public class SocialAuthStrategy implements IAuthStrategy {
             throw new ServiceException(response.getMsg());
         }
         AuthUser authUserData = response.getData();
-        RemoteSocialVo socialVo = remoteSocialService.selectByAuthId(authUserData.getSource() + authUserData.getUuid());
+        RemoteSocialVo socialVo = remoteSocialService.selectByAuthId(SocialUtils.getAuthId(authUserData));
         if (!ObjectUtil.isNotNull(socialVo)) {
             throw new ServiceException("你还没有绑定第三方账号，绑定后才可以登录！");
         }
@@ -79,7 +80,7 @@ public class SocialAuthStrategy implements IAuthStrategy {
             throw new ServiceException("对不起，你没有权限登录当前租户！");
         }
 
-        LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserName(), tenantId);
+        LoginUser loginUser = remoteUserService.getUserInfoById(socialVo.getUserId());
         SaLoginModel model = new SaLoginModel();
         model.setDevice(client.getDeviceType());
         // 自定义分配 不同用户体系 不同 token 授权时间 不设置默认走全局 yml 配置
@@ -90,7 +91,7 @@ public class SocialAuthStrategy implements IAuthStrategy {
         LoginHelper.login(loginUser, model);
 
         loginService.recordLogininfor(loginUser.getTenantId(), socialVo.getUserName(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(socialVo.getUserId());
+        remoteUserService.recordLoginInfo(socialVo.getUserId(), ServletUtils.getClientIP());
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());

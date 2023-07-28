@@ -17,6 +17,7 @@ import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.utils.MessageUtils;
+import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.core.validate.auth.PasswordGroup;
@@ -76,7 +77,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         LoginHelper.login(loginUser, model);
 
         loginService.recordLogininfor(loginUser.getTenantId(), username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        //remoteUserService.recordLoginInfo(loginUser.getUserId());
+        remoteUserService.recordLoginInfo(loginUser.getUserId(), ServletUtils.getClientIP());
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());
