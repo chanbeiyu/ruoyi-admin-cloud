@@ -20,6 +20,13 @@
 
     <dependencyManagement>
         <dependencies>
+             <!-- app 接口 -->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-api-app</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- 系统接口 -->
             <dependency>
                 <groupId>org.dromara</groupId>

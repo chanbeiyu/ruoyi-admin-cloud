@@ -475,6 +475,7 @@
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
         <module>ruoyi-example</module>
+        <module>ruoyi-biz</module>
     </modules>
     <packaging>pom</packaging>
 

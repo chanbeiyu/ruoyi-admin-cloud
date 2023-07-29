@@ -486,4 +486,9 @@ public class RedisUtils {
         RKeys rKeys = CLIENT.getKeys();
         return rKeys.countExists(key) > 0;
     }
+
+    public class i extends RedisUtils {
+
+    }
+
 }
