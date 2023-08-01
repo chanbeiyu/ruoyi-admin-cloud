@@ -11,9 +11,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ruoyi-biz-app</module>
         <module>ruoyi-biz-admin</module>
         <module>ruoyi-biz-common</module>
+        <module>ruoyi-biz-app</module>
+        <module>ruoyi-biz-member</module>
+        <module>ruoyi-biz-trade</module>
         <module>ruoyi-biz-social</module>
         <module>ruoyi-biz-thoughts</module>
     </modules>

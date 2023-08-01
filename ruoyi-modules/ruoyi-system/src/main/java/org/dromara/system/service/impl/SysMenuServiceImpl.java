@@ -116,7 +116,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         List<String> perms = baseMapper.selectMenuPermsByRoleId(roleId);
         Set<String> permsSet = new HashSet<>();
         for (String perm : perms) {
-            if (StringUtils.isAllNotEmpty(perm)) {
+            if (StringUtils.isNotEmpty(perm)) {
                 permsSet.addAll(StringUtils.splitList(perm.trim()));
             }
         }

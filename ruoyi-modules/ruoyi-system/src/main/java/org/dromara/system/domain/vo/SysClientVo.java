@@ -3,11 +3,9 @@ package org.dromara.system.domain.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;
-import io.github.linpeilie.annotations.AutoMappers;
 import lombok.Data;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
-import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.domain.SysClient;
 
 import java.io.Serial;
@@ -22,10 +20,7 @@ import java.util.List;
  */
 @Data
 @ExcelIgnoreUnannotated
-@AutoMappers({
-    @AutoMapper(target = SysClient.class),
-    @AutoMapper(target = RemoteClientVo.class)
-})
+@AutoMapper(target = SysClient.class)
 public class SysClientVo implements Serializable {
 
     @Serial
@@ -86,7 +81,7 @@ public class SysClientVo implements Serializable {
     /**
      * 状态（0正常 1停用）
      */
-    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
+    @ExcelProperty(value = "状态", index = 7, converter = ExcelDictConvert.class)
     @ExcelDictFormat(readConverterExp = "0=正常,1=停用")
     private String status;
 

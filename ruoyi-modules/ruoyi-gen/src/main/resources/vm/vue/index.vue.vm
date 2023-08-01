@@ -311,8 +311,6 @@
 <script setup name="${BusinessName}" lang="ts">
 import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from '@/api/${moduleName}/${businessName}';
 import { ${BusinessName}VO, ${BusinessName}Query, ${BusinessName}Form } from '@/api/${moduleName}/${businessName}/types';
-import { ComponentInternalInstance } from 'vue';
-import { ElForm } from 'element-plus';
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 #if(${dicts} != '')
@@ -331,12 +329,12 @@ const total = ref(0);
 #foreach ($column in $columns)
 #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
-const daterange${AttrName} = ref([]);
+const dateRange${AttrName} = ref<[DateModelType, DateModelType]>(['', '']);
 #end
 #end
 
-const queryFormRef = ref(ElForm);
-const ${businessName}FormRef = ref(ElForm);
+const queryFormRef = ref<ElFormInstance>();
+const ${businessName}FormRef = ref<ElFormInstance>();
 
 const dialog = reactive<DialogOption>({
   visible: false,
@@ -435,7 +433,7 @@ const cancelView = () => {
 /** 表单重置 */
 const reset = () => {
   form.value = {...initFormData};
-  ${businessName}FormRef.value.resetFields();
+  ${businessName}FormRef.value?.resetFields();
 }
 
 /** 搜索按钮操作 */

@@ -2,11 +2,8 @@ package org.dromara.auth.service.impl;
 
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.http.Method;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthResponse;
@@ -69,7 +66,7 @@ public class SocialAuthStrategy implements IAuthStrategy {
             throw new ServiceException(response.getMsg());
         }
         AuthUser authUserData = response.getData();
-        RemoteSocialVo socialVo = remoteSocialService.selectByAuthId(SocialUtils.getAuthId(authUserData));
+        RemoteSocialVo socialVo = remoteSocialService.selectByAuthId(authUserData.getSource() + authUserData.getUuid());
         if (!ObjectUtil.isNotNull(socialVo)) {
             throw new ServiceException("你还没有绑定第三方账号，绑定后才可以登录！");
         }
@@ -80,18 +77,19 @@ public class SocialAuthStrategy implements IAuthStrategy {
             throw new ServiceException("对不起，你没有权限登录当前租户！");
         }
 
-        LoginUser loginUser = remoteUserService.getUserInfoById(socialVo.getUserId());
+        LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserId(), tenantId);
         SaLoginModel model = new SaLoginModel();
         model.setDevice(client.getDeviceType());
         // 自定义分配 不同用户体系 不同 token 授权时间 不设置默认走全局 yml 配置
         // 例如: 后台用户30分钟过期 app用户1天过期
         model.setTimeout(client.getTimeout());
         model.setActiveTimeout(client.getActiveTimeout());
+        model.setExtra(LoginHelper.CLIENT_KEY, clientId);
         // 生成token
         LoginHelper.login(loginUser, model);
 
         loginService.recordLogininfor(loginUser.getTenantId(), socialVo.getUserName(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(socialVo.getUserId(), ServletUtils.getClientIP());
+        remoteUserService.recordLoginInfo(loginUser.getUserId(), ServletUtils.getClientIP());
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());

@@ -9,7 +9,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.common.core.exception.CaptchaException;
 import org.dromara.common.core.domain.model.LoginBody;
-import org.dromara.auth.properties.CaptchaProperties;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.constant.Constants;
@@ -73,6 +72,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         // 例如: 后台用户30分钟过期 app用户1天过期
         model.setTimeout(client.getTimeout());
         model.setActiveTimeout(client.getActiveTimeout());
+        model.setExtra(LoginHelper.CLIENT_KEY, clientId);
         // 生成token
         LoginHelper.login(loginUser, model);
 

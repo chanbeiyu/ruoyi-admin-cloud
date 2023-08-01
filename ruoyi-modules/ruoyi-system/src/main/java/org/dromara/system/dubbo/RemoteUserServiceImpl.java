@@ -10,8 +10,6 @@ import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.ServletUtils;
-import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
@@ -45,23 +43,6 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final SysUserMapper userMapper;
 
     @Override
-    public LoginUser getUserInfoById(Long userId) throws UserException {
-        SysUser sysUser = userMapper.selectById(userId);
-        if (ObjectUtil.isNull(sysUser)) {
-            throw new UserException("user.not.exists", sysUser.getUserId());
-        }
-        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
-            throw new UserException("user.blocked", sysUser.getUserName());
-        }
-        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
-        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        if (TenantHelper.isEnable()) {
-            return buildLoginUser(userMapper.selectTenantUserByUserName(sysUser.getUserName(), sysUser.getTenantId()));
-        }
-        return buildLoginUser(userMapper.selectUserByUserName(sysUser.getUserName()));
-    }
-
-    @Override
     public LoginUser getUserInfo(String username, String tenantId) throws UserException {
         SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getUserName, SysUser::getStatus)
@@ -79,6 +60,26 @@ public class RemoteUserServiceImpl implements RemoteUserService {
             return buildLoginUser(userMapper.selectTenantUserByUserName(username, tenantId));
         }
         return buildLoginUser(userMapper.selectUserByUserName(username));
+    }
+
+    @Override
+    public LoginUser getUserInfo(Long userId, String tenantId) throws UserException {
+        SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getUserName, SysUser::getStatus)
+            .eq(TenantHelper.isEnable(), SysUser::getTenantId, tenantId)
+            .eq(SysUser::getUserId, userId));
+        if (ObjectUtil.isNull(sysUser)) {
+            throw new UserException("user.not.exists", "");
+        }
+        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
+            throw new UserException("user.blocked", sysUser.getUserName());
+        }
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
+        if (TenantHelper.isEnable()) {
+            return buildLoginUser(userMapper.selectTenantUserByUserName(sysUser.getUserName(), tenantId));
+        }
+        return buildLoginUser(userMapper.selectUserByUserName(sysUser.getUserName()));
     }
 
     @Override
@@ -179,15 +180,16 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     /**
-     * 记录登录信息
+     * 更新用户信息
      *
      * @param userId 用户ID
+     * @param ip     IP地址
      */
     @Override
-    public void recordLoginInfo(Long userId, String clientIP) {
+    public void recordLoginInfo(Long userId, String ip) {
         SysUser sysUser = new SysUser();
         sysUser.setUserId(userId);
-        sysUser.setLoginIp(StringUtils.isEmpty(clientIP) ? ServletUtils.getClientIP() : clientIP);
+        sysUser.setLoginIp(ip);
         sysUser.setLoginDate(DateUtils.getNowDate());
         sysUser.setUpdateBy(userId);
         userMapper.updateById(sysUser);

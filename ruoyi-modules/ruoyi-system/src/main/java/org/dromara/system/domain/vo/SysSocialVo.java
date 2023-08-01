@@ -3,13 +3,12 @@ package org.dromara.system.domain.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;
-import io.github.linpeilie.annotations.AutoMappers;
 import lombok.Data;
-import org.dromara.system.api.domain.vo.RemoteSocialVo;
 import org.dromara.system.domain.SysSocial;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -19,10 +18,7 @@ import java.io.Serializable;
  */
 @Data
 @ExcelIgnoreUnannotated
-@AutoMappers({
-    @AutoMapper(target = SysSocial.class),
-    @AutoMapper(target = RemoteSocialVo.class)
-})
+@AutoMapper(target = SysSocial.class)
 public class SysSocialVo implements Serializable {
 
     @Serial
@@ -166,5 +162,9 @@ public class SysSocialVo implements Serializable {
     @ExcelProperty(value = "Twitter平台用户的附带属性，部分平台可能没有")
     private String oauthTokenSecret;
 
-
+    /**
+     * 显示绑定时间
+     */
+    @ExcelProperty(value = "绑定时间")
+    private Date createTime;
 }

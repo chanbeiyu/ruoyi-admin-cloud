@@ -9,7 +9,6 @@ import org.dromara.resource.domain.SysOss;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * OSS对象存储视图对象 sys_oss
