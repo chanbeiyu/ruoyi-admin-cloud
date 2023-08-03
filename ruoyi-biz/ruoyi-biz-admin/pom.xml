@@ -26,6 +26,16 @@
             <artifactId>ruoyi-biz-thoughts</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-biz-trade</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-biz-member</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>

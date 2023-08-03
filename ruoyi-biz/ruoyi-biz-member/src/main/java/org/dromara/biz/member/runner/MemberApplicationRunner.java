@@ -1,4 +1,4 @@
-package org.dromara.biz.admin.runner;
+package org.dromara.biz.member.runner;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AdminApplicationRunner implements ApplicationRunner {
+public class MemberApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("初始化 Admin 配置成功");
+        log.info("初始化 initAppMaping 配置成功");
     }
 
 }
