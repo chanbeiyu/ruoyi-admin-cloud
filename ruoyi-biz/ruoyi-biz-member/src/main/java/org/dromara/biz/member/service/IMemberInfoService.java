@@ -42,6 +42,8 @@ public interface IMemberInfoService {
      */
     Boolean updateByBo(MemberInfoBo bo);
 
+    int updateStatus(Long appId, String status);
+
     /**
      * 校验并批量删除成员信息信息
      */

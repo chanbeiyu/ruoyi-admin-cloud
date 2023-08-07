@@ -3,7 +3,6 @@ package org.dromara.biz.social.translation;
 import lombok.AllArgsConstructor;
 import org.dromara.biz.common.constant.RedisKey;
 import org.dromara.common.redis.utils.CacheUtils;
-import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.translation.annotation.TranslationType;
 import org.dromara.common.translation.core.TranslationInterface;
 import org.springframework.stereotype.Component;
@@ -30,15 +29,15 @@ public class SocialTranslation implements TranslationInterface<String> {
                 return CacheUtils.get(RedisKey.APP_ID_NAME, key);
                 //return remoteAppService.getAppById(Long.parseLong(key.toString())).getAppName();
             }
-            case Other.NOTICE -> {
+            case Other.SOCIAL_NOTICE -> {
                 return CacheUtils.get(RedisKey.SOCIAL_NOTICTYPE_ID_NAME, key);
                 //return socialNoticeTypeService.queryById(Long.parseLong(key.toString())).getNoticeTypeName();
             }
-            case Other.TAG -> {
+            case Other.SOCIAL_TAG -> {
                 return CacheUtils.get(RedisKey.SOCIAL_TAG_ID_NAME, key);
                 //return socialTagService.queryById(Long.parseLong(key.toString())).getTagName();
             }
-            case Other.SUBJECT -> {
+            case Other.SOCIAL_SUBJECT -> {
                 return CacheUtils.get(RedisKey.SOCIAL_SUBJECT_ID_NAME, key);
                 //return socialSubjectService.queryById(Long.parseLong(key.toString())).getSubjectName();
             }
@@ -50,9 +49,9 @@ public class SocialTranslation implements TranslationInterface<String> {
 
     public interface Other {
         String APP = "app";
-        String SUBJECT = "subject";
-        String NOTICE = "notice";
-        String TAG = "tag";
+        String SOCIAL_SUBJECT = "subject";
+        String SOCIAL_NOTICE = "notice";
+        String SOCIAL_TAG = "tag";
 
     }
 

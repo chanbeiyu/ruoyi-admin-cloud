@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.biz.member.domain.bo.MemberPointsBo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -88,6 +89,16 @@ public class MemberCoinsController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody MemberCoinsBo bo) {
         return toAjax(memberCoinsService.updateByBo(bo));
+    }
+
+    /**
+     * 状态修改
+     */
+    @SaCheckPermission("member:level:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/status")
+    public R<Void> changeStatus(@RequestBody MemberCoinsBo bo) {
+        return toAjax(memberCoinsService.updateStatus(bo.getId(), bo.getStatus()));
     }
 
     /**

@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.Date;
+
 /**
  * 会员积分记录业务对象 member_points_record
  *
@@ -27,9 +29,9 @@ public class MemberPointsRecordBo extends BaseEntity {
     private Long recordId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
 
     /**
@@ -63,6 +65,12 @@ public class MemberPointsRecordBo extends BaseEntity {
     private Long points;
 
     /**
+     * 过期时间
+     */
+    @NotNull(message = "过期时间不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Date expiredDate;
+
+    /**
      * 状态
      */
     @NotNull(message = "状态不能为空", groups = { AddGroup.class, EditGroup.class })
@@ -73,12 +81,5 @@ public class MemberPointsRecordBo extends BaseEntity {
      */
     @NotBlank(message = "获取积分说明不能为空", groups = { AddGroup.class, EditGroup.class })
     private String description;
-
-    /**
-     * 备注
-     */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String remark;
-
 
 }

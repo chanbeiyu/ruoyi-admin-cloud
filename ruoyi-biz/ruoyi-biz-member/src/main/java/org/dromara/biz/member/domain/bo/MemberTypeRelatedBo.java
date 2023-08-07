@@ -38,5 +38,4 @@ public class MemberTypeRelatedBo extends BaseEntity {
     @NotNull(message = "会员类别不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long memberTypeId;
 
-
 }

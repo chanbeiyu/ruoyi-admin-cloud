@@ -33,9 +33,9 @@ public class MemberInfoBo extends BaseEntity {
     private String unionId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
 
     /**
@@ -53,32 +53,21 @@ public class MemberInfoBo extends BaseEntity {
     /**
      * 头像
      */
-    @NotBlank(message = "头像不能为空", groups = { AddGroup.class, EditGroup.class })
     private String avatarImg;
 
     /**
      * 顶部背景图
      */
-    @NotBlank(message = "顶部背景图不能为空", groups = { AddGroup.class, EditGroup.class })
     private String bannerImg;
 
     /**
      * 个性签名
      */
-    @NotBlank(message = "个性签名不能为空", groups = { AddGroup.class, EditGroup.class })
     private String whatsup;
 
     /**
-     * 状态:0正常1锁定2注销
+     * 状态
      */
-    @NotNull(message = "状态:0正常1锁定2注销不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Integer status;
-
-    /**
-     * 备注
-     */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String remark;
-
+    private String status;
 
 }

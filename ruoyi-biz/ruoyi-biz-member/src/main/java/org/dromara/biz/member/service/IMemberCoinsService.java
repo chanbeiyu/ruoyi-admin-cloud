@@ -42,6 +42,8 @@ public interface IMemberCoinsService {
      */
     Boolean updateByBo(MemberCoinsBo bo);
 
+    int updateStatus(Long appId, Integer status);
+
     /**
      * 校验并批量删除代币信息信息
      */

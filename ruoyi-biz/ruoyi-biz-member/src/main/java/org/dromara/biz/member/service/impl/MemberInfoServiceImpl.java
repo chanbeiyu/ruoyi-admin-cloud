@@ -1,5 +1,6 @@
 package org.dromara.biz.member.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -18,6 +19,7 @@ import org.dromara.biz.member.service.IMemberInfoService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 成员信息Service业务层处理
@@ -62,8 +64,8 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<MemberInfo> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getUnionId()), MemberInfo::getUnionId, bo.getUnionId());
-        lqw.eq(bo.getAppId() != null, MemberInfo::getAppId, bo.getAppId());
-        lqw.eq(bo.getTypeId() != null, MemberInfo::getTypeId, bo.getTypeId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), MemberInfo::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getTypeId()), MemberInfo::getTypeId, bo.getTypeId());
         lqw.like(StringUtils.isNotBlank(bo.getNickName()), MemberInfo::getNickName, bo.getNickName());
         lqw.eq(bo.getStatus() != null, MemberInfo::getStatus, bo.getStatus());
         return lqw;
@@ -91,6 +93,19 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
         MemberInfo update = MapstructUtils.convert(bo, MemberInfo.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改状态
+     *
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long appId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<MemberInfo>()
+                .set(MemberInfo::getStatus, status)
+                .eq(MemberInfo::getMemberId, appId));
     }
 
     /**

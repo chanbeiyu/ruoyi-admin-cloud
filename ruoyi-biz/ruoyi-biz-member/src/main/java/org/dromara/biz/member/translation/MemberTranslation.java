@@ -1,4 +1,4 @@
-package org.dromara.biz.trade.translation;
+package org.dromara.biz.member.translation;
 
 import lombok.AllArgsConstructor;
 import org.dromara.biz.common.constant.RedisKey;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @AllArgsConstructor
-@TranslationType(type = TradeTranslation.key)
-public class TradeTranslation implements TranslationInterface<String> {
+@TranslationType(type = MemberTranslation.key)
+public class MemberTranslation implements TranslationInterface<String> {
 
-    public static final String key = "TRADE_ID_TO_NAME";
+    public static final String key = "MEMBER_ID_TO_NAME";
 
     //private RemoteAppService remoteAppService;
     //private ISocialSubjectService socialSubjectService;
@@ -27,6 +27,14 @@ public class TradeTranslation implements TranslationInterface<String> {
         switch (other) {
             case Other.APP -> {
                 return CacheUtils.get(RedisKey.APP_ID_NAME, key);
+                //return remoteAppService.getAppById(Long.parseLong(key.toString())).getAppName();
+            }
+            case Other.MEMBER_INFO -> {
+                return CacheUtils.get(RedisKey.MEMBER_INFO_ID_NAME, key);
+                //return remoteAppService.getAppById(Long.parseLong(key.toString())).getAppName();
+            }
+            case Other.MEMBER_TYPE -> {
+                return CacheUtils.get(RedisKey.MEMBER_TYPE_ID_NAME, key);
                 //return remoteAppService.getAppById(Long.parseLong(key.toString())).getAppName();
             }
             case Other.SOCIAL_NOTICE -> {
@@ -52,6 +60,9 @@ public class TradeTranslation implements TranslationInterface<String> {
         String SOCIAL_SUBJECT = "subject";
         String SOCIAL_NOTICE = "notice";
         String SOCIAL_TAG = "tag";
+
+        String MEMBER_INFO = "member_info";
+        String MEMBER_TYPE = "member_type";
 
     }
 

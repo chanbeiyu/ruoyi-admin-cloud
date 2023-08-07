@@ -28,7 +28,7 @@ public class SocialFavorite extends BaseEntity {
     private Long favoriteId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

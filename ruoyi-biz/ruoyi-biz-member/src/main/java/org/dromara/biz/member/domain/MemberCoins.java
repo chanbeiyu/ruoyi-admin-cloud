@@ -30,7 +30,7 @@ public class MemberCoins extends TenantEntity {
     private Long id;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -62,7 +62,7 @@ public class MemberCoins extends TenantEntity {
     /**
      * 状态
      */
-    private String status;
+    private Integer status;
 
     /**
      * 备注

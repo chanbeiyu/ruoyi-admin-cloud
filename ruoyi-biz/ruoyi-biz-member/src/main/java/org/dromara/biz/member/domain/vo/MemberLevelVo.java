@@ -3,15 +3,16 @@ package org.dromara.biz.member.domain.vo;
 import org.dromara.biz.member.domain.MemberLevel;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import org.dromara.biz.member.translation.MemberTranslation;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.common.translation.annotation.Translation;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-
 
 
 /**
@@ -35,16 +36,27 @@ public class MemberLevelVo implements Serializable {
     private Long levelId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @ExcelProperty(value = "接入App标识")
+    @ExcelProperty(value = "应用名称")
     private Long appId;
+
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = MemberTranslation.key, mapper = "appId", other = MemberTranslation.Other.APP)
+    private String appName;
 
     /**
      * 会员类别
      */
     @ExcelProperty(value = "会员类别")
     private Long memberTypeId;
+
+    /**
+     * 会员类别名称
+     */
+    @ExcelProperty(value = "会员类别")
+    @Translation(type = MemberTranslation.key, mapper = "memberTypeId", other = MemberTranslation.Other.MEMBER_TYPE)
+    private String memberTypeName;
 
     /**
      * 级别编码
@@ -81,12 +93,5 @@ public class MemberLevelVo implements Serializable {
      */
     @ExcelProperty(value = "级别说明")
     private String description;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
 
 }

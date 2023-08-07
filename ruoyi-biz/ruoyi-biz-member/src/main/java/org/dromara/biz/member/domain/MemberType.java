@@ -28,7 +28,7 @@ public class MemberType extends TenantEntity {
     private Long typeId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -43,24 +43,14 @@ public class MemberType extends TenantEntity {
     private String typeName;
 
     /**
-     * 级别编码
-     */
-    private String pointsCode;
-
-    /**
-     * 级别名称
-     */
-    private String pointsName;
-
-    /**
      * 最大积分
      */
     private Long maxPoints;
 
     /**
-     * 默认类型
+     * 最大级别
      */
-    private String isDefault;
+    private Integer maxLevel;
 
     /**
      * 会员类型说明

@@ -1,5 +1,9 @@
 package org.dromara.biz.member.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import org.dromara.biz.common.constant.RedisKey;
+import org.dromara.biz.member.domain.MemberCoins;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -8,6 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.dromara.common.redis.utils.CacheUtils;
 import org.springframework.stereotype.Service;
 import org.dromara.biz.member.domain.bo.MemberTypeBo;
 import org.dromara.biz.member.domain.vo.MemberTypeVo;
@@ -35,7 +40,7 @@ public class MemberTypeServiceImpl implements IMemberTypeService {
      * 查询会员类型信息
      */
     @Override
-    public MemberTypeVo queryById(Long typeId){
+    public MemberTypeVo queryById(Long typeId) {
         return baseMapper.selectVoById(typeId);
     }
 
@@ -62,11 +67,9 @@ public class MemberTypeServiceImpl implements IMemberTypeService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<MemberType> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getAppId() != null, MemberType::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), MemberType::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getTypeCode()), MemberType::getTypeCode, bo.getTypeCode());
         lqw.like(StringUtils.isNotBlank(bo.getTypeName()), MemberType::getTypeName, bo.getTypeName());
-        lqw.like(StringUtils.isNotBlank(bo.getPointsCode()), MemberType::getPointsCode, bo.getPointsCode());
-        lqw.like(StringUtils.isNotBlank(bo.getPointsName()), MemberType::getPointsName, bo.getPointsName());
-        lqw.eq(StringUtils.isNotBlank(bo.getIsDefault()), MemberType::getIsDefault, bo.getIsDefault());
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), MemberType::getStatus, bo.getStatus());
         return lqw;
     }
@@ -81,6 +84,8 @@ public class MemberTypeServiceImpl implements IMemberTypeService {
         boolean flag = baseMapper.insert(add) > 0;
         if (flag) {
             bo.setTypeId(add.getTypeId());
+            CacheUtils.put(RedisKey.MEMBER_TYPE_ID_NAME, bo.getTypeId(), bo.getTypeName());
+            CacheUtils.put(RedisKey.MEMBER_TYPE_CODE_NAME, bo.getTypeCode(), bo.getTypeName());
         }
         return flag;
     }
@@ -92,13 +97,31 @@ public class MemberTypeServiceImpl implements IMemberTypeService {
     public Boolean updateByBo(MemberTypeBo bo) {
         MemberType update = MapstructUtils.convert(bo, MemberType.class);
         validEntityBeforeSave(update);
-        return baseMapper.updateById(update) > 0;
+        boolean bool = baseMapper.updateById(update) > 0;
+        if (bool) {
+            CacheUtils.put(RedisKey.MEMBER_TYPE_ID_NAME, bo.getTypeId(), bo.getTypeName());
+            CacheUtils.put(RedisKey.MEMBER_TYPE_CODE_NAME, bo.getTypeCode(), bo.getTypeName());
+        }
+        return bool;
+    }
+
+    /**
+     * 修改状态
+     *
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long appId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<MemberType>()
+                .set(MemberType::getStatus, status)
+                .eq(MemberType::getTypeId, appId));
     }
 
     /**
      * 保存前的数据校验
      */
-    private void validEntityBeforeSave(MemberType entity){
+    private void validEntityBeforeSave(MemberType entity) {
         //TODO 做一些数据校验,如唯一约束
     }
 
@@ -107,9 +130,17 @@ public class MemberTypeServiceImpl implements IMemberTypeService {
      */
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
-        if(isValid){
+        if (isValid) {
             //TODO 做一些业务上的校验,判断是否需要校验
         }
-        return baseMapper.deleteBatchIds(ids) > 0;
+        List<MemberType> memberTypes = baseMapper.selectList();
+        boolean bool = baseMapper.deleteBatchIds(ids) > 0;
+        if (bool) {
+            memberTypes.forEach(bo -> {
+                CacheUtils.put(RedisKey.MEMBER_TYPE_ID_NAME, bo.getTypeId(), bo.getTypeName());
+                CacheUtils.put(RedisKey.MEMBER_TYPE_CODE_NAME, bo.getTypeCode(), bo.getTypeName());
+            });
+        }
+        return bool;
     }
 }

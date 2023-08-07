@@ -46,5 +46,4 @@ public class MemberTypeRelatedVo implements Serializable {
     @ExcelProperty(value = "会员类别")
     private Long memberTypeId;
 
-
 }

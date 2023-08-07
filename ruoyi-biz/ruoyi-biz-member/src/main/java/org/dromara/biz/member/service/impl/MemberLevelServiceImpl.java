@@ -1,5 +1,8 @@
 package org.dromara.biz.member.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import org.dromara.biz.member.domain.vo.MemberTypeVo;
+import org.dromara.biz.member.service.IMemberTypeService;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -18,6 +21,7 @@ import org.dromara.biz.member.service.IMemberLevelService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 会员级别信息Service业务层处理
@@ -30,6 +34,7 @@ import java.util.Collection;
 public class MemberLevelServiceImpl implements IMemberLevelService {
 
     private final MemberLevelMapper baseMapper;
+    private final IMemberTypeService memberTypeService;
 
     /**
      * 查询会员级别信息
@@ -61,8 +66,8 @@ public class MemberLevelServiceImpl implements IMemberLevelService {
     private LambdaQueryWrapper<MemberLevel> buildQueryWrapper(MemberLevelBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<MemberLevel> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getAppId() != null, MemberLevel::getAppId, bo.getAppId());
-        lqw.eq(bo.getMemberTypeId() != null, MemberLevel::getMemberTypeId, bo.getMemberTypeId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), MemberLevel::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getMemberTypeId()), MemberLevel::getMemberTypeId, bo.getMemberTypeId());
         lqw.like(StringUtils.isNotBlank(bo.getLevelCode()), MemberLevel::getLevelCode, bo.getLevelCode());
         lqw.like(StringUtils.isNotBlank(bo.getLevelName()), MemberLevel::getLevelName, bo.getLevelName());
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), MemberLevel::getStatus, bo.getStatus());
@@ -75,6 +80,9 @@ public class MemberLevelServiceImpl implements IMemberLevelService {
     @Override
     public Boolean insertByBo(MemberLevelBo bo) {
         MemberLevel add = MapstructUtils.convert(bo, MemberLevel.class);
+        MemberTypeVo memberTypeVo = memberTypeService.queryById(bo.getMemberTypeId());
+        add.setAppId(memberTypeVo.getAppId());
+
         validEntityBeforeSave(add);
         boolean flag = baseMapper.insert(add) > 0;
         if (flag) {
@@ -91,6 +99,19 @@ public class MemberLevelServiceImpl implements IMemberLevelService {
         MemberLevel update = MapstructUtils.convert(bo, MemberLevel.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改状态
+     *
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long appId, String status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<MemberLevel>()
+                .set(MemberLevel::getStatus, status)
+                .eq(MemberLevel::getLevelId, appId));
     }
 
     /**

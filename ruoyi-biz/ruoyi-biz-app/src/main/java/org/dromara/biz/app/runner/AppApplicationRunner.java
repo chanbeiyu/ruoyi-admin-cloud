@@ -26,11 +26,11 @@ public class AppApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        initAppMaping();
-        log.info("初始化 initAppMaping 配置成功");
+        initAppMapping();
+        log.info("初始化 initAppMapping 配置成功");
     }
 
-    private void initAppMaping() {
+    private void initAppMapping() {
         List<AppInfo> appInfos = appInfoMapper.selectList();
         appInfos.forEach(o -> {
             CacheUtils.put(RedisKey.APP_ID_NAME, o.getAppId(), o.getAppName());

@@ -28,7 +28,7 @@ public class SocialLike extends BaseEntity {
     private Long likeId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

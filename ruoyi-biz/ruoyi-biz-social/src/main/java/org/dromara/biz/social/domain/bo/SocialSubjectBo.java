@@ -29,9 +29,9 @@ public class SocialSubjectBo extends BaseEntity {
     private Long subjectId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
     private List<Long> appIds;
 

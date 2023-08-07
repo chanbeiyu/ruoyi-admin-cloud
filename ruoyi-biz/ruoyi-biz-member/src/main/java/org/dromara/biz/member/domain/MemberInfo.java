@@ -33,7 +33,7 @@ public class MemberInfo extends TenantEntity {
     private String unionId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -63,9 +63,9 @@ public class MemberInfo extends TenantEntity {
     private String whatsup;
 
     /**
-     * 状态:0正常1锁定2注销
+     * 状态
      */
-    private Integer status;
+    private String status;
 
     /**
      * 备注

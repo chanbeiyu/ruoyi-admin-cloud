@@ -20,6 +20,7 @@ import ${packageName}.service.I${ClassName}Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * ${functionName}Service业务层处理
@@ -77,11 +78,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
 #if($javaType == 'String')
 #set($condition='StringUtils.isNotBlank(bo.get'+$AttrName+'())')
 #else
-#set($condition='bo.get'+$AttrName+'() != null')
+#set($condition='Objects.nonNull(bo.get'+$AttrName+'())')
 #end
         lqw.$mpMethod($condition, ${ClassName}::get$AttrName, bo.get$AttrName());
 #else
-        lqw.between(params.get("begin$AttrName") != null && params.get("end$AttrName") != null,
+        lqw.between(StringUtils.isAllNotEmpty(params.get("begin$AttrName"), params.get("end$AttrName")),
             ${ClassName}::get$AttrName ,params.get("begin$AttrName"), params.get("end$AttrName"));
 #end
 #end

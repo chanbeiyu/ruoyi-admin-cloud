@@ -170,7 +170,7 @@ DROP TABLE IF EXISTS `member_action`;
 CREATE TABLE `member_action` (
   `action_id` bigint NOT NULL COMMENT '积分id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '会员id',
   `member_type_id` bigint NOT NULL COMMENT '会员类别',
   `action_code` varchar(32) NOT NULL COMMENT '动作编号',
@@ -208,7 +208,7 @@ DROP TABLE IF EXISTS `member_coins`;
 CREATE TABLE `member_coins` (
   `id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '成员id',
   `coins_type` tinyint NOT NULL DEFAULT '0' COMMENT '代币信息0点数1时常2天数',
   `last_coins` int NOT NULL COMMENT '剩余点数/时常/天数',
@@ -244,7 +244,7 @@ DROP TABLE IF EXISTS `member_coins_record`;
 CREATE TABLE `member_coins_record` (
   `record_id` bigint NOT NULL COMMENT '级别id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '成员id',
   `coins_type` tinyint NOT NULL DEFAULT '0' COMMENT '代币类型0点数1时常2天数',
   `action_code` varchar(32) NOT NULL COMMENT '动作类型',
@@ -285,7 +285,7 @@ CREATE TABLE `member_info` (
   `member_id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
   `union_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '关联用户标识',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `type_id` bigint NOT NULL COMMENT '成员类型',
   `nick_name` varchar(32) DEFAULT NULL COMMENT '昵称',
   `avatar_img` varchar(256) DEFAULT NULL COMMENT '头像',
@@ -321,7 +321,7 @@ DROP TABLE IF EXISTS `member_level`;
 CREATE TABLE `member_level` (
   `level_id` bigint NOT NULL COMMENT '级别id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_type_id` bigint NOT NULL COMMENT '会员类别',
   `level_code` varchar(32) NOT NULL COMMENT '级别编码',
   `level_name` varchar(32) NOT NULL COMMENT '级别名称',
@@ -358,7 +358,7 @@ DROP TABLE IF EXISTS `member_points`;
 CREATE TABLE `member_points` (
   `id` bigint NOT NULL COMMENT '积分id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '成员id',
   `member_type_id` bigint NOT NULL COMMENT '会员类别',
   `total_points` int NOT NULL DEFAULT '0' COMMENT '总积分',
@@ -395,7 +395,7 @@ DROP TABLE IF EXISTS `member_points_record`;
 CREATE TABLE `member_points_record` (
   `record_id` bigint NOT NULL COMMENT '积分id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '成员id',
   `member_type_id` bigint NOT NULL COMMENT '会员类别',
   `action_code` varchar(32) NOT NULL COMMENT '操作类型',
@@ -432,7 +432,7 @@ DROP TABLE IF EXISTS `member_type`;
 CREATE TABLE `member_type` (
   `type_id` bigint NOT NULL COMMENT '级别id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `type_code` varchar(32) NOT NULL COMMENT '会员类型编码',
   `type_name` varchar(32) NOT NULL COMMENT '会员类型名称',
   `points_code` varchar(32) NOT NULL COMMENT '级别编码',
@@ -496,7 +496,7 @@ CREATE TABLE `social_comment` (
   `comment_id` bigint NOT NULL COMMENT '评论id',
   `comment_pid` bigint NOT NULL DEFAULT '0' COMMENT '父评论(回复)id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '评论用户id',
   `to_member_id` bigint NOT NULL COMMENT '被评论用户id',
   `subject_id` bigint NOT NULL COMMENT '对应主题',
@@ -540,7 +540,7 @@ DROP TABLE IF EXISTS `social_favorite`;
 CREATE TABLE `social_favorite` (
   `favorite_id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '收藏用户id',
   `to_member_id` bigint NOT NULL COMMENT '被收藏用户id',
   `subject_id` bigint NOT NULL COMMENT '对应主题',
@@ -577,7 +577,7 @@ DROP TABLE IF EXISTS `social_follow`;
 CREATE TABLE `social_follow` (
   `follow_id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '用户id',
   `to_member_id` bigint NOT NULL COMMENT '关注用户id',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '关注状态0关注1互相关注2取消关注',
@@ -612,7 +612,7 @@ DROP TABLE IF EXISTS `social_like`;
 CREATE TABLE `social_like` (
   `like_id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '点赞用户id',
   `to_member_id` bigint NOT NULL COMMENT '被点赞用户id',
   `subject_id` bigint NOT NULL COMMENT '对应主题',
@@ -649,7 +649,7 @@ DROP TABLE IF EXISTS `social_notice`;
 CREATE TABLE `social_notice` (
   `notice_id` bigint NOT NULL COMMENT '消息ID',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `member_id` bigint NOT NULL COMMENT '用户id',
   `trigger_member_id` bigint NOT NULL COMMENT '触发通知用户id',
   `trigger_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '触发通知内容id',
@@ -687,7 +687,7 @@ DROP TABLE IF EXISTS `social_notice_type`;
 CREATE TABLE `social_notice_type` (
   `notice_type_id` bigint NOT NULL COMMENT '通知类型id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `notice_type_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '通知类型编码',
   `notice_type_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '通知类型名称',
   `status` char(1) NOT NULL DEFAULT 'Y' COMMENT '状态',
@@ -722,7 +722,7 @@ DROP TABLE IF EXISTS `social_subject`;
 CREATE TABLE `social_subject` (
   `subject_id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `subject_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主题编码',
   `subject_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主题名称',
   `status` char(1) NOT NULL DEFAULT 'Y' COMMENT '状态',
@@ -757,7 +757,7 @@ DROP TABLE IF EXISTS `social_tag`;
 CREATE TABLE `social_tag` (
   `tag_id` bigint NOT NULL COMMENT '标签id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `subject_id` bigint NOT NULL COMMENT '所属主题',
   `tag_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标签编码',
   `tag_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标签名称',
@@ -896,7 +896,7 @@ DROP TABLE IF EXISTS `thot_channel`;
 CREATE TABLE `thot_channel` (
   `channel_id` bigint NOT NULL COMMENT '主键id',
   `tenant_id` varchar(32) NOT NULL COMMENT '租户id',
-  `app_id` bigint NOT NULL COMMENT '接入App标识',
+  `app_id` bigint NOT NULL COMMENT '应用名称',
   `channel_code` varchar(32) NOT NULL COMMENT '频道编码',
   `channel_name` varchar(32) NOT NULL COMMENT '频道名称',
   `status` char(1) NOT NULL DEFAULT 'Y' COMMENT '状态',

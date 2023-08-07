@@ -28,7 +28,7 @@ public class MemberLevel extends TenantEntity {
     private Long levelId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

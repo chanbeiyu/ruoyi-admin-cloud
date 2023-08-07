@@ -30,7 +30,7 @@ public class MemberPoints extends TenantEntity {
     private Long id;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -55,14 +55,9 @@ public class MemberPoints extends TenantEntity {
     private Long lastLevel;
 
     /**
-     * 过期时间
-     */
-    private Date expiredDate;
-
-    /**
      * 状态
      */
-    private Long status;
+    private Integer status;
 
     /**
      * 获取积分说明

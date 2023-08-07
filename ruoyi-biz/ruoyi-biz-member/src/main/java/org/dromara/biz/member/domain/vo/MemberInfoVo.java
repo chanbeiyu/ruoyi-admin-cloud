@@ -3,10 +3,12 @@ package org.dromara.biz.member.domain.vo;
 import org.dromara.biz.member.domain.MemberInfo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import org.dromara.biz.member.translation.MemberTranslation;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.common.translation.annotation.Translation;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -41,10 +43,14 @@ public class MemberInfoVo implements Serializable {
     private String unionId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @ExcelProperty(value = "接入App标识")
+    @ExcelProperty(value = "应用名称")
     private Long appId;
+
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = MemberTranslation.key, mapper = "appId", other = MemberTranslation.Other.APP)
+    private String appName;
 
     /**
      * 成员类型
@@ -79,14 +85,7 @@ public class MemberInfoVo implements Serializable {
     /**
      * 状态:0正常1锁定2注销
      */
-    @ExcelProperty(value = "状态:0正常1锁定2注销")
-    private Integer status;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
+    @ExcelProperty(value = "状态")
+    private String status;
 
 }

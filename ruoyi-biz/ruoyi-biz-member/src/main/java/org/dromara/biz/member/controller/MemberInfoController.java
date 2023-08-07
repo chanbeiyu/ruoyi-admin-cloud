@@ -64,7 +64,7 @@ public class MemberInfoController extends BaseController {
     @SaCheckPermission("member:info:query")
     @GetMapping("/{memberId}")
     public R<MemberInfoVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long memberId) {
+                                   @PathVariable Long memberId) {
         return R.ok(memberInfoService.queryById(memberId));
     }
 
@@ -88,6 +88,16 @@ public class MemberInfoController extends BaseController {
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody MemberInfoBo bo) {
         return toAjax(memberInfoService.updateByBo(bo));
+    }
+
+    /**
+     * 状态修改
+     */
+    @SaCheckPermission("member:info:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/status")
+    public R<Void> changeStatus(@RequestBody MemberInfoBo bo) {
+        return toAjax(memberInfoService.updateStatus(bo.getMemberId(), bo.getStatus()));
     }
 
     /**

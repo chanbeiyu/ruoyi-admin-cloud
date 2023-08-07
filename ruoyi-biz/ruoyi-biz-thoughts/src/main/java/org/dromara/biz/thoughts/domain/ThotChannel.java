@@ -28,7 +28,7 @@ public class ThotChannel extends TenantEntity {
     private Long channelId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

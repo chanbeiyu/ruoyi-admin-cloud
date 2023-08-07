@@ -36,7 +36,7 @@ public class SocialFollowVo implements Serializable {
     private Long followId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private String appId;
 

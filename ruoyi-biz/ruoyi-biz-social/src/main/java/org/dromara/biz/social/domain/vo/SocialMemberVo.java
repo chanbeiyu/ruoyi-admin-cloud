@@ -41,7 +41,7 @@ public class SocialMemberVo implements Serializable {
     private String unionId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private String appId;
 

@@ -29,7 +29,7 @@ public class SocialFollow extends BaseEntity {
     private Long followId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

@@ -41,7 +41,7 @@ public class SocialCommentVo implements Serializable {
     private Long commentPid;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private String appId;
 

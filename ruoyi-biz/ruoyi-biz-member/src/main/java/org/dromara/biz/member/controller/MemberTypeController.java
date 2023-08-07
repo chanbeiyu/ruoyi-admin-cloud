@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import org.dromara.biz.member.domain.bo.MemberInfoBo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -64,7 +65,7 @@ public class MemberTypeController extends BaseController {
     @SaCheckPermission("member:type:query")
     @GetMapping("/{typeId}")
     public R<MemberTypeVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long typeId) {
+                                   @PathVariable Long typeId) {
         return R.ok(memberTypeService.queryById(typeId));
     }
 
@@ -91,6 +92,16 @@ public class MemberTypeController extends BaseController {
     }
 
     /**
+     * 状态修改
+     */
+    @SaCheckPermission("member:type:edit")
+    @Log(title = "状态变更", businessType = BusinessType.UPDATE)
+    @PutMapping("/status")
+    public R<Void> changeStatus(@RequestBody MemberTypeBo bo) {
+        return toAjax(memberTypeService.updateStatus(bo.getTypeId(), bo.getStatus()));
+    }
+
+    /**
      * 删除会员类型信息
      *
      * @param typeIds 主键串
@@ -98,8 +109,7 @@ public class MemberTypeController extends BaseController {
     @SaCheckPermission("member:type:remove")
     @Log(title = "会员类型信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{typeIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] typeIds) {
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] typeIds) {
         return toAjax(memberTypeService.deleteWithValidByIds(List.of(typeIds), true));
     }
 }

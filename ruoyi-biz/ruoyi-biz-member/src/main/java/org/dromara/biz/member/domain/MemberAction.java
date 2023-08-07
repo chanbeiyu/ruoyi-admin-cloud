@@ -28,7 +28,7 @@ public class MemberAction extends TenantEntity {
     private Long actionId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -76,6 +76,5 @@ public class MemberAction extends TenantEntity {
      * 备注
      */
     private String remark;
-
 
 }

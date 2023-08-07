@@ -35,9 +35,9 @@ public class MemberPointsRecordVo implements Serializable {
     private Long recordId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @ExcelProperty(value = "接入App标识")
+    @ExcelProperty(value = "应用名称")
     private Long appId;
 
     /**
@@ -71,6 +71,12 @@ public class MemberPointsRecordVo implements Serializable {
     private Long points;
 
     /**
+     * 过期时间
+     */
+    @ExcelProperty(value = "过期时间")
+    private Date expiredDate;
+
+    /**
      * 状态
      */
     @ExcelProperty(value = "状态")
@@ -81,12 +87,5 @@ public class MemberPointsRecordVo implements Serializable {
      */
     @ExcelProperty(value = "获取积分说明")
     private String description;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
 
 }

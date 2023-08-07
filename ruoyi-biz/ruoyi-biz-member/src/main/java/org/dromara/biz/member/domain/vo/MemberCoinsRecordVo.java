@@ -37,9 +37,9 @@ public class MemberCoinsRecordVo implements Serializable {
     private Long recordId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @ExcelProperty(value = "接入App标识")
+    @ExcelProperty(value = "应用名称")
     private Long appId;
 
     /**
@@ -101,12 +101,5 @@ public class MemberCoinsRecordVo implements Serializable {
      */
     @ExcelProperty(value = "创建时间")
     private Date createTime;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
 
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
+import java.util.Date;
 
 /**
  * 会员积分记录对象 member_points_record
@@ -28,7 +29,7 @@ public class MemberPointsRecord extends TenantEntity {
     private Long recordId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -56,6 +57,11 @@ public class MemberPointsRecord extends TenantEntity {
      * 获取积分
      */
     private Long points;
+
+    /**
+     * 过期时间
+     */
+    private Date expiredDate;
 
     /**
      * 状态

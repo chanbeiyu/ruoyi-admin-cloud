@@ -52,7 +52,7 @@ public class SocialTagBo extends BaseEntity {
     private String status;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     @NotBlank(message = "App标识不能为空", groups = { AddGroup.class, EditGroup.class })
     private String appId;

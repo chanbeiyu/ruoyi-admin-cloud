@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 会员类型信息业务对象 member_type
  *
@@ -27,10 +29,11 @@ public class MemberTypeBo extends BaseEntity {
     private Long typeId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 会员类型编码
@@ -45,28 +48,16 @@ public class MemberTypeBo extends BaseEntity {
     private String typeName;
 
     /**
-     * 级别编码
-     */
-    @NotBlank(message = "级别编码不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String pointsCode;
-
-    /**
-     * 级别名称
-     */
-    @NotBlank(message = "级别名称不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String pointsName;
-
-    /**
      * 最大积分
      */
     @NotNull(message = "最大积分不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long maxPoints;
 
     /**
-     * 默认类型
+     * 最大积分
      */
-    @NotBlank(message = "默认类型不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String isDefault;
+    @NotNull(message = "最大级别不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Integer maxLevel;
 
     /**
      * 会员类型说明
@@ -77,14 +68,6 @@ public class MemberTypeBo extends BaseEntity {
     /**
      * 状态
      */
-    @NotBlank(message = "状态不能为空", groups = { AddGroup.class, EditGroup.class })
     private String status;
-
-    /**
-     * 备注
-     */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String remark;
-
 
 }

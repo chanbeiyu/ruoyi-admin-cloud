@@ -54,7 +54,7 @@ public class SocialTagVo implements Serializable {
     private String tagType;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
@@ -69,7 +69,7 @@ public class SocialTagVo implements Serializable {
     private Long subjectId;
 
     @ExcelProperty(value = "所属主题")
-    @Translation(type = SocialTranslation.key, mapper = "subjectId", other = SocialTranslation.Other.SUBJECT)
+    @Translation(type = SocialTranslation.key, mapper = "subjectId", other = SocialTranslation.Other.SOCIAL_SUBJECT)
     private String subjectName;
 
     /**

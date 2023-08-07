@@ -42,6 +42,8 @@ public interface IMemberLevelService {
      */
     Boolean updateByBo(MemberLevelBo bo);
 
+    int updateStatus(Long appId, String status);
+
     /**
      * 校验并批量删除会员级别信息信息
      */

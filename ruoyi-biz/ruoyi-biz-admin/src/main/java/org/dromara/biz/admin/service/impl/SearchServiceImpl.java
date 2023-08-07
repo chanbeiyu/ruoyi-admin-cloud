@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.dromara.biz.admin.domain.search.SearchVo;
 import org.dromara.biz.admin.service.ISearchService;
 import org.dromara.biz.app.domain.AppInfo;
+import org.dromara.biz.member.domain.MemberInfo;
+import org.dromara.biz.member.domain.MemberType;
+import org.dromara.biz.member.mapper.MemberInfoMapper;
+import org.dromara.biz.member.mapper.MemberTypeMapper;
 import org.dromara.biz.social.domain.SocialSubject;
 import org.dromara.biz.thoughts.domain.ThotStyle;
 import org.dromara.biz.thoughts.domain.ThotThought;
@@ -33,8 +37,11 @@ public class SearchServiceImpl implements ISearchService {
 
     private final AppInfoMapper appInfoMapper;
     private final ThotThoughtMapper thotThoughtMapper;
-    private final SocialSubjectMapper socialSubjectMapper;
     private final ThotStyleMapper thotStyleMapper;
+    private final SocialSubjectMapper socialSubjectMapper;
+
+    private final MemberInfoMapper memberInfoMapper;
+    private final MemberTypeMapper memberTypeMapper;
 
     @Override
     public TableDataInfo<SearchVo> searchAppList(String query, Long appId) {
@@ -46,8 +53,7 @@ public class SearchServiceImpl implements ISearchService {
         List<SearchVo> thoughts = searchThought(query, appId);
         if (cascade) {
             List<SearchVo> apps = searchApp(null, appId);
-            Map<Long, List<SearchVo>> thoughtMap = thoughts
-                .stream().
+            Map<Long, List<SearchVo>> thoughtMap = thoughts.stream().
                 collect(Collectors.groupingBy(SearchVo::getParentValue));
             apps.forEach(app -> {
                 app.setChildren(thoughtMap.get(app.getValue()));
@@ -62,8 +68,7 @@ public class SearchServiceImpl implements ISearchService {
         List<SearchVo> subjects = searchSubject(query, appId);
         if (cascade) {
             List<SearchVo> apps = searchApp(null, appId);
-            Map<Long, List<SearchVo>> subjectMap = subjects
-                .stream().
+            Map<Long, List<SearchVo>> subjectMap = subjects.stream().
                 collect(Collectors.groupingBy(SearchVo::getParentValue));
             apps.forEach(app -> {
                 app.setChildren(subjectMap.get(app.getValue()));
@@ -78,14 +83,43 @@ public class SearchServiceImpl implements ISearchService {
         List<SearchVo> thotStyles = searchThotStyle(query, appId);
         if (cascade) {
             List<SearchVo> apps = searchApp(null, appId);
-            Map<Long, List<SearchVo>> thotStyleMap = thotStyles
-                .stream().
+            Map<Long, List<SearchVo>> thotStyleMap = thotStyles.stream().
                 collect(Collectors.groupingBy(SearchVo::getParentValue));
             apps.forEach(app -> {
                 app.setChildren(thotStyleMap.get(app.getValue()));
             });
         }
         return TableDataInfo.build(thotStyles);
+    }
+
+    @Override
+    public TableDataInfo<SearchVo> searchMemberInfo(String query, Long appId, boolean cascade) {
+        List<SearchVo> memberInfos = searchMemberInfo(query, appId);
+        if (cascade) {
+            List<SearchVo> apps = searchApp(null, appId);
+            Map<Long, List<SearchVo>> memberInfoMap = memberInfos.stream().
+                collect(Collectors.groupingBy(SearchVo::getParentValue));
+            apps.forEach(app -> {
+                app.setChildren(memberInfoMap.get(app.getValue()));
+            });
+            return TableDataInfo.build(apps);
+        }
+        return TableDataInfo.build(memberInfos);
+    }
+
+    @Override
+    public TableDataInfo<SearchVo> searchMemberType(String query, Long appId, boolean cascade) {
+        List<SearchVo> memberTypes = searchMemberType(query, appId);
+        if (cascade) {
+            List<SearchVo> apps = searchApp(null, appId);
+            Map<Long, List<SearchVo>> memberTypeMap = memberTypes.stream().
+                collect(Collectors.groupingBy(SearchVo::getParentValue));
+            apps.forEach(app -> {
+                app.setChildren(memberTypeMap.get(app.getValue()));
+            });
+            return TableDataInfo.build(apps);
+        }
+        return TableDataInfo.build(memberTypes);
     }
 
     private SearchVo searchApp(Long appId) {
@@ -177,6 +211,44 @@ public class SearchServiceImpl implements ISearchService {
             .code(thotStyle.getStyleCode())
             .label(thotStyle.getStyleName())
             .parentValue(thotStyle.getAppId())
+            .build());
+    }
+
+    private List<SearchVo> searchMemberType(String query, Long appId) {
+
+        LambdaQueryWrapper<MemberType> lqw = Wrappers.lambdaQuery();
+        lqw.eq(appId != null, MemberType::getAppId, appId);
+
+        if (StringUtils.isNotBlank(query)) {
+            lqw.and(i -> i.like(MemberType::getTypeId, query)
+                .or().like(MemberType::getTypeCode, query)
+                .or().like(MemberType::getTypeName, query));
+        }
+
+        return memberTypeMapper.selectVoList(lqw, memberType -> SearchVo.builder()
+            .value(memberType.getTypeId())
+            .code(memberType.getTypeCode())
+            .label(memberType.getTypeName())
+            .parentValue(memberType.getAppId())
+            .build());
+    }
+
+    private List<SearchVo> searchMemberInfo(String query, Long appId) {
+
+        LambdaQueryWrapper<MemberInfo> lqw = Wrappers.lambdaQuery();
+        lqw.eq(appId != null, MemberInfo::getAppId, appId);
+
+        if (StringUtils.isNotBlank(query)) {
+            lqw.and(i -> i.like(MemberInfo::getMemberId, query)
+                .or().like(MemberInfo::getUnionId, query)
+                .or().like(MemberInfo::getNickName, query));
+        }
+
+        return memberInfoMapper.selectVoList(lqw, memberInfo -> SearchVo.builder()
+            .value(memberInfo.getMemberId())
+            .code(memberInfo.getUnionId())
+            .label(memberInfo.getNickName())
+            .parentValue(memberInfo.getAppId())
             .build());
     }
 

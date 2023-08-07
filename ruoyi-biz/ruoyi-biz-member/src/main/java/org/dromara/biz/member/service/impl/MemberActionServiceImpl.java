@@ -1,5 +1,6 @@
 package org.dromara.biz.member.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -18,6 +19,7 @@ import org.dromara.biz.member.service.IMemberActionService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 会员积分Service业务层处理
@@ -61,10 +63,11 @@ public class MemberActionServiceImpl implements IMemberActionService {
     private LambdaQueryWrapper<MemberAction> buildQueryWrapper(MemberActionBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<MemberAction> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getAppId() != null, MemberAction::getAppId, bo.getAppId());
+        lqw.eq(Objects.nonNull(bo.getAppId()), MemberAction::getAppId, bo.getAppId());
+        lqw.eq(CollectionUtils.isNotEmpty(bo.getAppIds()), MemberAction::getAppId, bo.getAppIds());
         lqw.eq(StringUtils.isNotBlank(bo.getActionCode()), MemberAction::getActionCode, bo.getActionCode());
         lqw.like(StringUtils.isNotBlank(bo.getActionName()), MemberAction::getActionName, bo.getActionName());
-        lqw.eq(bo.getStatus() != null, MemberAction::getStatus, bo.getStatus());
+        lqw.eq(Objects.nonNull(bo.getStatus()), MemberAction::getStatus, bo.getStatus());
         return lqw;
     }
 

@@ -32,7 +32,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/app/info")
 public class AppInfoController extends BaseController {
 
     private final IAppInfoService appInfoService;
@@ -40,7 +40,7 @@ public class AppInfoController extends BaseController {
     /**
      * 查询应用信息列表
      */
-    @SaCheckPermission("platfrom:app:list")
+    @SaCheckPermission("app:info:list")
     @GetMapping("/list")
     public TableDataInfo<AppInfoVo> list(AppInfoBo bo, PageQuery pageQuery) {
         return appInfoService.queryPageList(bo, pageQuery);
@@ -49,7 +49,7 @@ public class AppInfoController extends BaseController {
     /**
      * 导出应用信息列表
      */
-    @SaCheckPermission("platfrom:app:export")
+    @SaCheckPermission("app:info:export")
     @Log(title = "应用信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(AppInfoBo bo, HttpServletResponse response) {
@@ -62,7 +62,7 @@ public class AppInfoController extends BaseController {
      *
      * @param appId 主键
      */
-    @SaCheckPermission("platfrom:app:query")
+    @SaCheckPermission("app:info:query")
     @GetMapping("/{appId}")
     public R<AppInfoVo> getInfo(@NotNull(message = "主键不能为空")
                                 @PathVariable Long appId) {
@@ -72,7 +72,7 @@ public class AppInfoController extends BaseController {
     /**
      * 新增应用信息
      */
-    @SaCheckPermission("platfrom:app:add")
+    @SaCheckPermission("app:info:add")
     @Log(title = "应用信息", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
@@ -83,7 +83,7 @@ public class AppInfoController extends BaseController {
     /**
      * 修改应用信息
      */
-    @SaCheckPermission("platfrom:app:edit")
+    @SaCheckPermission("app:info:edit")
     @Log(title = "应用信息", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
@@ -94,7 +94,7 @@ public class AppInfoController extends BaseController {
     /**
      * 状态修改
      */
-    @SaCheckPermission("platfrom:app:edit")
+    @SaCheckPermission("app:info:edit")
     @Log(title = "状态变更", businessType = BusinessType.UPDATE)
     @PutMapping("/status")
     public R<Void> changeStatus(@RequestBody AppInfoBo bo) {
@@ -107,7 +107,7 @@ public class AppInfoController extends BaseController {
      *
      * @param appIds 主键串
      */
-    @SaCheckPermission("platfrom:app:remove")
+    @SaCheckPermission("app:info:remove")
     @Log(title = "应用信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{appIds}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")

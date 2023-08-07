@@ -28,7 +28,7 @@ public class SocialNoticeType extends BaseEntity {
     private Long noticeTypeId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

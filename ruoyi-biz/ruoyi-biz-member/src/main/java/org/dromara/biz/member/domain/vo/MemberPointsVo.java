@@ -1,19 +1,15 @@
 package org.dromara.biz.member.domain.vo;
 
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.dromara.biz.member.domain.MemberPoints;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
+import org.dromara.biz.member.translation.MemberTranslation;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.common.translation.annotation.Translation;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-
 
 
 /**
@@ -37,10 +33,14 @@ public class MemberPointsVo implements Serializable {
     private Long id;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @ExcelProperty(value = "接入App标识")
+    @ExcelProperty(value = "应用名称")
     private Long appId;
+
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = MemberTranslation.key, mapper = "appId", other = MemberTranslation.Other.APP)
+    private String appName;
 
     /**
      * 成员id
@@ -48,11 +48,22 @@ public class MemberPointsVo implements Serializable {
     @ExcelProperty(value = "成员id")
     private Long memberId;
 
+    @ExcelProperty(value = "成员名称")
+    @Translation(type = MemberTranslation.key, mapper = "memberId", other = MemberTranslation.Other.MEMBER_INFO)
+    private String memberName;
+
     /**
      * 会员类别
      */
-    @ExcelProperty(value = "会员类别")
+    @ExcelProperty(value = "会员类别ID")
     private Long memberTypeId;
+
+    /**
+     * 会员类别名称
+     */
+    @ExcelProperty(value = "会员类别")
+    @Translation(type = MemberTranslation.key, mapper = "memberTypeId", other = MemberTranslation.Other.MEMBER_TYPE)
+    private String memberTypeName;
 
     /**
      * 总积分
@@ -67,28 +78,15 @@ public class MemberPointsVo implements Serializable {
     private Long lastLevel;
 
     /**
-     * 过期时间
-     */
-    @ExcelProperty(value = "过期时间")
-    private Date expiredDate;
-
-    /**
      * 状态
      */
     @ExcelProperty(value = "状态")
-    private Long status;
+    private Integer status;
 
     /**
      * 获取积分说明
      */
     @ExcelProperty(value = "获取积分说明")
     private String description;
-
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
-
 
 }

@@ -42,6 +42,8 @@ public interface IMemberPointsService {
      */
     Boolean updateByBo(MemberPointsBo bo);
 
+    int updateStatus(Long appId, Integer status);
+
     /**
      * 校验并批量删除会员积分信息
      */

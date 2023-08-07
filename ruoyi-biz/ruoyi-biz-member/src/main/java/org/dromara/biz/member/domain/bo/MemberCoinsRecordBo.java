@@ -29,9 +29,9 @@ public class MemberCoinsRecordBo extends BaseEntity {
     private Long recordId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
-    @NotNull(message = "接入App标识不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
 
     /**
@@ -87,12 +87,5 @@ public class MemberCoinsRecordBo extends BaseEntity {
      */
     @NotBlank(message = "说明不能为空", groups = { AddGroup.class, EditGroup.class })
     private String description;
-
-    /**
-     * 备注
-     */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String remark;
-
 
 }

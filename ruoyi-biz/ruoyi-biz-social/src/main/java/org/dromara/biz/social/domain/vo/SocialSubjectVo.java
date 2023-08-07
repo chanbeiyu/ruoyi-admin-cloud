@@ -35,7 +35,7 @@ public class SocialSubjectVo implements Serializable {
     private Long subjectId;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 

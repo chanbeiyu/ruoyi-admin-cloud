@@ -1,5 +1,7 @@
 package org.dromara.biz.member.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -18,6 +20,7 @@ import org.dromara.biz.member.service.IMemberCoinsService;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 代币信息Service业务层处理
@@ -61,13 +64,14 @@ public class MemberCoinsServiceImpl implements IMemberCoinsService {
     private LambdaQueryWrapper<MemberCoins> buildQueryWrapper(MemberCoinsBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<MemberCoins> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getAppId() != null, MemberCoins::getAppId, bo.getAppId());
-        lqw.eq(bo.getMemberId() != null, MemberCoins::getMemberId, bo.getMemberId());
-        lqw.eq(bo.getCoinsType() != null, MemberCoins::getCoinsType, bo.getCoinsType());
-        lqw.eq(bo.getLastCoins() != null, MemberCoins::getLastCoins, bo.getLastCoins());
+        lqw.eq(Objects.nonNull(bo.getAppId()), MemberCoins::getAppId, bo.getAppId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), MemberCoins::getAppId, bo.getAppIds());
+        lqw.eq(Objects.nonNull(bo.getMemberId()), MemberCoins::getMemberId, bo.getMemberId());
+        lqw.eq(Objects.nonNull(bo.getCoinsType()), MemberCoins::getCoinsType, bo.getCoinsType());
+        lqw.eq(Objects.nonNull(bo.getStatus()), MemberCoins::getStatus, bo.getStatus());
         lqw.between(StringUtils.isAllNotEmpty(params.get("beginExpiredDate"), params.get("endExpiredDate")),
             MemberCoins::getExpiredDate ,params.get("beginExpiredDate"), params.get("endExpiredDate"));
-        lqw.eq(StringUtils.isNotBlank(bo.getStatus()), MemberCoins::getStatus, bo.getStatus());
+        lqw.eq(Objects.nonNull(bo.getStatus()), MemberCoins::getStatus, bo.getStatus());
         return lqw;
     }
 
@@ -93,6 +97,19 @@ public class MemberCoinsServiceImpl implements IMemberCoinsService {
         MemberCoins update = MapstructUtils.convert(bo, MemberCoins.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
+    }
+
+    /**
+     * 修改状态
+     *
+     * @return 结果
+     */
+    @Override
+    public int updateStatus(Long appId, Integer status) {
+        return baseMapper.update(null,
+            new LambdaUpdateWrapper<MemberCoins>()
+                .set(MemberCoins::getStatus, status)
+                .eq(MemberCoins::getId, appId));
     }
 
     /**

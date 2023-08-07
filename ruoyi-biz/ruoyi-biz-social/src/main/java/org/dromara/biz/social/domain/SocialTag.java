@@ -43,7 +43,7 @@ public class SocialTag extends BaseEntity {
     private String tagType;
 
     /**
-     * 接入App标识
+     * 应用名称
      */
     private Long appId;
 
