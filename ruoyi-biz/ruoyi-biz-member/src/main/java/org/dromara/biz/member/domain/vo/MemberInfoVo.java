@@ -58,6 +58,10 @@ public class MemberInfoVo implements Serializable {
     @ExcelProperty(value = "成员类型")
     private Long typeId;
 
+    @ExcelProperty(value = "成员名称")
+    @Translation(type = MemberTranslation.key, mapper = "typeId", other = MemberTranslation.Other.MEMBER_TYPE)
+    private String typeName;
+
     /**
      * 昵称
      */

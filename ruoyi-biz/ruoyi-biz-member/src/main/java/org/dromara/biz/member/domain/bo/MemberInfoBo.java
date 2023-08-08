@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 /**
  * 成员信息业务对象 member_info
  *
@@ -37,12 +39,14 @@ public class MemberInfoBo extends BaseEntity {
      */
     @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 成员类型
      */
     @NotNull(message = "成员类型不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long typeId;
+    private List<Long> typeIds;
 
     /**
      * 昵称

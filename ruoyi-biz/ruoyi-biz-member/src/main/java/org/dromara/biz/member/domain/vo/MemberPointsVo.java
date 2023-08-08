@@ -55,13 +55,13 @@ public class MemberPointsVo implements Serializable {
     /**
      * 会员类别
      */
-    @ExcelProperty(value = "会员类别ID")
+    @ExcelProperty(value = "成员类型")
     private Long memberTypeId;
 
     /**
      * 会员类别名称
      */
-    @ExcelProperty(value = "会员类别")
+    @ExcelProperty(value = "成员名称")
     @Translation(type = MemberTranslation.key, mapper = "memberTypeId", other = MemberTranslation.Other.MEMBER_TYPE)
     private String memberTypeName;
 

@@ -44,9 +44,9 @@ public class MemberCoinsBo extends BaseEntity {
     private Long memberId;
 
     /**
-     * 代币信息0点数1时常2天数
+     * 代币类型
      */
-    @NotNull(message = "代币信息0点数1时常2天数不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "代币类型不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long coinsType;
 
     /**

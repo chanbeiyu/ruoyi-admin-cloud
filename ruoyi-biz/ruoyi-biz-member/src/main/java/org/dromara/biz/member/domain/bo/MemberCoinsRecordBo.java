@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -33,6 +35,7 @@ public class MemberCoinsRecordBo extends BaseEntity {
      */
     @NotNull(message = "应用名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long appId;
+    private List<Long> appIds;
 
     /**
      * 成员id
@@ -79,13 +82,11 @@ public class MemberCoinsRecordBo extends BaseEntity {
     /**
      * 状态
      */
-    @NotNull(message = "状态不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long status;
 
     /**
      * 说明
      */
-    @NotBlank(message = "说明不能为空", groups = { AddGroup.class, EditGroup.class })
     private String description;
 
 }

@@ -1,19 +1,21 @@
 package org.dromara.biz.member.domain.vo;
 
 import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.dromara.biz.member.domain.MemberCoinsRecord;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import org.dromara.biz.member.translation.MemberTranslation;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.common.translation.annotation.Translation;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-
 
 
 /**
@@ -42,11 +44,19 @@ public class MemberCoinsRecordVo implements Serializable {
     @ExcelProperty(value = "应用名称")
     private Long appId;
 
+    @ExcelProperty(value = "应用名称")
+    @Translation(type = MemberTranslation.key, mapper = "appId", other = MemberTranslation.Other.APP)
+    private String appName;
+
     /**
      * 成员id
      */
     @ExcelProperty(value = "成员id")
     private Long memberId;
+
+    @ExcelProperty(value = "成员名称")
+    @Translation(type = MemberTranslation.key, mapper = "memberId", other = MemberTranslation.Other.MEMBER_INFO)
+    private String memberName;
 
     /**
      * 代币类型0点数1时常2天数

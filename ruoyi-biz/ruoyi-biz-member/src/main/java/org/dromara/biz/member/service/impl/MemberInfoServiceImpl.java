@@ -1,6 +1,7 @@
 package org.dromara.biz.member.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
@@ -63,9 +64,11 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
     private LambdaQueryWrapper<MemberInfo> buildQueryWrapper(MemberInfoBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<MemberInfo> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getUnionId()), MemberInfo::getUnionId, bo.getUnionId());
         lqw.eq(Objects.nonNull(bo.getAppId()), MemberInfo::getAppId, bo.getAppId());
         lqw.eq(Objects.nonNull(bo.getTypeId()), MemberInfo::getTypeId, bo.getTypeId());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getAppIds()), MemberInfo::getAppId, bo.getAppIds());
+        lqw.in(CollectionUtils.isNotEmpty(bo.getTypeIds()), MemberInfo::getTypeId, bo.getTypeIds());
+        lqw.like(StringUtils.isNotBlank(bo.getUnionId()), MemberInfo::getUnionId, bo.getUnionId());
         lqw.like(StringUtils.isNotBlank(bo.getNickName()), MemberInfo::getNickName, bo.getNickName());
         lqw.eq(bo.getStatus() != null, MemberInfo::getStatus, bo.getStatus());
         return lqw;
