@@ -13,27 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-biz-app</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-biz-social</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-biz-thoughts</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-biz-trade</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-biz-member</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -3,18 +3,18 @@ package org.dromara.platform.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.biz.admin.domain.search.SearchVo;
-import org.dromara.platform.admin.service.ISearchService;
-import org.dromara.platform.app.domain.AppInfo;
-import org.dromara.platform.social.domain.SocialSubject;
-import org.dromara.platform.thoughts.domain.ThotStyle;
-import org.dromara.platform.thoughts.domain.ThotThought;
-import org.dromara.platform.app.mapper.AppInfoMapper;
-import org.dromara.platform.social.mapper.SocialSubjectMapper;
-import org.dromara.platform.thoughts.mapper.ThotStyleMapper;
-import org.dromara.platform.thoughts.mapper.ThotThoughtMapper;
+import org.dromara.basal.platform.domain.app.AppInfo;
+import org.dromara.basal.platform.domain.member.MemberInfo;
+import org.dromara.basal.platform.domain.member.MemberType;
+import org.dromara.basal.platform.domain.social.SocialSubject;
+import org.dromara.basal.platform.mapper.app.AppInfoMapper;
+import org.dromara.basal.platform.mapper.member.MemberInfoMapper;
+import org.dromara.basal.platform.mapper.member.MemberTypeMapper;
+import org.dromara.basal.platform.mapper.social.SocialSubjectMapper;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.platform.domain.search.SearchVo;
+import org.dromara.platform.service.ISearchService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,38 +32,22 @@ import java.util.stream.Collectors;
 public class SearchServiceImpl implements ISearchService {
 
     private final AppInfoMapper appInfoMapper;
-    private final ThotThoughtMapper thotThoughtMapper;
+    private final MemberInfoMapper memberInfoMapper;
+    private final MemberTypeMapper memberTypeMapper;
     private final SocialSubjectMapper socialSubjectMapper;
-    private final ThotStyleMapper thotStyleMapper;
 
     @Override
     public TableDataInfo<SearchVo> searchAppList(String query, Long appId) {
         return TableDataInfo.build(searchApp(query, appId));
     }
 
-    @Override
-    public TableDataInfo<SearchVo> searchThoughtList(String query, Long appId, boolean cascade) {
-        List<SearchVo> thoughts = searchThought(query, appId);
-        if (cascade) {
-            List<SearchVo> apps = searchApp(null, appId);
-            Map<Long, List<SearchVo>> thoughtMap = thoughts
-                .stream().
-                collect(Collectors.groupingBy(SearchVo::getParentValue));
-            apps.forEach(app -> {
-                app.setChildren(thoughtMap.get(app.getValue()));
-            });
-            return TableDataInfo.build(apps);
-        }
-        return TableDataInfo.build(thoughts);
-    }
 
     @Override
     public TableDataInfo<SearchVo> searchSubjectList(String query, Long appId, boolean cascade) {
         List<SearchVo> subjects = searchSubject(query, appId);
         if (cascade) {
             List<SearchVo> apps = searchApp(null, appId);
-            Map<Long, List<SearchVo>> subjectMap = subjects
-                .stream().
+            Map<Long, List<SearchVo>> subjectMap = subjects.stream().
                 collect(Collectors.groupingBy(SearchVo::getParentValue));
             apps.forEach(app -> {
                 app.setChildren(subjectMap.get(app.getValue()));
@@ -74,18 +58,33 @@ public class SearchServiceImpl implements ISearchService {
     }
 
     @Override
-    public TableDataInfo<SearchVo> searchStyleList(String query, Long appId, boolean cascade) {
-        List<SearchVo> thotStyles = searchThotStyle(query, appId);
+    public TableDataInfo<SearchVo> searchMemberInfo(String query, Long appId, boolean cascade) {
+        List<SearchVo> memberInfos = searchMemberInfo(query, appId);
         if (cascade) {
             List<SearchVo> apps = searchApp(null, appId);
-            Map<Long, List<SearchVo>> thotStyleMap = thotStyles
-                .stream().
+            Map<Long, List<SearchVo>> memberInfoMap = memberInfos.stream().
                 collect(Collectors.groupingBy(SearchVo::getParentValue));
             apps.forEach(app -> {
-                app.setChildren(thotStyleMap.get(app.getValue()));
+                app.setChildren(memberInfoMap.get(app.getValue()));
             });
+            return TableDataInfo.build(apps);
         }
-        return TableDataInfo.build(thotStyles);
+        return TableDataInfo.build(memberInfos);
+    }
+
+    @Override
+    public TableDataInfo<SearchVo> searchMemberType(String query, Long appId, boolean cascade) {
+        List<SearchVo> memberTypes = searchMemberType(query, appId);
+        if (cascade) {
+            List<SearchVo> apps = searchApp(null, appId);
+            Map<Long, List<SearchVo>> memberTypeMap = memberTypes.stream().
+                collect(Collectors.groupingBy(SearchVo::getParentValue));
+            apps.forEach(app -> {
+                app.setChildren(memberTypeMap.get(app.getValue()));
+            });
+            return TableDataInfo.build(apps);
+        }
+        return TableDataInfo.build(memberTypes);
     }
 
     private SearchVo searchApp(Long appId) {
@@ -123,25 +122,6 @@ public class SearchServiceImpl implements ISearchService {
             .build());
     }
 
-    private List<SearchVo> searchThought(String query, Long appId) {
-
-        LambdaQueryWrapper<ThotThought> lqw = Wrappers.lambdaQuery();
-        lqw.eq(appId != null, ThotThought::getAppId, appId);
-
-        if (StringUtils.isNotBlank(query)) {
-            lqw.and(i -> i.like(ThotThought::getThoughtId, query)
-                .or().like(ThotThought::getTitle, query)
-                .or().like(ThotThought::getCode, query));
-        }
-
-        return thotThoughtMapper.selectVoList(lqw, thotThought -> SearchVo.builder()
-            .value(thotThought.getThoughtId())
-            .code(thotThought.getCode())
-            .label(thotThought.getTitle())
-            .parentValue(thotThought.getAppId())
-            .build());
-    }
-
     private List<SearchVo> searchSubject(String query, Long appId) {
 
         LambdaQueryWrapper<SocialSubject> lqw = Wrappers.lambdaQuery();
@@ -161,22 +141,41 @@ public class SearchServiceImpl implements ISearchService {
             .build());
     }
 
-    private List<SearchVo> searchThotStyle(String query, Long appId) {
+    private List<SearchVo> searchMemberType(String query, Long appId) {
 
-        LambdaQueryWrapper<ThotStyle> lqw = Wrappers.lambdaQuery();
-        lqw.eq(appId != null, ThotStyle::getAppId, appId);
+        LambdaQueryWrapper<MemberType> lqw = Wrappers.lambdaQuery();
+        lqw.eq(appId != null, MemberType::getAppId, appId);
 
         if (StringUtils.isNotBlank(query)) {
-            lqw.and(i -> i.like(ThotStyle::getStyleId, query)
-                .or().like(ThotStyle::getStyleCode, query)
-                .or().like(ThotStyle::getStyleName, query));
+            lqw.and(i -> i.like(MemberType::getTypeId, query)
+                .or().like(MemberType::getTypeCode, query)
+                .or().like(MemberType::getTypeName, query));
         }
 
-        return thotStyleMapper.selectVoList(lqw, thotStyle -> SearchVo.builder()
-            .value(thotStyle.getStyleId())
-            .code(thotStyle.getStyleCode())
-            .label(thotStyle.getStyleName())
-            .parentValue(thotStyle.getAppId())
+        return memberTypeMapper.selectVoList(lqw, memberType -> SearchVo.builder()
+            .value(memberType.getTypeId())
+            .code(memberType.getTypeCode())
+            .label(memberType.getTypeName())
+            .parentValue(memberType.getAppId())
+            .build());
+    }
+
+    private List<SearchVo> searchMemberInfo(String query, Long appId) {
+
+        LambdaQueryWrapper<MemberInfo> lqw = Wrappers.lambdaQuery();
+        lqw.eq(appId != null, MemberInfo::getAppId, appId);
+
+        if (StringUtils.isNotBlank(query)) {
+            lqw.and(i -> i.like(MemberInfo::getMemberId, query)
+                .or().like(MemberInfo::getUnionId, query)
+                .or().like(MemberInfo::getNickName, query));
+        }
+
+        return memberInfoMapper.selectVoList(lqw, memberInfo -> SearchVo.builder()
+            .value(memberInfo.getMemberId())
+            .code(memberInfo.getUnionId())
+            .label(memberInfo.getNickName())
+            .parentValue(memberInfo.getAppId())
             .build());
     }
 

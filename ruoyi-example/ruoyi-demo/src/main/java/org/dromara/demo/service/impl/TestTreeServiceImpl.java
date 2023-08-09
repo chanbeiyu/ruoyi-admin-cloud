@@ -45,7 +45,7 @@ public class TestTreeServiceImpl implements ITestTreeService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<TestTree> lqw = Wrappers.lambdaQuery();
         lqw.like(StringUtils.isNotBlank(bo.getTreeName()), TestTree::getTreeName, bo.getTreeName());
-        lqw.between(StringUtils.isAllNotEmpty(params.get("beginCreateTime"), params.get("endCreateTime")),
+        lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
             TestTree::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
         return lqw;
     }

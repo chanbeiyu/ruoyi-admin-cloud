@@ -1,4 +1,4 @@
-package org.dromara.biz.admin.domain.search;
+package org.dromara.platform.domain.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

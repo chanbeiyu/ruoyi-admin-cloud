@@ -1,7 +1,6 @@
 package org.dromara.system.domain.bo;
 
 import io.github.linpeilie.annotations.AutoMapper;
-import io.github.linpeilie.annotations.AutoMappers;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.tenant.core.TenantEntity;
-import org.dromara.system.api.domain.bo.RemoteSocialBo;
 import org.dromara.system.domain.SysSocial;
 
 /**
@@ -21,10 +19,7 @@ import org.dromara.system.domain.SysSocial;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@AutoMappers({
-    @AutoMapper(target = SysSocial.class),
-    @AutoMapper(target = RemoteSocialBo.class)
-})
+@AutoMapper(target = SysSocial.class, reverseConvertGenerate = false)
 public class SysSocialBo extends TenantEntity {
 
     /**

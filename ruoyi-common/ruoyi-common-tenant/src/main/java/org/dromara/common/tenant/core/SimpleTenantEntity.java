@@ -1,8 +1,6 @@
 package org.dromara.common.tenant.core;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dromara.common.mybatis.core.domain.BaseEntity;
 
 import java.io.Serializable;
 

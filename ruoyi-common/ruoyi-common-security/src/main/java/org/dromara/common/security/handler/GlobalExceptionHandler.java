@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.exception.DemoModeException;
 import org.dromara.common.core.exception.ServiceException;
+import org.dromara.common.core.exception.base.BaseException;
 import org.dromara.common.core.utils.StreamUtils;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindException;
@@ -91,6 +92,15 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         Integer code = e.getCode();
         return ObjectUtil.isNotNull(code) ? R.fail(code, e.getMessage()) : R.fail(e.getMessage());
+    }
+
+    /**
+     * 业务异常
+     */
+    @ExceptionHandler(BaseException.class)
+    public R<Void> handleBaseException(BaseException e, HttpServletRequest request) {
+        log.error(e.getMessage());
+        return R.fail(e.getMessage());
     }
 
     /**

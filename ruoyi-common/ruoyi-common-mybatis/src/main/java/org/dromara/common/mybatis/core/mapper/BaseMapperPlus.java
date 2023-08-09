@@ -96,6 +96,19 @@ public interface BaseMapperPlus<T, V> extends MPJBaseMapper<T> {
         return Db.saveOrUpdate(entity);
     }
 
+    /**
+     * 根据 ID 查询
+     *
+     * @param id 主键ID
+     */
+    default <C> C selectById(Serializable id, Function<T, C> mapper) {
+        T obj = this.selectById(id);
+        if (ObjectUtil.isNull(obj)) {
+            return null;
+        }
+        return mapper.apply(obj);
+    }
+
     default V selectVoById(Serializable id) {
         return selectVoById(id, this.currentVoClass());
     }

@@ -1,7 +1,5 @@
 package org.dromara.system.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.utils.MapstructUtils;
@@ -54,24 +52,27 @@ public class SysSocialServiceImpl implements ISysSocialService {
      */
     @Override
     public Boolean insertByBo(SysSocialBo bo) {
-
-        SysSocial sysSocial = baseMapper.selectOne(new LambdaQueryWrapper<SysSocial>().eq(SysSocial::getAuthId, bo.getAuthId()));
-        boolean flag;
-        if (sysSocial != null) {
-            BeanUtil.copyProperties(sysSocial, bo, CopyOptions.create().ignoreNullValue());
-            flag = baseMapper.updateById(sysSocial) > 0;
-        } else {
-            SysSocial add = MapstructUtils.convert(bo, SysSocial.class);
-            validEntityBeforeSave(add);
-            add.setCreateBy(0L);
-            add.setUpdateBy(0L);
-            add.setCreateDept(0L);
-            flag = baseMapper.insert(add) > 0;
-            if (flag) {
+        SysSocial add = MapstructUtils.convert(bo, SysSocial.class);
+        validEntityBeforeSave(add);
+        boolean flag = baseMapper.insert(add) > 0;
+        if (flag) {
+            if (add != null) {
                 bo.setId(add.getId());
+            } else {
+                return false;
             }
         }
         return flag;
+    }
+
+    /**
+     * 更新社会化关系
+     */
+    @Override
+    public Boolean updateByBo(SysSocialBo bo) {
+        SysSocial update = MapstructUtils.convert(bo, SysSocial.class);
+        validEntityBeforeSave(update);
+        return baseMapper.updateById(update) > 0;
     }
 
 

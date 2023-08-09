@@ -3,6 +3,7 @@ package org.dromara.auth.service;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,9 @@ import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.enums.TenantStatus;
 import org.dromara.common.core.enums.UserType;
 import org.dromara.common.core.exception.user.UserException;
-import org.dromara.common.core.utils.*;
+import org.dromara.common.core.utils.MessageUtils;
+import org.dromara.common.core.utils.ServletUtils;
+import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -29,9 +32,9 @@ import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteSocialBo;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
+import org.dromara.system.api.domain.vo.RemoteSocialVo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.dromara.system.api.model.LoginUser;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,14 +68,25 @@ public class SysLoginService {
      * @param authUserData 授权响应实体
      */
     public void socialRegister(AuthUser authUserData) {
-        RemoteSocialBo bo = new RemoteSocialBo();
+        String authId = SocialUtils.getAuthId(authUserData);
+        // 第三方用户信息
+        RemoteSocialBo bo = BeanUtil.toBean(authUserData, RemoteSocialBo.class);
+        BeanUtil.copyProperties(authUserData.getToken(), bo);
         bo.setUserId(LoginHelper.getUserId());
-        bo.setAuthId(SocialUtils.getAuthId(authUserData));
+        bo.setAuthId(authId);
         bo.setOpenId(authUserData.getUuid());
         bo.setUserName(authUserData.getUsername());
-        BeanUtils.copyProperties(authUserData, bo);
-        BeanUtils.copyProperties(authUserData.getToken(), bo);
-        remoteSocialService.insertByBo(bo);
+        bo.setNickName(authUserData.getNickname());
+        // 查询是否已经绑定用户
+        RemoteSocialVo vo = remoteSocialService.selectByAuthId(authId);
+        if (ObjectUtil.isEmpty(vo)) {
+            // 没有绑定用户, 新增用户信息
+            remoteSocialService.insertByBo(bo);
+        } else {
+            // 更新用户信息
+            bo.setId(vo.getId());
+            remoteSocialService.updateByBo(bo);
+        }
     }
 
     /**

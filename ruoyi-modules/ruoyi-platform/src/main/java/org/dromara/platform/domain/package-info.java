@@ -1,1 +1,1 @@
-package org.dromara.biz.admin.domain;
+package org.dromara.platform.domain;
