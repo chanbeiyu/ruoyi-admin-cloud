@@ -58,11 +58,23 @@ public class CacheUtils {
      * 删除缓存值
      *
      * @param cacheNames 缓存组名称
+     */
+    public static void evict(String cacheNames) {
+        Cache cache = CACHE_MANAGER.getCache(cacheNames);
+        if (Objects.nonNull(cache)) {
+            cache.clear();
+        }
+    }
+
+    /**
+     * 删除缓存值
+     *
+     * @param cacheNames 缓存组名称
      * @param key        缓存key
      */
     public static void evict(String cacheNames, Object key) {
         Cache cache = CACHE_MANAGER.getCache(cacheNames);
-        if(Objects.nonNull(cache)) {
+        if (Objects.nonNull(cache)) {
             cache.evict(key);
         }
     }
@@ -74,7 +86,7 @@ public class CacheUtils {
      */
     public static void clear(String cacheNames) {
         Cache cache = CACHE_MANAGER.getCache(cacheNames);
-        if(Objects.nonNull(cache)) {
+        if (Objects.nonNull(cache)) {
             cache.clear();
         }
     }

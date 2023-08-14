@@ -8,6 +8,7 @@ import org.dromara.basal.platform.domain.member.MemberType;
 import org.dromara.basal.platform.mapper.member.MemberInfoMapper;
 import org.dromara.basal.platform.mapper.member.MemberTypeMapper;
 import org.dromara.common.redis.utils.CacheUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MemberApplicationRunner implements ApplicationRunner {
+public class MemberApplicationRunner implements ApplicationRunner, DisposableBean {
 
     private final MemberTypeMapper memberTypeMapper;
     private final MemberInfoMapper memberInfoMapper;
@@ -46,4 +47,11 @@ public class MemberApplicationRunner implements ApplicationRunner {
         });
     }
 
+    @Override
+    public void destroy() throws Exception {
+        CacheUtils.evict(RedisKey.MEMBER_INFO_ID_NAME);
+        CacheUtils.evict(RedisKey.MEMBER_INFO_UNIONID_NAME);
+        CacheUtils.evict(RedisKey.MEMBER_TYPE_ID_NAME);
+        CacheUtils.evict(RedisKey.MEMBER_TYPE_CODE_NAME);
+    }
 }

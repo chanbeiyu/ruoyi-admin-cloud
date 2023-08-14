@@ -6,7 +6,7 @@ import io.github.linpeilie.annotations.AutoMapper;
 import io.github.linpeilie.annotations.AutoMappers;
 import lombok.Data;
 import org.dromara.app.api.domain.RemoteAppInfo;
-import org.dromara.basal.platform.convert.MapstructExtendMapper;
+import org.dromara.basal.platform.mapstruct.AppExtendMapstructMapper;
 import org.dromara.basal.platform.domain.app.AppInfo;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
@@ -27,8 +27,8 @@ import java.util.List;
 @Data
 @ExcelIgnoreUnannotated
 @AutoMappers({
-    @AutoMapper(target = AppInfo.class, uses = MapstructExtendMapper.class),
-    @AutoMapper(target = RemoteAppInfo.class, uses = MapstructExtendMapper.class)
+    @AutoMapper(target = AppInfo.class, uses = AppExtendMapstructMapper.class),
+    @AutoMapper(target = RemoteAppInfo.class, uses = AppExtendMapstructMapper.class)
 })
 public class AppInfoVo implements Serializable {
 

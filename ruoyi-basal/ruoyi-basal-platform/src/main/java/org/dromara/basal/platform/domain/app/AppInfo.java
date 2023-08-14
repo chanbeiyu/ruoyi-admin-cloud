@@ -6,11 +6,10 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dromara.app.api.domain.RemoteAppInfo;
-import org.dromara.basal.platform.convert.MapstructExtendMapper;
+import org.dromara.basal.platform.mapstruct.AppExtendMapstructMapper;
 import org.dromara.common.tenant.core.TenantEntity;
 
 import java.io.Serial;
-import java.util.Map;
 
 /**
  * 应用信息对象 social_app
@@ -21,7 +20,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("app_info")
-@AutoMapper(target = RemoteAppInfo.class, uses = MapstructExtendMapper.class)
+@AutoMapper(target = RemoteAppInfo.class, uses = AppExtendMapstructMapper.class)
 public class AppInfo extends TenantEntity {
 
     @Serial

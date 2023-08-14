@@ -41,6 +41,13 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 平台服务接口 -->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-api-platform</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

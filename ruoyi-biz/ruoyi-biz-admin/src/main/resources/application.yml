@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 9502
+  port: 9503
 
 # Spring
 spring:
   application:
     # 应用名称
-    name: ruoyi-platform
+    name: ruoyi-biz
   profiles:
     # 环境配置
     active: @profiles.active@

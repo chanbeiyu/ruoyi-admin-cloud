@@ -6,6 +6,7 @@ import org.dromara.basal.platform.domain.app.AppInfo;
 import org.dromara.basal.platform.mapper.app.AppInfoMapper;
 import org.dromara.basal.platform.constant.RedisKey;
 import org.dromara.common.redis.utils.CacheUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AppApplicationRunner implements ApplicationRunner {
+public class AppApplicationRunner implements ApplicationRunner, DisposableBean {
 
     private final AppInfoMapper appInfoMapper;
 
@@ -36,6 +37,12 @@ public class AppApplicationRunner implements ApplicationRunner {
             CacheUtils.put(RedisKey.APP_ID_NAME, o.getAppId(), o.getAppName());
             CacheUtils.put(RedisKey.APP_CODE_NAME, o.getAppCode(), o.getAppName());
         });
+    }
+
+    @Override
+    public void destroy() {
+        CacheUtils.evict(RedisKey.APP_ID_NAME);
+        CacheUtils.evict(RedisKey.APP_CODE_NAME);
     }
 
 }

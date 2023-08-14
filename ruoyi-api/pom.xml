@@ -12,8 +12,7 @@
         <module>ruoyi-api-bom</module>
         <module>ruoyi-api-system</module>
         <module>ruoyi-api-resource</module>
-        <module>ruoyi-api-app</module>
-        <module>ruoyi-api-thoughts</module>
+        <module>ruoyi-api-platform</module>
     </modules>
 
     <artifactId>ruoyi-api</artifactId>

@@ -1,4 +1,4 @@
-package org.dromara.basal.platform.convert;
+package org.dromara.basal.platform.mapstruct;
 
 import com.alibaba.fastjson2.JSON;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author chanbeiyu
  */
 @Component
-public class MapstructExtendMapper {
+public class AppExtendMapstructMapper {
 
     public List<Object> stringToList(String str) {
         if (JSON.isValidArray(str)) {

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-api-app</artifactId>
+    <artifactId>ruoyi-api-platform</artifactId>
 
     <description>
         ruoyi-api-app 服务接口模块

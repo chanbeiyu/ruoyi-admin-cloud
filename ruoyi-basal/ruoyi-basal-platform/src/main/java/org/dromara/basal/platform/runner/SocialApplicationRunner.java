@@ -10,6 +10,7 @@ import org.dromara.basal.platform.mapper.social.SocialNoticeTypeMapper;
 import org.dromara.basal.platform.mapper.social.SocialSubjectMapper;
 import org.dromara.basal.platform.mapper.social.SocialTagMapper;
 import org.dromara.common.redis.utils.CacheUtils;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SocialApplicationRunner implements ApplicationRunner {
+public class SocialApplicationRunner implements ApplicationRunner, DisposableBean {
 
     private final SocialNoticeTypeMapper socialNoticeTypeMapper;
     private final SocialSubjectMapper socialSubjectMapper;
@@ -55,4 +56,13 @@ public class SocialApplicationRunner implements ApplicationRunner {
         });
     }
 
+    @Override
+    public void destroy() throws Exception {
+        CacheUtils.evict(RedisKey.SOCIAL_NOTICTYPE_ID_NAME);
+        CacheUtils.evict(RedisKey.SOCIAL_NOTICTYPE_CODE_NAME);
+        CacheUtils.evict(RedisKey.SOCIAL_SUBJECT_ID_NAME);
+        CacheUtils.evict(RedisKey.SOCIAL_SUBJECT_CODE_NAME);
+        CacheUtils.evict(RedisKey.SOCIAL_TAG_ID_NAME);
+        CacheUtils.evict(RedisKey.SOCIAL_TAG_CODE_NAME);
+    }
 }

@@ -1,6 +1,6 @@
 package org.dromara.basal.platform.domain.app.bo;
 
-import org.dromara.basal.platform.convert.MapstructExtendMapper;
+import org.dromara.basal.platform.mapstruct.AppExtendMapstructMapper;
 import org.dromara.basal.platform.domain.app.AppInfo;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AutoMapper(target = AppInfo.class, reverseConvertGenerate = false, uses = {MapstructExtendMapper.class})
+@AutoMapper(target = AppInfo.class, reverseConvertGenerate = false, uses = {AppExtendMapstructMapper.class})
 public class AppInfoBo extends BaseEntity {
 
     /**

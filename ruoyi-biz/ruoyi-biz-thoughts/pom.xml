@@ -13,7 +13,7 @@
     <dependencies>
          <dependency>
             <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-api-app</artifactId>
+            <artifactId>ruoyi-api-platform</artifactId>
         </dependency>
         <dependency>
             <groupId>org.dromara</groupId>
