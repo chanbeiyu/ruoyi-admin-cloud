@@ -24,9 +24,7 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   sentinel-server:
     image: ruoyi/${RUOYI_SENTINEL_SERVER_NAME}:${RUOYI_VERSION}
@@ -48,9 +46,7 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   xxl-job-server:
     image: ruoyi/${RUOYI_XXLJOB_SERVER_NAME}:${RUOYI_VERSION}
@@ -72,9 +68,7 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   powerjob-server:
     image: ruoyi/${RUOYI_POWERJOB_SERVER_NAME}:${RUOYI_POWERJOB_SERVER_VERSION}
@@ -91,9 +85,7 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-monitor:
     image: ruoyi/${RUOYI_MONITOR_SERVICE_NAME}:${RUOYI_VERSION}
@@ -115,13 +107,8 @@ services:
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
-      - ruoyi_services_net
-      - microserv_net
+      - common_net
 
 networks:
-  ruoyi_services_net:
-    external: true
-  microserv_net:
-    external: true
-  database_net:
+  common_net:
     external: true
