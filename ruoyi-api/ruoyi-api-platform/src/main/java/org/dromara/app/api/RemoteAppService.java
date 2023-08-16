@@ -2,6 +2,7 @@ package org.dromara.app.api;
 
 import org.dromara.app.api.domain.RemoteAppInfo;
 import org.dromara.common.core.exception.ServiceException;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

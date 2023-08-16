@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/search")
+@RequestMapping
 public class SearchController extends BaseController {
 
     private final ISearchService searchService;
@@ -29,7 +29,7 @@ public class SearchController extends BaseController {
      * 查询应用列表，用于搜索
      */
     //@SaCheckPermission("platfrom:search:app")
-    @GetMapping("/app/info")
+    @GetMapping("/app/search/info")
     public TableDataInfo<SearchVo> searchApp(@RequestParam(required = false) String query,
                                              @RequestParam(required = false) Long appId,
                                              @RequestParam(required = false, defaultValue = "false") boolean cascade) {
@@ -41,7 +41,7 @@ public class SearchController extends BaseController {
      * 查询主题列表，用于搜索/选择
      */
     //@SaCheckPermission("platfrom:search:subject")
-    @GetMapping("/social/subject")
+    @GetMapping("/social/search/subject")
     public TableDataInfo<SearchVo> searchSubject(@RequestParam(required = false) String query,
                                                  @RequestParam(required = false) Long appId,
                                                  @RequestParam(required = false, defaultValue = "false") boolean cascade) {
@@ -52,7 +52,7 @@ public class SearchController extends BaseController {
      * 查询主题列表，用于搜索/选择
      */
     //@SaCheckPermission("platfrom:search:style")
-    @GetMapping("/member/info")
+    @GetMapping("/member/search/info")
     public TableDataInfo<SearchVo> searchMemberInfo(@RequestParam(required = false) String query,
                                                     @RequestParam(required = false) Long appId,
                                                     @RequestParam(required = false, defaultValue = "false") boolean cascade) {
@@ -63,7 +63,7 @@ public class SearchController extends BaseController {
      * 查询主题列表，用于搜索/选择
      */
     //@SaCheckPermission("platfrom:search:style")
-    @GetMapping("/member/type")
+    @GetMapping("/member/search/type")
     public TableDataInfo<SearchVo> searchMemberType(@RequestParam(required = false) String query,
                                                     @RequestParam(required = false) Long appId,
                                                     @RequestParam(required = false, defaultValue = "false") boolean cascade) {

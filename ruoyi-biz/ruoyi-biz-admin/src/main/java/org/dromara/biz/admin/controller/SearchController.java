@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/thoughts/search")
 public class SearchController extends BaseController {
 
     private final ISearchService searchService;
