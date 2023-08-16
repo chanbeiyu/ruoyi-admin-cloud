@@ -19,7 +19,7 @@ services:
       - ../services/seata/logs:/home/app/logs
     environment:
       # 注意 此处ip如果是外网使用 要改为外网ip
-      SEATA_IP: ${HOST_DOMAIN}
+      SEATA_IP: ${RUOYI_SEATA_IP}
       SEATA_PORT: 8091
       LANG: ${LANG}
       TZ: ${TZ}
