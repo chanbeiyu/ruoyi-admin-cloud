@@ -11,33 +11,10 @@
     <artifactId>ruoyi-biz-common</artifactId>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-sentinel</artifactId>
-        </dependency>
-
-        <!-- RuoYi Common Log -->
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-log</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-dict</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-doc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-web</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-mybatis</artifactId>
@@ -45,20 +22,20 @@
 
         <dependency>
             <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-doc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-dubbo</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-seata</artifactId>
+            <artifactId>ruoyi-common-log</artifactId>
         </dependency>
-
-        <!-- RuoYi Api System -->
         <dependency>
             <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-api-system</artifactId>
+            <artifactId>ruoyi-common-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-idempotent</artifactId>

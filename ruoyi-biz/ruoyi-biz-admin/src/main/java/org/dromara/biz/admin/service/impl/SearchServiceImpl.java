@@ -2,7 +2,9 @@ package org.dromara.biz.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.app.api.RemoteAppService;
 import org.dromara.app.api.domain.RemoteAppInfo;
 import org.dromara.biz.admin.domain.search.SearchVo;
@@ -32,8 +34,8 @@ public class SearchServiceImpl implements ISearchService {
     private final ThotThoughtMapper thotThoughtMapper;
     private final ThotStyleMapper thotStyleMapper;
 
+    @DubboReference
     private final RemoteAppService remoteAppService;
-
 
     @Override
     public TableDataInfo<SearchVo> searchThoughtList(String query, Long appId, boolean cascade) {

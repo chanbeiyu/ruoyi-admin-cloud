@@ -12,10 +12,10 @@ import org.springframework.boot.context.metrics.buffering.BufferingApplicationSt
  */
 @EnableDubbo
 @SpringBootApplication(scanBasePackages = {"org.dromara"})
-public class AdminApplication {
+public class AdminBizApplication {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(AdminApplication.class);
+        SpringApplication application = new SpringApplication(AdminBizApplication.class);
         application.setApplicationStartup(new BufferingApplicationStartup(2048));
         application.run(args);
         System.out.println("(♥◠‿◠)ﾉﾞ  admin 后台启动成功   ლ(´ڡ`ლ)ﾞ");

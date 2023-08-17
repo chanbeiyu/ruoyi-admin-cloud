@@ -72,49 +72,47 @@
         <guava.version>32.1.1-jre</guava.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <fastjson2.version>2.0.34</fastjson2.version>
-        <docker.build.directory> F:/Workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/target</docker.build.directory>
+        <docker.build.directory>F:/Workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/target</docker.build.directory>
         <docker.resource.name>${project.build.finalName}.${project.packaging}</docker.resource.name>
     </properties>
 
     <profiles>
         <profile>
             <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <profiles.active>dev</profiles.active>
                 <nacos.server>nacos:8848</nacos.server>
                 <nacos.discovery.namespace>3001</nacos.discovery.namespace>
                 <nacos.config.namespace>3001</nacos.config.namespace>
+                <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
                 <logstash.address>logstash:4560</logstash.address>
+                <logstash.enabled>false</logstash.enabled>
+                <skylog.enabled>false</skylog.enabled>
             </properties>
-            <activation>
-                <!-- 默认环境 -->
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
         <profile>
             <id>docker</id>
             <properties>
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <profiles.active>docker</profiles.active>
-                <nacos.server>host.docker.internal:8848</nacos.server>
+                <nacos.server>nacos:8848</nacos.server>
                 <nacos.discovery.namespace>3001</nacos.discovery.namespace>
                 <nacos.config.namespace>3001</nacos.config.namespace>
-                <logstash.address>host.docker.internal:4560</logstash.address>
+                <logstash.address>logstash:4560</logstash.address>
             </properties>
-            <activation>
-                <!-- 默认环境 -->
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
                 <profiles.active>prod</profiles.active>
-                <nacos.server>127.0.0.1:8848</nacos.server>
+                <nacos.server>logstash:8848</nacos.server>
                 <nacos.discovery.namespace>3001</nacos.discovery.namespace>
                 <nacos.config.namespace>3001</nacos.config.namespace>
-                <logstash.address>127.0.0.1:4560</logstash.address>
+                <logstash.address>logstash:4560</logstash.address>
             </properties>
         </profile>
     </profiles>

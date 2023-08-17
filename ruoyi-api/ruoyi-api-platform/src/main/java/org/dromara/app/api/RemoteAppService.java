@@ -12,7 +12,6 @@ public interface RemoteAppService {
 
     List<RemoteAppInfo> getAppByIds(List<Long> appIds) throws ServiceException;
 
-
     List<RemoteAppInfo> getAppsByQuery(String query, Long appId) throws ServiceException;
 
 }

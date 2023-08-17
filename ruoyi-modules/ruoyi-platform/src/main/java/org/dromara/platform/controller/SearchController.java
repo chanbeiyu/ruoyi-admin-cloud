@@ -29,19 +29,18 @@ public class SearchController extends BaseController {
      * 查询应用列表，用于搜索
      */
     //@SaCheckPermission("platfrom:search:app")
-    @GetMapping("/app/search/info")
+    @GetMapping("/app/info/search")
     public TableDataInfo<SearchVo> searchApp(@RequestParam(required = false) String query,
                                              @RequestParam(required = false) Long appId,
                                              @RequestParam(required = false, defaultValue = "false") boolean cascade) {
         return searchService.searchAppList(query, appId);
     }
 
-
     /**
      * 查询主题列表，用于搜索/选择
      */
     //@SaCheckPermission("platfrom:search:subject")
-    @GetMapping("/social/search/subject")
+    @GetMapping("/social/subject/search")
     public TableDataInfo<SearchVo> searchSubject(@RequestParam(required = false) String query,
                                                  @RequestParam(required = false) Long appId,
                                                  @RequestParam(required = false, defaultValue = "false") boolean cascade) {
@@ -52,7 +51,7 @@ public class SearchController extends BaseController {
      * 查询主题列表，用于搜索/选择
      */
     //@SaCheckPermission("platfrom:search:style")
-    @GetMapping("/member/search/info")
+    @GetMapping("/member/info/search")
     public TableDataInfo<SearchVo> searchMemberInfo(@RequestParam(required = false) String query,
                                                     @RequestParam(required = false) Long appId,
                                                     @RequestParam(required = false, defaultValue = "false") boolean cascade) {
@@ -63,7 +62,7 @@ public class SearchController extends BaseController {
      * 查询主题列表，用于搜索/选择
      */
     //@SaCheckPermission("platfrom:search:style")
-    @GetMapping("/member/search/type")
+    @GetMapping("/member/type/search")
     public TableDataInfo<SearchVo> searchMemberType(@RequestParam(required = false) String query,
                                                     @RequestParam(required = false) Long appId,
                                                     @RequestParam(required = false, defaultValue = "false") boolean cascade) {
