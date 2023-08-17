@@ -3,8 +3,8 @@ services:
   seata-server:
     image: ruoyi/${RUOYI_SEATA_SERVER_NAME}:${RUOYI_VERSION}
     container_name: seata
-    privileged: true
     hostname: seata
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -29,8 +29,8 @@ services:
   sentinel-server:
     image: ruoyi/${RUOYI_SENTINEL_SERVER_NAME}:${RUOYI_VERSION}
     container_name: sentinel
-    privileged: true
     hostname: sentinel
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
