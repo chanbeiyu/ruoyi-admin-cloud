@@ -112,3 +112,4 @@ services:
 networks:
   common_net:
     external: true
+    enable_ipv6: false

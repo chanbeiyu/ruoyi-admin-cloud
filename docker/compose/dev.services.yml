@@ -178,6 +178,8 @@ services:
 networks:
   ruoyi_services_net:
     external: true
+    enable_ipv6: false
   common_net:
     external: true
+    enable_ipv6: false
 
