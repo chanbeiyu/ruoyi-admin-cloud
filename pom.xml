@@ -96,7 +96,7 @@
         <profile>
             <id>docker</id>
             <properties>
-                <profiles.active>docker</profiles.active>
+                <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168</cloud.networks>
                 <nacos.server>nacos:8848</nacos.server>
                 <nacos.discovery.ip>192.168.2.100</nacos.discovery.ip>
