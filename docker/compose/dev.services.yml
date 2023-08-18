@@ -31,7 +31,7 @@ services:
     restart: always
     build:
       context: ../context
-      dockerfile: development/Dockerfile
+      dockerfile: development/Dockerfile-Font
       args:
         - VERSION=${RUOYI_VERSION}
         - SERVICE_NAME=${RUOYI_AUTH_SERVICE_NAME}
