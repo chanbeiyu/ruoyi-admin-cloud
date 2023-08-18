@@ -4,8 +4,8 @@ services:
   ruoyi-gateway:
     image: ruoyi/${RUOYI_GATEWAY_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: gateway
-    privileged: true
     hostname: gateway
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -22,14 +22,13 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-auth:
     image: ruoyi/${RUOYI_AUTH_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: auth
-    privileged: true
     hostname: auth
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -46,14 +45,14 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-system:
     image: ruoyi/${RUOYI_SYSTEM_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: system
     privileged: true
     hostname: system
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -70,14 +69,13 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-gen:
     image: ruoyi/${RUOYI_GEN_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: gen
-    privileged: true
     hostname: gen
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -94,14 +92,13 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-job:
     image: ruoyi/${RUOYI_JOB_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: job
-    privileged: true
     hostname: job
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -118,14 +115,13 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-resource:
     image: ruoyi/${RUOYI_RESOURCE_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: resource
-    privileged: true
     hostname: resource
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -142,14 +138,13 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
   ruoyi-platform:
     image: ruoyi/${RUOYI_PLATFORM_SERVICE_NAME}:${RUOYI_VERSION}
     container_name: platform
-    privileged: true
     hostname: platform
+    restart: always
     build:
       context: ../context
       dockerfile: development/Dockerfile
@@ -166,15 +161,10 @@ services:
       TZ: ${TZ}
     networks:
       - ruoyi_services_net
-      - database_net
-      - microserv_net
+      - common_net
 
 networks:
   ruoyi_services_net:
-    external: true
-  microserv_net:
-    external: true
-  database_net:
     external: true
   common_net:
     external: true
