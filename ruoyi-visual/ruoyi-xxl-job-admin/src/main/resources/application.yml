@@ -28,11 +28,6 @@ spring:
 logging:
   config: classpath:logback-plus.xml
 
---- # dubbo IP 配置
-dubbo:
-  protocol:
-    host: @cloud.inetutils.ip@
-
 --- # nacos 配置
 spring:
   cloud:

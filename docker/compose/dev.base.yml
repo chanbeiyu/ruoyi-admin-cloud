@@ -19,7 +19,7 @@ services:
       - ../services/seata/logs:/home/app/logs
     environment:
       # 注意 此处ip如果是外网使用 要改为外网ip
-      SEATA_IP: ${RUOYI_SEATA_IP}
+      SEATA_IP: ${HOST_IP}
       SEATA_PORT: 8091
       LANG: ${LANG}
       TZ: ${TZ}
@@ -39,7 +39,6 @@ services:
         - SERVICE_NAME=${RUOYI_SENTINEL_SERVER_NAME}
         - SERVICE_PORT=${RUOYI_SENTINEL_SERVER_PORT}
     ports:
-      - "8719:8719"
       - ${RUOYI_SENTINEL_SERVER_PORT}:${RUOYI_SENTINEL_SERVER_PORT}
     volumes:
       - ../services/sentinel/logs:/home/app/logs

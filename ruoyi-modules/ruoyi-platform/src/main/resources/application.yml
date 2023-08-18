@@ -11,11 +11,6 @@ spring:
     # 环境配置
     active: @profiles.active@
 
---- # dubbo IP 配置
-dubbo:
-  protocol:
-    host: @cloud.inetutils.ip@
-
 --- # nacos 配置
 spring:
   cloud:
