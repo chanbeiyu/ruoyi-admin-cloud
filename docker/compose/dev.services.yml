@@ -37,13 +37,13 @@ services:
         - SERVICE_NAME=${RUOYI_AUTH_SERVICE_NAME}
         - SERVICE_PORT=${RUOYI_AUTH_SERVICE_PORT}
     ports:
-      - ${HOST_DUBBO_PORT}:${HOST_DUBBO_PORT}
+      - "20880:20880"
       - ${RUOYI_AUTH_SERVICE_PORT}:${RUOYI_AUTH_SERVICE_PORT}
     volumes:
       - ../services/auth/logs:/home/app/logs
     environment:
       DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
-      DUBBO_DUBBO_PORT_TO_BIND: -1
+      DUBBO_DUBBO_PORT_TO_BIND: 20880
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
@@ -64,13 +64,13 @@ services:
         - SERVICE_NAME=${RUOYI_SYSTEM_SERVICE_NAME}
         - SERVICE_PORT=${RUOYI_SYSTEM_SERVICE_PORT}
     ports:
-      - ${HOST_DUBBO_PORT}:${HOST_DUBBO_PORT}
+      - "20881:20881"
       - ${RUOYI_SYSTEM_SERVICE_PORT}:${RUOYI_SYSTEM_SERVICE_PORT}
     volumes:
       - ../services/system/logs:/home/app/logs
     environment:
       DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
-      DUBBO_DUBBO_PORT_TO_BIND: -1
+      DUBBO_DUBBO_PORT_TO_BIND: 20881
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
@@ -136,13 +136,13 @@ services:
         - SERVICE_NAME=${RUOYI_RESOURCE_SERVICE_NAME}
         - SERVICE_PORT=${RUOYI_RESOURCE_SERVICE_PORT}
     ports:
-      - ${HOST_DUBBO_PORT}:${HOST_DUBBO_PORT}
+      - "20882:20882"
       - ${RUOYI_RESOURCE_SERVICE_PORT}:${RUOYI_RESOURCE_SERVICE_PORT}
     volumes:
       - ../services/resource/logs:/home/app/logs
     environment:
       DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
-      DUBBO_DUBBO_PORT_TO_BIND: -1
+      DUBBO_DUBBO_PORT_TO_BIND: 20882
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
@@ -162,13 +162,13 @@ services:
         - SERVICE_NAME=${RUOYI_PLATFORM_SERVICE_NAME}
         - SERVICE_PORT=${RUOYI_PLATFORM_SERVICE_PORT}
     ports:
-      - ${HOST_DUBBO_PORT}:${HOST_DUBBO_PORT}
+      - "20884:20884"
       - ${RUOYI_PLATFORM_SERVICE_PORT}:${RUOYI_PLATFORM_SERVICE_PORT}
     volumes:
       - ../services/platform/logs:/home/app/logs
     environment:
       DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
-      DUBBO_DUBBO_PORT_TO_BIND: -1
+      DUBBO_DUBBO_PORT_TO_BIND: 20884
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
