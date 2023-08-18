@@ -91,6 +91,8 @@ spring:
 --- # nacos 配置
 spring:
   cloud:
+    inetutils:
+      preferred-networks: @cloud.networks@
     nacos:
       # nacos 服务地址
       server-addr: @nacos.server@
@@ -98,6 +100,7 @@ spring:
         # 注册组
         group: ${spring.profiles.active}
         namespace: @nacos.discovery.namespace@
+        ip: @nacos.discovery.ip@
       config:
         # 配置组
         group: ${spring.profiles.active}

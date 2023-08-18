@@ -91,6 +91,21 @@
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
                 <logstash.address>logstash:4560</logstash.address>
+                <docker.build.directory>F:/Workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/target</docker.build.directory>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>docker</profiles.active>
+                <cloud.networks>192.168</cloud.networks>
+                <nacos.server>nacos:8848</nacos.server>
+                <nacos.discovery.ip>192.168.2.100</nacos.discovery.ip>
+                <nacos.discovery.namespace>3001</nacos.discovery.namespace>
+                <nacos.config.namespace>3001</nacos.config.namespace>
+                <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
+                <logstash.address>logstash:4560</logstash.address>
+                <docker.build.directory>/workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/target</docker.build.directory>
             </properties>
         </profile>
         <profile>
