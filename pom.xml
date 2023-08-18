@@ -72,7 +72,6 @@
         <guava.version>32.1.1-jre</guava.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <fastjson2.version>2.0.34</fastjson2.version>
-        <docker.build.directory>F:/Workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/target</docker.build.directory>
         <docker.resource.name>${project.build.finalName}.${project.packaging}</docker.resource.name>
     </properties>
 
