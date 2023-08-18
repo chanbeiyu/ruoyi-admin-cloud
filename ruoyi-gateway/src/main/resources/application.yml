@@ -16,6 +16,8 @@ spring:
 --- # nacos 配置
 spring:
   cloud:
+    inetutils:
+      preferred-networks: @cloud.networks@
     nacos:
       # nacos 服务地址
       server-addr: @nacos.server@
