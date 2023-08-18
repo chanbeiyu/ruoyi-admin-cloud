@@ -1,7 +1,7 @@
 #FROM findepi/graalvm:java17-native
 #FROM bellsoft/liberica-openjdk-debian:17
-FROM bellsoft/liberica-openjdk-alpine:17
-#FROM openjdk:17-jdk
+#FROM bellsoft/liberica-openjdk-alpine:17
+FROM openjdk:17-jdk
 
 # 作者
 MAINTAINER chanbeiyu
@@ -21,9 +21,9 @@ ENV SPRING_OPTS=$SPRING_OPTS
 
 # 系统编码
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-RUN apk add --no-cache fontconfig ttf-dejavu
-RUN fc-cache -f
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+#RUN apk add --no-cache fontconfig ttf-dejavu
+#RUN fc-cache -f
 
 # 声明一个挂载点，容器内此路径会对应宿主机的某个文件夹
 VOLUME /tmp
