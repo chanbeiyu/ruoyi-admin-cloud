@@ -141,7 +141,7 @@ services:
     volumes:
       - ../services/resource/logs:/home/app/logs
     environment:
-      DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
+      DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_DOMAIN}
       DUBBO_DUBBO_PORT_TO_BIND: 20882
       LANG: ${LANG}
       TZ: ${TZ}
