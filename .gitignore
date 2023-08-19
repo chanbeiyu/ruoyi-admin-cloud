@@ -47,5 +47,5 @@ nbdist/
 .flattened-pom.xml
 /.vscode/settings.json
 /sessionStore/root.data
-docker/context/build/**
+**/build/**.jar
 
