@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   ruoyi-gateway:
     image: ruoyi/${RUOYI_GATEWAY_SERVICE_NAME}:${RUOYI_VERSION}
@@ -42,7 +40,7 @@ services:
     volumes:
       - ../services/auth/logs:/home/app/logs
     environment:
-      DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
+      # DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
       DUBBO_DUBBO_PORT_TO_BIND: 20880
       LANG: ${LANG}
       TZ: ${TZ}
@@ -69,8 +67,86 @@ services:
     volumes:
       - ../services/system/logs:/home/app/logs
     environment:
-      DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
+      # DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
       DUBBO_DUBBO_PORT_TO_BIND: 20881
+      LANG: ${LANG}
+      TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - common_net
+
+  ruoyi-resource:
+    image: ruoyi/${RUOYI_RESOURCE_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: resource
+    hostname: resource
+    restart: always
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_RESOURCE_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_RESOURCE_SERVICE_PORT}
+    ports:
+      - "20882:20882"
+      - ${RUOYI_RESOURCE_SERVICE_PORT}:${RUOYI_RESOURCE_SERVICE_PORT}
+    volumes:
+      - ../services/resource/logs:/home/app/logs
+    environment:
+      # DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
+      DUBBO_DUBBO_PORT_TO_BIND: 20882
+      LANG: ${LANG}
+      TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - common_net
+
+  ruoyi-platform:
+    image: ruoyi/${RUOYI_PLATFORM_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: platform
+    hostname: platform
+    restart: always
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_PLATFORM_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_PLATFORM_SERVICE_PORT}
+    ports:
+      - "20890:20890"
+      - ${RUOYI_PLATFORM_SERVICE_PORT}:${RUOYI_PLATFORM_SERVICE_PORT}
+    volumes:
+      - ../services/platform/logs:/home/app/logs
+    environment:
+      # DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
+      DUBBO_DUBBO_PORT_TO_BIND: 20890
+      LANG: ${LANG}
+      TZ: ${TZ}
+    networks:
+      - ruoyi_services_net
+      - common_net
+
+  ruoyi-biz:
+    image: ruoyi/${RUOYI_BIZ_SERVICE_NAME}:${RUOYI_VERSION}
+    container_name: biz
+    hostname: biz
+    restart: always
+    build:
+      context: ../context
+      dockerfile: development/Dockerfile
+      args:
+        - VERSION=${RUOYI_VERSION}
+        - SERVICE_NAME=${RUOYI_BIZ_SERVICE_NAME}
+        - SERVICE_PORT=${RUOYI_BIZ_SERVICE_PORT}
+    ports:
+      - "20891:20891"
+      - ${RUOYI_BIZ_SERVICE_PORT}:${RUOYI_BIZ_SERVICE_PORT}
+    volumes:
+      - ../services/biz/logs:/home/app/logs
+    environment:
+      # DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
+      DUBBO_DUBBO_PORT_TO_BIND: 20891
       LANG: ${LANG}
       TZ: ${TZ}
     networks:
@@ -123,63 +199,4 @@ services:
       - ruoyi_services_net
       - common_net
 
-  ruoyi-resource:
-    image: ruoyi/${RUOYI_RESOURCE_SERVICE_NAME}:${RUOYI_VERSION}
-    container_name: resource
-    hostname: resource
-    restart: always
-    build:
-      context: ../context
-      dockerfile: development/Dockerfile
-      args:
-        - VERSION=${RUOYI_VERSION}
-        - SERVICE_NAME=${RUOYI_RESOURCE_SERVICE_NAME}
-        - SERVICE_PORT=${RUOYI_RESOURCE_SERVICE_PORT}
-    ports:
-      - "20882:20882"
-      - ${RUOYI_RESOURCE_SERVICE_PORT}:${RUOYI_RESOURCE_SERVICE_PORT}
-    volumes:
-      - ../services/resource/logs:/home/app/logs
-    environment:
-      DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
-      DUBBO_DUBBO_PORT_TO_BIND: 20882
-      LANG: ${LANG}
-      TZ: ${TZ}
-    networks:
-      - ruoyi_services_net
-      - common_net
-
-  ruoyi-platform:
-    image: ruoyi/${RUOYI_PLATFORM_SERVICE_NAME}:${RUOYI_VERSION}
-    container_name: platform
-    hostname: platform
-    restart: always
-    build:
-      context: ../context
-      dockerfile: development/Dockerfile
-      args:
-        - VERSION=${RUOYI_VERSION}
-        - SERVICE_NAME=${RUOYI_PLATFORM_SERVICE_NAME}
-        - SERVICE_PORT=${RUOYI_PLATFORM_SERVICE_PORT}
-    ports:
-      - "20884:20884"
-      - ${RUOYI_PLATFORM_SERVICE_PORT}:${RUOYI_PLATFORM_SERVICE_PORT}
-    volumes:
-      - ../services/platform/logs:/home/app/logs
-    environment:
-#      DUBBO_DUBBO_IP_TO_REGISTRY: ${HOST_IP}
-      DUBBO_DUBBO_PORT_TO_BIND: 20884
-      LANG: ${LANG}
-      TZ: ${TZ}
-    networks:
-      - ruoyi_services_net
-      - common_net
-
-networks:
-  ruoyi_services_net:
-    external: true
-    enable_ipv6: false
-  common_net:
-    external: true
-    enable_ipv6: false
 
