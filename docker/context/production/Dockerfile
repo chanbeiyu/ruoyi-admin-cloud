@@ -21,7 +21,7 @@ ENV JAVA_OPTS=""
 VOLUME /tmp
 
 # 应用构建成功后的jar文件被复制到镜像内，名字也改成了app.jar
-ADD ./target/${SERVICE_NAME}-${VERSION}.jar /home/app/app.jar
+ADD ./build/${SERVICE_NAME}-${VERSION}.jar /home/app/app.jar
 
 # 声明运行时端口
 EXPOSE ${SERVICE_PORT}

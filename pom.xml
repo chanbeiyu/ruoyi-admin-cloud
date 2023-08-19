@@ -90,7 +90,7 @@
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
                 <logstash.address>logstash:4560</logstash.address>
-                <docker.build.directory>F:/Workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/target</docker.build.directory>
+                <docker.build.directory>F:/Workspace/ensoul-ruoyi/ensoul-admin-serv/docker/context/build</docker.build.directory>
             </properties>
         </profile>
         <profile>
@@ -104,7 +104,7 @@
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
                 <logstash.address>logstash:4560</logstash.address>
-                <docker.build.directory>~/docker-compose/context/build</docker.build.directory>
+                <docker.build.directory>/root/workspace/ensoul-resources/docker-compose/context/build</docker.build.directory>
             </properties>
         </profile>
         <profile>
