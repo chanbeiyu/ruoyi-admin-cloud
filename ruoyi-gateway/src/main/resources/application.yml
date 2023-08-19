@@ -25,7 +25,6 @@ spring:
         # 注册组
         group: ${spring.profiles.active}
         namespace: @nacos.discovery.namespace@
-        ip: @cloud.inetutils.ip@
       config:
         # 配置组
         group: ${spring.profiles.active}
