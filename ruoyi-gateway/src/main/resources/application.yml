@@ -18,9 +18,6 @@ spring:
   cloud:
     inetutils:
       preferred-networks: @cloud.networks@
-    sentinel:
-      transport:
-        client-ip: @cloud.inetutils.ip@
     nacos:
       # nacos 服务地址
       server-addr: @nacos.server@

@@ -85,7 +85,6 @@
                 <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168</cloud.networks>
                 <nacos.server>nacos:8848</nacos.server>
-                <cloud.inetutils.ip>192.168.1.35</cloud.inetutils.ip>
                 <nacos.discovery.namespace>3001</nacos.discovery.namespace>
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
@@ -99,7 +98,6 @@
                 <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168</cloud.networks>
                 <nacos.server>nacos:8848</nacos.server>
-                <cloud.inetutils.ip>192.168.2.100</cloud.inetutils.ip>
                 <nacos.discovery.namespace>3001</nacos.discovery.namespace>
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
@@ -113,7 +111,6 @@
                 <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168.1</cloud.networks>
                 <nacos.server>nacos:8848</nacos.server>
-                <cloud.inetutils.ip>192.168.1.35</cloud.inetutils.ip>
                 <nacos.discovery.namespace>3001</nacos.discovery.namespace>
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
