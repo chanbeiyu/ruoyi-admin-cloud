@@ -25,8 +25,7 @@ public class ThoughtsTranslation implements TranslationInterface<String> {
     public String translation(Object key, String other) {
         switch (other) {
             case Other.APP -> {
-                return CacheUtils.get(RedisKey.APP_ID_NAME, key);
-                //return remoteAppService.getAppById(Long.parseLong(key.toString())).getAppName();
+                return remoteAppService.getAppById(Long.parseLong(key.toString())).getAppName();
             }
             default -> {
                 return null;

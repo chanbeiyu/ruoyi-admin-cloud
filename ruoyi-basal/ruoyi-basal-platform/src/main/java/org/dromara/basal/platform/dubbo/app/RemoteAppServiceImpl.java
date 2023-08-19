@@ -19,7 +19,7 @@ import java.util.List;
 @DubboService
 public class RemoteAppServiceImpl implements RemoteAppService {
 
-    private AppInfoMapper appInfoMapper;
+    private final AppInfoMapper appInfoMapper;
 
     @Override
     public RemoteAppInfo getAppById(Long appId) throws ServiceException {
