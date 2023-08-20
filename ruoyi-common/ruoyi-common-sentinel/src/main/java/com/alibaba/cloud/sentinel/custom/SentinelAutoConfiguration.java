@@ -65,7 +65,7 @@ import static com.alibaba.csp.sentinel.config.SentinelConfig.setConfig;
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(name = "spring.cloud.sentinel.enabled", matchIfMissing = true)
+@ConditionalOnProperty(name = "spring.cloud.sentinel.enabled", havingValue = "true")
 @EnableConfigurationProperties({SentinelProperties.class, SentinelCustomProperties.class})
 public class SentinelAutoConfiguration {
 
