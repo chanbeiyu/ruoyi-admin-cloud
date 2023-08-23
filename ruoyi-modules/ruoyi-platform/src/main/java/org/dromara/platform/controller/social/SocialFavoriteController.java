@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialFavoriteBo;
-import org.dromara.basal.platform.domain.social.vo.SocialFavoriteVo;
-import org.dromara.basal.platform.service.social.ISocialFavoriteService;
+import org.dromara.basal.social.domain.bo.SocialFavoriteBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialFavoriteVo;
+import org.dromara.platform.service.social.SocialFavoriteService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/favorite")
 public class SocialFavoriteController extends BaseController {
 
-    private final ISocialFavoriteService socialFavoriteService;
+    private final SocialFavoriteService socialFavoriteService;
 
     /**
      * 查询收藏信息列表
@@ -64,8 +64,7 @@ public class SocialFavoriteController extends BaseController {
      */
     @SaCheckPermission("social:favorite:query")
     @GetMapping("/{favoriteId}")
-    public R<SocialFavoriteVo> getInfo(@NotNull(message = "主键不能为空")
-                                       @PathVariable Long favoriteId) {
+    public R<SocialFavoriteVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long favoriteId) {
         return R.ok(socialFavoriteService.queryById(favoriteId));
     }
 
@@ -99,8 +98,8 @@ public class SocialFavoriteController extends BaseController {
     @SaCheckPermission("social:favorite:remove")
     @Log(title = "收藏信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{favoriteIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] favoriteIds) {
-        return toAjax(socialFavoriteService.deleteWithValidByIds(List.of(favoriteIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] favoriteIds) {
+        return toAjax(socialFavoriteService.deleteByIds(List.of(favoriteIds)));
     }
+
 }

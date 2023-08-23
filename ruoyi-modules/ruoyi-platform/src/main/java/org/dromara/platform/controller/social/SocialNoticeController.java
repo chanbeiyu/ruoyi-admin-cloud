@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialNoticeBo;
-import org.dromara.basal.platform.domain.social.vo.SocialNoticeVo;
-import org.dromara.basal.platform.service.social.ISocialNoticeService;
+import org.dromara.basal.social.domain.bo.SocialNoticeBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialNoticeVo;
+import org.dromara.platform.service.social.SocialNoticeService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/notice")
 public class SocialNoticeController extends BaseController {
 
-    private final ISocialNoticeService socialNoticeService;
+    private final SocialNoticeService socialNoticeService;
 
     /**
      * 查询信息通知列表
@@ -64,8 +64,7 @@ public class SocialNoticeController extends BaseController {
      */
     @SaCheckPermission("social:notice:query")
     @GetMapping("/{noticeId}")
-    public R<SocialNoticeVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long noticeId) {
+    public R<SocialNoticeVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long noticeId) {
         return R.ok(socialNoticeService.queryById(noticeId));
     }
 
@@ -99,8 +98,7 @@ public class SocialNoticeController extends BaseController {
     @SaCheckPermission("social:notice:remove")
     @Log(title = "信息通知", businessType = BusinessType.DELETE)
     @DeleteMapping("/{noticeIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] noticeIds) {
-        return toAjax(socialNoticeService.deleteWithValidByIds(List.of(noticeIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] noticeIds) {
+        return toAjax(socialNoticeService.deleteByIds(List.of(noticeIds)));
     }
 }

@@ -1,26 +1,27 @@
 package org.dromara.platform.controller.app;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.basal.platform.domain.app.bo.AppVersionBo;
-import org.dromara.basal.platform.domain.app.vo.AppVersionVo;
-import org.dromara.basal.platform.service.app.IAppVersionService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.dromara.basal.app.domain.bo.AppVersionBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.app.AppVersionVo;
+import org.dromara.platform.service.app.AppVersionService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 应用版本信息
@@ -34,7 +35,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @RequestMapping("/app/version")
 public class AppVersionController extends BaseController {
 
-    private final IAppVersionService appVersionService;
+    private final AppVersionService appVersionService;
 
     /**
      * 查询应用版本信息列表
@@ -63,8 +64,7 @@ public class AppVersionController extends BaseController {
      */
     @SaCheckPermission("app:version:query")
     @GetMapping("/{versionId}")
-    public R<AppVersionVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long versionId) {
+    public R<AppVersionVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long versionId) {
         return R.ok(appVersionService.queryById(versionId));
     }
 
@@ -98,8 +98,7 @@ public class AppVersionController extends BaseController {
     @SaCheckPermission("app:version:remove")
     @Log(title = "应用版本信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{versionIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] versionIds) {
-        return toAjax(appVersionService.deleteWithValidByIds(List.of(versionIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] versionIds) {
+        return toAjax(appVersionService.deleteByIds(List.of(versionIds)));
     }
 }

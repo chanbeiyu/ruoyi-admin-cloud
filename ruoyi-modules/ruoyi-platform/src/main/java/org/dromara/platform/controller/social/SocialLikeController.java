@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialLikeBo;
-import org.dromara.basal.platform.domain.social.vo.SocialLikeVo;
-import org.dromara.basal.platform.service.social.ISocialLikeService;
+import org.dromara.basal.social.domain.bo.SocialLikeBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialLikeVo;
+import org.dromara.platform.service.social.SocialLikeService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/like")
 public class SocialLikeController extends BaseController {
 
-    private final ISocialLikeService socialLikeService;
+    private final SocialLikeService socialLikeService;
 
     /**
      * 查询点赞信息列表
@@ -64,8 +64,7 @@ public class SocialLikeController extends BaseController {
      */
     @SaCheckPermission("social:like:query")
     @GetMapping("/{likeId}")
-    public R<SocialLikeVo> getInfo(@NotNull(message = "主键不能为空")
-                                   @PathVariable Long likeId) {
+    public R<SocialLikeVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long likeId) {
         return R.ok(socialLikeService.queryById(likeId));
     }
 
@@ -99,8 +98,7 @@ public class SocialLikeController extends BaseController {
     @SaCheckPermission("social:like:remove")
     @Log(title = "点赞信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{likeIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] likeIds) {
-        return toAjax(socialLikeService.deleteWithValidByIds(List.of(likeIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] likeIds) {
+        return toAjax(socialLikeService.deleteByIds(List.of(likeIds)));
     }
 }

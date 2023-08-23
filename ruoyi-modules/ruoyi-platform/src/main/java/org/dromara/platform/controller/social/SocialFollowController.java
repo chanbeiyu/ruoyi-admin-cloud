@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialFollowBo;
-import org.dromara.basal.platform.domain.social.vo.SocialFollowVo;
-import org.dromara.basal.platform.service.social.ISocialFollowService;
+import org.dromara.basal.social.domain.bo.SocialFollowBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialFollowVo;
+import org.dromara.platform.service.social.SocialFollowService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/follow")
 public class SocialFollowController extends BaseController {
 
-    private final ISocialFollowService socialFollowService;
+    private final SocialFollowService socialFollowService;
 
     /**
      * 查询关注信息列表
@@ -64,8 +64,7 @@ public class SocialFollowController extends BaseController {
      */
     @SaCheckPermission("social:follow:query")
     @GetMapping("/{followId}")
-    public R<SocialFollowVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long followId) {
+    public R<SocialFollowVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long followId) {
         return R.ok(socialFollowService.queryById(followId));
     }
 
@@ -99,8 +98,7 @@ public class SocialFollowController extends BaseController {
     @SaCheckPermission("social:follow:remove")
     @Log(title = "关注信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{followIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] followIds) {
-        return toAjax(socialFollowService.deleteWithValidByIds(List.of(followIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] followIds) {
+        return toAjax(socialFollowService.deleteByIds(List.of(followIds)));
     }
 }

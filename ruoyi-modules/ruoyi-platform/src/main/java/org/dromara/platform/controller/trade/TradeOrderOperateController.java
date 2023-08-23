@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.trade.bo.TradeOrderOperateBo;
-import org.dromara.basal.platform.domain.trade.vo.TradeOrderOperateVo;
-import org.dromara.basal.platform.service.trade.ITradeOrderOperateService;
+import org.dromara.basal.trade.domain.bo.TradeOrderOperateBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.trade.TradeOrderOperateVo;
+import org.dromara.platform.service.trade.TradeOrderOperateService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/trade/order/operate")
 public class TradeOrderOperateController extends BaseController {
 
-    private final ITradeOrderOperateService tradeOrderOperateService;
+    private final TradeOrderOperateService tradeOrderOperateService;
 
     /**
      * 查询订单操作历史记录列表
@@ -64,8 +64,7 @@ public class TradeOrderOperateController extends BaseController {
      */
     @SaCheckPermission("trade:order:operate:query")
     @GetMapping("/{operateId}")
-    public R<TradeOrderOperateVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long operateId) {
+    public R<TradeOrderOperateVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long operateId) {
         return R.ok(tradeOrderOperateService.queryById(operateId));
     }
 
@@ -99,8 +98,7 @@ public class TradeOrderOperateController extends BaseController {
     @SaCheckPermission("trade:order:operate:remove")
     @Log(title = "订单操作历史记录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{operateIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] operateIds) {
-        return toAjax(tradeOrderOperateService.deleteWithValidByIds(List.of(operateIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] operateIds) {
+        return toAjax(tradeOrderOperateService.deleteByIds(List.of(operateIds)));
     }
 }

@@ -1,26 +1,27 @@
 package org.dromara.platform.controller.member;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.basal.platform.domain.member.bo.MemberLevelBo;
-import org.dromara.basal.platform.domain.member.vo.MemberLevelVo;
-import org.dromara.basal.platform.service.member.IMemberLevelService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.dromara.basal.member.domain.bo.MemberLevelBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.member.MemberLevelVo;
+import org.dromara.platform.service.member.MemberLevelService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 会员级别信息
@@ -34,7 +35,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @RequestMapping("/member/level")
 public class MemberLevelController extends BaseController {
 
-    private final IMemberLevelService memberLevelService;
+    private final MemberLevelService memberLevelService;
 
     /**
      * 查询会员级别信息列表
@@ -63,8 +64,7 @@ public class MemberLevelController extends BaseController {
      */
     @SaCheckPermission("member:level:query")
     @GetMapping("/{levelId}")
-    public R<MemberLevelVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long levelId) {
+    public R<MemberLevelVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long levelId) {
         return R.ok(memberLevelService.queryById(levelId));
     }
 
@@ -108,8 +108,7 @@ public class MemberLevelController extends BaseController {
     @SaCheckPermission("member:level:remove")
     @Log(title = "会员级别信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{levelIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] levelIds) {
-        return toAjax(memberLevelService.deleteWithValidByIds(List.of(levelIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] levelIds) {
+        return toAjax(memberLevelService.deleteByIds(List.of(levelIds)));
     }
 }

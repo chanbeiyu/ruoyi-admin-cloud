@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.app.bo.AppInfoBo;
-import org.dromara.basal.platform.domain.app.vo.AppInfoVo;
-import org.dromara.basal.platform.service.app.IAppInfoService;
+import org.dromara.basal.app.domain.bo.AppInfoBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.app.AppInfoVo;
+import org.dromara.platform.service.app.AppInfoService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/app/info")
 public class AppInfoController extends BaseController {
 
-    private final IAppInfoService appInfoService;
+    private final AppInfoService appInfoService;
 
     /**
      * 查询应用信息列表
@@ -64,8 +64,7 @@ public class AppInfoController extends BaseController {
      */
     @SaCheckPermission("app:info:query")
     @GetMapping("/{appId}")
-    public R<AppInfoVo> getInfo(@NotNull(message = "主键不能为空")
-                                @PathVariable Long appId) {
+    public R<AppInfoVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long appId) {
         return R.ok(appInfoService.queryById(appId));
     }
 
@@ -110,8 +109,7 @@ public class AppInfoController extends BaseController {
     @SaCheckPermission("app:info:remove")
     @Log(title = "应用信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{appIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] appIds) {
-        return toAjax(appInfoService.deleteWithValidByIds(List.of(appIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] appIds) {
+        return toAjax(appInfoService.deleteByIds(List.of(appIds)));
     }
 }

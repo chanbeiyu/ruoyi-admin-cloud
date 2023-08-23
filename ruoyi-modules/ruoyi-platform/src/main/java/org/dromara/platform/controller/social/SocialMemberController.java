@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialMemberBo;
-import org.dromara.basal.platform.domain.social.vo.SocialMemberVo;
-import org.dromara.basal.platform.service.social.ISocialMemberService;
+import org.dromara.basal.social.domain.bo.SocialMemberBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialMemberVo;
+import org.dromara.platform.service.social.SocialMemberService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/member")
 public class SocialMemberController extends BaseController {
 
-    private final ISocialMemberService socialMemberService;
+    private final SocialMemberService socialMemberService;
 
     /**
      * 查询成员信息列表
@@ -64,8 +64,7 @@ public class SocialMemberController extends BaseController {
      */
     @SaCheckPermission("social:member:query")
     @GetMapping("/{memberId}")
-    public R<SocialMemberVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long memberId) {
+    public R<SocialMemberVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long memberId) {
         return R.ok(socialMemberService.queryById(memberId));
     }
 
@@ -99,8 +98,7 @@ public class SocialMemberController extends BaseController {
     @SaCheckPermission("social:member:remove")
     @Log(title = "成员信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{memberIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] memberIds) {
-        return toAjax(socialMemberService.deleteWithValidByIds(List.of(memberIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] memberIds) {
+        return toAjax(socialMemberService.deleteByIds(List.of(memberIds)));
     }
 }

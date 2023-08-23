@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialCommentBo;
-import org.dromara.basal.platform.domain.social.vo.SocialCommentVo;
-import org.dromara.basal.platform.service.social.ISocialCommentService;
+import org.dromara.basal.social.domain.bo.SocialCommentBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -16,6 +14,8 @@ import org.dromara.common.idempotent.annotation.RepeatSubmit;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialCommentVo;
+import org.dromara.platform.service.social.SocialCommentService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +33,7 @@ import java.util.List;
 @RequestMapping("/social/comment")
 public class SocialCommentController extends BaseController {
 
-    private final ISocialCommentService socialCommentService;
+    private final SocialCommentService socialCommentService;
 
     /**
      * 查询评论信息列表
@@ -63,8 +63,7 @@ public class SocialCommentController extends BaseController {
      */
     @SaCheckPermission("social:comment:query")
     @GetMapping("/{commentId}")
-    public R<SocialCommentVo> getInfo(@NotNull(message = "主键不能为空")
-                                      @PathVariable Long commentId) {
+    public R<SocialCommentVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long commentId) {
         return R.ok(socialCommentService.queryById(commentId));
     }
 
@@ -98,8 +97,7 @@ public class SocialCommentController extends BaseController {
     @SaCheckPermission("social:comment:remove")
     @Log(title = "评论信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{commentIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] commentIds) {
-        return toAjax(socialCommentService.deleteWithValidByIds(List.of(commentIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] commentIds) {
+        return toAjax(socialCommentService.deleteByIds(List.of(commentIds)));
     }
 }

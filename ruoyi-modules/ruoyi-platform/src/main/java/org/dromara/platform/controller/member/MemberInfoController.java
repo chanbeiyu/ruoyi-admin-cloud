@@ -1,26 +1,27 @@
 package org.dromara.platform.controller.member;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.basal.platform.domain.member.bo.MemberInfoBo;
-import org.dromara.basal.platform.domain.member.vo.MemberInfoVo;
-import org.dromara.basal.platform.service.member.IMemberInfoService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.dromara.basal.member.domain.bo.MemberInfoBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.member.MemberInfoVo;
+import org.dromara.platform.service.member.MemberInfoService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 成员信息
@@ -34,7 +35,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @RequestMapping("/member/info")
 public class MemberInfoController extends BaseController {
 
-    private final IMemberInfoService memberInfoService;
+    private final MemberInfoService memberInfoService;
 
     /**
      * 查询成员信息列表
@@ -63,8 +64,7 @@ public class MemberInfoController extends BaseController {
      */
     @SaCheckPermission("member:info:query")
     @GetMapping("/{memberId}")
-    public R<MemberInfoVo> getInfo(@NotNull(message = "主键不能为空")
-                                   @PathVariable Long memberId) {
+    public R<MemberInfoVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long memberId) {
         return R.ok(memberInfoService.queryById(memberId));
     }
 
@@ -108,8 +108,7 @@ public class MemberInfoController extends BaseController {
     @SaCheckPermission("member:info:remove")
     @Log(title = "成员信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{memberIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] memberIds) {
-        return toAjax(memberInfoService.deleteWithValidByIds(List.of(memberIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] memberIds) {
+        return toAjax(memberInfoService.deleteByIds(List.of(memberIds)));
     }
 }

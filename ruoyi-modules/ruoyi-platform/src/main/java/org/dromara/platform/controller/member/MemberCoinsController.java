@@ -1,26 +1,27 @@
 package org.dromara.platform.controller.member;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.basal.platform.domain.member.bo.MemberCoinsBo;
-import org.dromara.basal.platform.domain.member.vo.MemberCoinsVo;
-import org.dromara.basal.platform.service.member.IMemberCoinsService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.dromara.basal.member.domain.bo.MemberCoinsBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.member.MemberCoinsVo;
+import org.dromara.platform.service.member.MemberCoinsService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 代币信息
@@ -34,7 +35,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @RequestMapping("/member/coins")
 public class MemberCoinsController extends BaseController {
 
-    private final IMemberCoinsService memberCoinsService;
+    private final MemberCoinsService memberCoinsService;
 
     /**
      * 查询代币信息列表
@@ -63,8 +64,7 @@ public class MemberCoinsController extends BaseController {
      */
     @SaCheckPermission("member:coins:query")
     @GetMapping("/{id}")
-    public R<MemberCoinsVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long id) {
+    public R<MemberCoinsVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long id) {
         return R.ok(memberCoinsService.queryById(id));
     }
 
@@ -108,8 +108,7 @@ public class MemberCoinsController extends BaseController {
     @SaCheckPermission("member:coins:remove")
     @Log(title = "代币信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] ids) {
-        return toAjax(memberCoinsService.deleteWithValidByIds(List.of(ids), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] ids) {
+        return toAjax(memberCoinsService.deleteByIds(List.of(ids)));
     }
 }

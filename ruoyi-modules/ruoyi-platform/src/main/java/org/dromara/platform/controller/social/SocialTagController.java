@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialTagBo;
-import org.dromara.basal.platform.domain.social.vo.SocialTagVo;
-import org.dromara.basal.platform.service.social.ISocialTagService;
+import org.dromara.basal.social.domain.bo.SocialTagBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialTagVo;
+import org.dromara.platform.service.social.SocialTagService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/tag")
 public class SocialTagController extends BaseController {
 
-    private final ISocialTagService socialTagService;
+    private final SocialTagService socialTagService;
 
     /**
      * 查询标签信息列表
@@ -64,8 +64,7 @@ public class SocialTagController extends BaseController {
      */
     @SaCheckPermission("social:tag:query")
     @GetMapping("/{tagId}")
-    public R<SocialTagVo> getInfo(@NotNull(message = "主键不能为空")
-                                  @PathVariable Long tagId) {
+    public R<SocialTagVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long tagId) {
         return R.ok(socialTagService.queryById(tagId));
     }
 
@@ -109,8 +108,7 @@ public class SocialTagController extends BaseController {
     @SaCheckPermission("social:tag:remove")
     @Log(title = "标签信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{tagIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] tagIds) {
-        return toAjax(socialTagService.deleteWithValidByIds(List.of(tagIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] tagIds) {
+        return toAjax(socialTagService.deleteByIds(List.of(tagIds)));
     }
 }

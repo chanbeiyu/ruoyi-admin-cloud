@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.app.bo.AppExtendBo;
-import org.dromara.basal.platform.domain.app.vo.AppExtendVo;
-import org.dromara.basal.platform.service.app.IAppExtendService;
+import org.dromara.basal.app.domain.bo.AppExtendBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.app.AppExtendVo;
+import org.dromara.platform.service.app.AppExtendService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ import java.util.List;
 @RequestMapping("/app/extend")
 public class AppExtendController extends BaseController {
 
-    private final IAppExtendService appExtendService;
+    private final AppExtendService appExtendService;
 
     /**
      * 查询应用扩展信息列表
@@ -44,7 +44,7 @@ public class AppExtendController extends BaseController {
     @SaCheckPermission("app:extend:list")
     @GetMapping("/list")
     public TableDataInfo<AppExtendVo> list(AppExtendBo bo, PageQuery pageQuery) {
-        return appExtendService.queryPageList(bo, pageQuery);
+        return appExtendService.queryPageList(bo, pageQuery, "value");
     }
 
     /**
@@ -54,7 +54,7 @@ public class AppExtendController extends BaseController {
     @Log(title = "应用扩展信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(AppExtendBo bo, HttpServletResponse response) {
-        List<AppExtendVo> list = appExtendService.queryList(bo);
+        List<AppExtendVo> list = appExtendService.queryList(bo, "value");
         ExcelUtil.exportExcel(list, "应用扩展信息", AppExtendVo.class, response);
     }
 
@@ -110,8 +110,7 @@ public class AppExtendController extends BaseController {
     @SaCheckPermission("app:extend:remove")
     @Log(title = "应用扩展信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{appIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] appIds) {
-        return toAjax(appExtendService.deleteWithValidByIds(List.of(appIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] appIds) {
+        return toAjax(appExtendService.deleteByIds(List.of(appIds)));
     }
 }

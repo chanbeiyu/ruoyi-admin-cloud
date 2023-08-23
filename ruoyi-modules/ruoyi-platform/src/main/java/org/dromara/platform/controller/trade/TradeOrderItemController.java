@@ -5,9 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.trade.bo.TradeOrderItemBo;
-import org.dromara.basal.platform.domain.trade.vo.TradeOrderItemVo;
-import org.dromara.basal.platform.service.trade.ITradeOrderItemService;
+
+import org.dromara.basal.trade.domain.bo.TradeOrderItemBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +17,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.trade.TradeOrderItemVo;
+import org.dromara.platform.service.trade.TradeOrderItemService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ import java.util.List;
 @RequestMapping("/trade/order/item")
 public class TradeOrderItemController extends BaseController {
 
-    private final ITradeOrderItemService tradeOrderItemService;
+    private final TradeOrderItemService tradeOrderItemService;
 
     /**
      * 查询订单商品列表
@@ -64,8 +65,7 @@ public class TradeOrderItemController extends BaseController {
      */
     @SaCheckPermission("trade:order:item:query")
     @GetMapping("/{itemId}")
-    public R<TradeOrderItemVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long itemId) {
+    public R<TradeOrderItemVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long itemId) {
         return R.ok(tradeOrderItemService.queryById(itemId));
     }
 
@@ -99,8 +99,7 @@ public class TradeOrderItemController extends BaseController {
     @SaCheckPermission("trade:order:item:remove")
     @Log(title = "订单商品", businessType = BusinessType.DELETE)
     @DeleteMapping("/{itemIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] itemIds) {
-        return toAjax(tradeOrderItemService.deleteWithValidByIds(List.of(itemIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] itemIds) {
+        return toAjax(tradeOrderItemService.deleteByIds(List.of(itemIds)));
     }
 }

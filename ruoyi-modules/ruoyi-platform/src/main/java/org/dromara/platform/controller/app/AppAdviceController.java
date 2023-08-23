@@ -1,26 +1,27 @@
 package org.dromara.platform.controller.app;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.basal.platform.domain.app.bo.AppAdviceBo;
-import org.dromara.basal.platform.domain.app.vo.AppAdviceVo;
-import org.dromara.basal.platform.service.app.IAppAdviceService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.dromara.basal.app.domain.bo.AppAdviceBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.app.AppAdviceVo;
+import org.dromara.platform.service.app.AppAdviceService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 意见反馈信息
@@ -34,7 +35,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @RequestMapping("/app/advice")
 public class AppAdviceController extends BaseController {
 
-    private final IAppAdviceService appAdviceService;
+    private final AppAdviceService appAdviceService;
 
     /**
      * 查询意见反馈信息列表
@@ -63,8 +64,7 @@ public class AppAdviceController extends BaseController {
      */
     @SaCheckPermission("app:advice:query")
     @GetMapping("/{adviceId}")
-    public R<AppAdviceVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long adviceId) {
+    public R<AppAdviceVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long adviceId) {
         return R.ok(appAdviceService.queryById(adviceId));
     }
 
@@ -98,8 +98,7 @@ public class AppAdviceController extends BaseController {
     @SaCheckPermission("app:advice:remove")
     @Log(title = "意见反馈信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{adviceIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] adviceIds) {
-        return toAjax(appAdviceService.deleteWithValidByIds(List.of(adviceIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] adviceIds) {
+        return toAjax(appAdviceService.deleteByIds(List.of(adviceIds)));
     }
 }

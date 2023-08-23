@@ -9,7 +9,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
-        <module>ruoyi-basal-platform</module>
+        <module>ruoyi-basal-app</module>
+        <module>ruoyi-basal-member</module>
+        <module>ruoyi-basal-social</module>
+        <module>ruoyi-basal-trade</module>
+        <module>ruoyi-basal-thoughts</module>
+        <module>ruoyi-basal-common</module>
     </modules>
 
     <artifactId>ruoyi-basal</artifactId>

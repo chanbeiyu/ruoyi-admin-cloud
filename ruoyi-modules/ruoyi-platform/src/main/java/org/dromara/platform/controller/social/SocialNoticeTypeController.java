@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialNoticeTypeBo;
-import org.dromara.basal.platform.domain.social.vo.SocialNoticeTypeVo;
-import org.dromara.basal.platform.service.social.ISocialNoticeTypeService;
+import org.dromara.basal.social.domain.bo.SocialNoticeTypeBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialNoticeTypeVo;
+import org.dromara.platform.service.social.SocialNoticeTypeService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/noticeType")
 public class SocialNoticeTypeController extends BaseController {
 
-    private final ISocialNoticeTypeService socialNoticeTypeService;
+    private final SocialNoticeTypeService socialNoticeTypeService;
 
     /**
      * 查询信息通知类型列表
@@ -64,8 +64,7 @@ public class SocialNoticeTypeController extends BaseController {
      */
     @SaCheckPermission("social:noticeType:query")
     @GetMapping("/{noticeTypeId}")
-    public R<SocialNoticeTypeVo> getInfo(@NotNull(message = "主键不能为空")
-                                         @PathVariable Long noticeTypeId) {
+    public R<SocialNoticeTypeVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long noticeTypeId) {
         return R.ok(socialNoticeTypeService.queryById(noticeTypeId));
     }
 
@@ -109,8 +108,7 @@ public class SocialNoticeTypeController extends BaseController {
     @SaCheckPermission("social:noticeType:remove")
     @Log(title = "信息通知类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{noticeTypeIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] noticeTypeIds) {
-        return toAjax(socialNoticeTypeService.deleteWithValidByIds(List.of(noticeTypeIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] noticeTypeIds) {
+        return toAjax(socialNoticeTypeService.deleteByIds(List.of(noticeTypeIds)));
     }
 }

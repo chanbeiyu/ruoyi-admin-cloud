@@ -1,26 +1,27 @@
 package org.dromara.platform.controller.member;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.*;
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import org.dromara.basal.platform.domain.member.bo.MemberActionBo;
-import org.dromara.basal.platform.domain.member.vo.MemberActionVo;
-import org.dromara.basal.platform.service.member.IMemberActionService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
-import org.dromara.common.idempotent.annotation.RepeatSubmit;
-import org.dromara.common.log.annotation.Log;
-import org.dromara.common.web.core.BaseController;
-import org.dromara.common.mybatis.core.page.PageQuery;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
+import org.dromara.basal.member.domain.bo.MemberActionBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.excel.utils.ExcelUtil;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
+import org.dromara.common.log.annotation.Log;
+import org.dromara.common.log.enums.BusinessType;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.member.MemberActionVo;
+import org.dromara.platform.service.member.MemberActionService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 会员积分
@@ -34,7 +35,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 @RequestMapping("/member/action")
 public class MemberActionController extends BaseController {
 
-    private final IMemberActionService memberActionService;
+    private final MemberActionService memberActionService;
 
     /**
      * 查询会员积分列表
@@ -63,8 +64,7 @@ public class MemberActionController extends BaseController {
      */
     @SaCheckPermission("member:action:query")
     @GetMapping("/{actionId}")
-    public R<MemberActionVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long actionId) {
+    public R<MemberActionVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long actionId) {
         return R.ok(memberActionService.queryById(actionId));
     }
 
@@ -98,8 +98,7 @@ public class MemberActionController extends BaseController {
     @SaCheckPermission("member:action:remove")
     @Log(title = "会员积分", businessType = BusinessType.DELETE)
     @DeleteMapping("/{actionIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] actionIds) {
-        return toAjax(memberActionService.deleteWithValidByIds(List.of(actionIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] actionIds) {
+        return toAjax(memberActionService.deleteByIds(List.of(actionIds)));
     }
 }

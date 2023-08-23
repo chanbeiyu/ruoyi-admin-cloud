@@ -5,9 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.platform.domain.social.bo.SocialSubjectBo;
-import org.dromara.basal.platform.domain.social.vo.SocialSubjectVo;
-import org.dromara.basal.platform.service.social.ISocialSubjectService;
+import org.dromara.basal.social.domain.bo.SocialSubjectBo;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
@@ -18,6 +16,8 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.platform.domain.vo.social.SocialSubjectVo;
+import org.dromara.platform.service.social.SocialSubjectService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/social/subject")
 public class SocialSubjectController extends BaseController {
 
-    private final ISocialSubjectService socialSubjectService;
+    private final SocialSubjectService socialSubjectService;
 
     /**
      * 查询内容主题列表
@@ -64,8 +64,7 @@ public class SocialSubjectController extends BaseController {
      */
     @SaCheckPermission("social:subject:query")
     @GetMapping("/{subjectId}")
-    public R<SocialSubjectVo> getInfo(@NotNull(message = "主键不能为空")
-                                      @PathVariable Long subjectId) {
+    public R<SocialSubjectVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable Long subjectId) {
         return R.ok(socialSubjectService.queryById(subjectId));
     }
 
@@ -109,8 +108,7 @@ public class SocialSubjectController extends BaseController {
     @SaCheckPermission("social:subject:remove")
     @Log(title = "内容主题", businessType = BusinessType.DELETE)
     @DeleteMapping("/{subjectIds}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] subjectIds) {
-        return toAjax(socialSubjectService.deleteWithValidByIds(List.of(subjectIds), true));
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] subjectIds) {
+        return toAjax(socialSubjectService.deleteByIds(List.of(subjectIds)));
     }
 }
