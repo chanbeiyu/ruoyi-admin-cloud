@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.member.domain.member.MemberPoints;
+import org.dromara.basal.member.domain.MemberPoints;
 import org.dromara.basal.member.domain.bo.MemberPointsBo;
 import org.dromara.basal.member.mapper.MemberPointsMapper;
 import org.dromara.common.mybatis.core.mapper.IBaseMapper;

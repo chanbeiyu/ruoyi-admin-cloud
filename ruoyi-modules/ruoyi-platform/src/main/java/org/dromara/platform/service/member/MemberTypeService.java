@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.dromara.basal.common.constant.RedisKey;
-import org.dromara.basal.member.domain.member.MemberType;
+import org.dromara.basal.member.domain.MemberType;
 import org.dromara.basal.member.domain.bo.MemberTypeBo;
 import org.dromara.basal.member.mapper.MemberTypeMapper;
 import org.dromara.common.core.utils.MapstructUtils;

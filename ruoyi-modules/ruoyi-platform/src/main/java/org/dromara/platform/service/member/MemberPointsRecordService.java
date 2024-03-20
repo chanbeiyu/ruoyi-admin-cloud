@@ -3,7 +3,7 @@ package org.dromara.platform.service.member;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.member.domain.member.MemberPointsRecord;
+import org.dromara.basal.member.domain.MemberPointsRecord;
 import org.dromara.basal.member.domain.bo.MemberPointsRecordBo;
 import org.dromara.basal.member.mapper.MemberPointsRecordMapper;
 import org.dromara.common.core.utils.StringUtils;

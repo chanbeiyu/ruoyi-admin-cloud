@@ -1,5 +1,6 @@
 package org.dromara.common.mybatis.service;
 
+import org.dromara.app.api.RemoteAppService;
 import org.dromara.system.api.RemoteDataScopeService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class SysDataScopeService {
     @DubboReference
     private RemoteDataScopeService remoteDataScopeService;
 
+    @DubboReference
+    private RemoteAppService remoteAppService;
+
     public String getRoleCustom(Long roleId) {
         return remoteDataScopeService.getRoleCustom(roleId);
     }
@@ -25,4 +29,9 @@ public class SysDataScopeService {
     public String getDeptAndChild(Long deptId) {
         return remoteDataScopeService.getDeptAndChild(deptId);
     }
+
+    public String getApps(Long userId) {
+        return remoteAppService.getApps(userId);
+    }
+
 }

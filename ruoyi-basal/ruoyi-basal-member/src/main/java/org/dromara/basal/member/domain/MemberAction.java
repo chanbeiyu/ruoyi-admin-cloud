@@ -1,4 +1,4 @@
-package org.dromara.basal.member.domain.member;
+package org.dromara.basal.member.domain;
 
 import org.dromara.common.tenant.core.TenantEntity;
 import com.baomidou.mybatisplus.annotation.*;

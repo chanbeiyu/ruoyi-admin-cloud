@@ -1,6 +1,6 @@
 package org.dromara.platform.domain.vo.member;
 
-import org.dromara.basal.member.domain.member.MemberTypeRelated;
+import org.dromara.basal.member.domain.MemberTypeRelated;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;

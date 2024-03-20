@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
-import org.dromara.basal.member.domain.member.MemberLevel;
+import org.dromara.basal.member.domain.MemberLevel;
 import org.dromara.basal.member.domain.bo.MemberLevelBo;
 import org.dromara.basal.member.mapper.MemberLevelMapper;
 import org.dromara.common.core.utils.MapstructUtils;

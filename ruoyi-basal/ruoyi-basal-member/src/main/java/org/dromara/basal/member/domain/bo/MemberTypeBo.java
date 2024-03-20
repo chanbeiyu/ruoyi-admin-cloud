@@ -1,6 +1,6 @@
 package org.dromara.basal.member.domain.bo;
 
-import org.dromara.basal.member.domain.member.MemberType;
+import org.dromara.basal.member.domain.MemberType;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;

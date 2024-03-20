@@ -1,6 +1,6 @@
 package org.dromara.basal.member.mapper;
 
-import org.dromara.basal.member.domain.member.MemberCoins;
+import org.dromara.basal.member.domain.MemberCoins;
 import org.dromara.common.mybatis.core.mapper.IBaseMapper;
 
 /**

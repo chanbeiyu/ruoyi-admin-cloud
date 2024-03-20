@@ -4,7 +4,7 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
-import org.dromara.basal.member.domain.member.MemberInfo;
+import org.dromara.basal.member.domain.MemberInfo;
 import org.dromara.common.translation.annotation.Translation;
 import org.dromara.platform.translation.PlatformTranslation;
 

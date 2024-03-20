@@ -1,4 +1,4 @@
-package org.dromara.basal.member.domain;
+package org.dromara.basal.app.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,24 +6,23 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * 会员类型关联信息对象 member_type_related
+ * 用户和应用关联 app_user
  *
  * @author chanbeiyu
- * @date 2023-08-01
  */
 @Data
-@TableName("member_type_related")
-public class MemberTypeRelated {
+@TableName("app_user")
+public class AppUser {
 
     /**
-     * 会员id
+     * 用户ID
      */
     @TableId(type = IdType.INPUT)
-    private Long memberId;
+    private Long userId;
 
     /**
-     * 会员类别
+     * 应用ID
      */
-    private Long memberTypeId;
+    private Long appId;
 
 }

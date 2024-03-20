@@ -45,7 +45,12 @@ public enum DataScopeType {
     /**
      * 仅本人数据权限
      */
-    SELF("5", " #{#userName} = #{#user.userId} ", " 1 = 0 ");
+    SELF("5", " #{#userName} = #{#user.userId} ", " 1 = 0 "),
+
+    /**
+     * App 数据权限
+     */
+    APP("6", " #{#appId} IN ( #{@sdss.getApps( #user.userId )} ) ", " 1 = 0 ");
 
     private final String code;
 

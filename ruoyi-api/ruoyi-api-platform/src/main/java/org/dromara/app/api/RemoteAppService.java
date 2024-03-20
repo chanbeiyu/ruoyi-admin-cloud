@@ -12,4 +12,6 @@ public interface RemoteAppService {
 
     List<RemoteAppInfo> getAppsByQuery(String query, Long appId);
 
+    String getApps(Long userId);
+
 }

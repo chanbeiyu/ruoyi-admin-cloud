@@ -1,5 +1,7 @@
 package org.dromara.platform.dubbo;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +9,11 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.dromara.app.api.RemoteAppService;
 import org.dromara.app.api.domain.RemoteAppInfo;
 import org.dromara.basal.app.domain.AppInfo;
+import org.dromara.basal.app.domain.AppUser;
 import org.dromara.basal.app.mapper.AppInfoMapper;
+import org.dromara.basal.app.mapper.AppUserMapper;
 import org.dromara.common.core.exception.ServiceException;
+import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +25,7 @@ import java.util.List;
 public class RemoteAppServiceImpl implements RemoteAppService {
 
     private final AppInfoMapper appInfoMapper;
+    private final AppUserMapper appUserMapper;
 
     @Override
     public RemoteAppInfo getAppById(Long appId) throws ServiceException {
@@ -45,6 +51,17 @@ public class RemoteAppServiceImpl implements RemoteAppService {
         }
 
         return appInfoMapper.selectList(lqw, RemoteAppInfo.class);
+    }
+
+    @Override
+    public String getApps(Long userId) {
+        LambdaQueryWrapper<AppUser> lqw = Wrappers.lambdaQuery();
+        lqw.eq(userId != null, AppUser::getUserId, userId);
+        List<AppUser> appInfos = appUserMapper.selectList(lqw);
+        if (CollUtil.isNotEmpty(appInfos)) {
+            return StreamUtils.join(appInfos, d -> Convert.toStr(d.getAppId()));
+        }
+        return null;
     }
 
 }
