@@ -61,20 +61,6 @@ public class AsyncConfig implements AsyncConfigurer {
     }
 
     /**
-     * 销毁事件
-     */
-    @PreDestroy
-    public void destroy() {
-        try {
-            log.info("====关闭后台任务任务线程池====");
-            ScheduledExecutorService scheduledExecutorService = SpringUtils.getBean("scheduledExecutorService");
-            Threads.shutdownAndAwaitTermination(scheduledExecutorService);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-    }
-
-    /**
      * 自定义 @Async 注解使用系统线程池
      */
     @Override

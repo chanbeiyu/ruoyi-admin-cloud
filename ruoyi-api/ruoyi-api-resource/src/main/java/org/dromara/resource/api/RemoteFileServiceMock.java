@@ -1,6 +1,7 @@
 package org.dromara.resource.api;
 
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.resource.api.domain.RemoteFile;
 
@@ -20,6 +21,11 @@ public class RemoteFileServiceMock implements RemoteFileService {
      */
     public RemoteFile upload(String name, String originalFilename, String contentType, byte[] file) {
         log.warn("服务调用异常 -> 降级处理");
+        return null;
+    }
+
+    @Override
+    public RemoteFile upload(String name, String originalFilename, String contentType, String tags, byte[] file) throws ServiceException {
         return null;
     }
 

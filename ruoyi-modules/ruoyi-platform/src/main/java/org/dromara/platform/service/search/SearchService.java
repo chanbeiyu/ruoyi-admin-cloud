@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -83,17 +84,23 @@ public class SearchService {
     }
 
     private SearchVo searchApp(Long appId) {
-        return appInfoMapper.selectById(appId,
-            appInfo -> SearchVo.builder().value(appInfo.getAppId()).code(appInfo.getAppCode())
-                .label(appInfo.getAppName()).build());
+        return appInfoMapper.selectById(appId, appInfo -> SearchVo.builder()
+            .value(appInfo.getAppId())
+            .code(appInfo.getAppCode())
+            .label(appInfo.getAppName())
+            .build());
     }
 
     private List<SearchVo> searchApp(List<Long> appIds) {
         LambdaQueryWrapper<AppInfo> lqw = Wrappers.lambdaQuery();
         lqw.in(AppInfo::getAppId, appIds);
-        return appInfoMapper.selectList(lqw,
-            appInfo -> SearchVo.builder().value(appInfo.getAppId()).code(appInfo.getAppCode())
-                .label(appInfo.getAppName()).build());
+        return appInfoMapper.selectList(lqw, appInfo -> {
+            return SearchVo.builder()
+                .value(appInfo.getAppId())
+                .label(appInfo.getAppName())
+                .code(appInfo.getAppCode())
+                .build();
+        });
     }
 
     private List<SearchVo> searchApp(String query, Long appId) {
@@ -101,13 +108,18 @@ public class SearchService {
         lqw.eq(appId != null, AppInfo::getAppId, appId);
 
         if (StringUtils.isNotBlank(query)) {
-            lqw.like(AppInfo::getAppId, query).or().like(AppInfo::getAppName, query).or()
-                .like(AppInfo::getAppCode, query);
+            lqw.like(AppInfo::getAppId, query)
+                .or().like(AppInfo::getAppName, query)
+                .or().like(AppInfo::getAppCode, query);
         }
 
-        return appInfoMapper.selectList(lqw,
-            appInfo -> SearchVo.builder().value(appInfo.getAppId()).code(appInfo.getAppCode())
-                .label(appInfo.getAppName()).build());
+        return appInfoMapper.selectList(lqw, appInfo -> {
+            return SearchVo.builder()
+                .value(appInfo.getAppId())
+                .code(appInfo.getAppCode())
+                .label(appInfo.getAppName())
+                .build();
+        });
     }
 
     private List<SearchVo> searchSubject(String query, Long appId) {
@@ -116,13 +128,17 @@ public class SearchService {
         lqw.eq(appId != null, SocialSubject::getAppId, appId);
 
         if (StringUtils.isNotBlank(query)) {
-            lqw.and(i -> i.like(SocialSubject::getSubjectId, query).or().like(SocialSubject::getSubjectName, query).or()
-                .like(SocialSubject::getSubjectCode, query));
+            lqw.and(i -> i.like(SocialSubject::getSubjectId, query)
+                .or().like(SocialSubject::getSubjectName, query)
+                .or().like(SocialSubject::getSubjectCode, query));
         }
 
-        return socialSubjectMapper.selectList(lqw,
-            socialSubject -> SearchVo.builder().value(socialSubject.getSubjectId()).code(socialSubject.getSubjectCode())
-                .label(socialSubject.getSubjectName()).parentValue(socialSubject.getAppId()).build());
+        return socialSubjectMapper.selectList(lqw, socialSubject -> {
+            return SearchVo.builder().value(socialSubject.getSubjectId())
+                .code(socialSubject.getSubjectCode())
+                .label(socialSubject.getSubjectName())
+                .parentValue(socialSubject.getAppId()).build();
+        });
     }
 
     private List<SearchVo> searchMemberType(String query, Long appId) {
@@ -131,13 +147,19 @@ public class SearchService {
         lqw.eq(appId != null, MemberType::getAppId, appId);
 
         if (StringUtils.isNotBlank(query)) {
-            lqw.and(i -> i.like(MemberType::getTypeId, query).or().like(MemberType::getTypeCode, query).or()
-                .like(MemberType::getTypeName, query));
+            lqw.and(i -> i.like(MemberType::getTypeId, query)
+                .or().like(MemberType::getTypeCode, query)
+                .or().like(MemberType::getTypeName, query));
         }
 
-        return memberTypeMapper.selectList(lqw,
-            memberType -> SearchVo.builder().value(memberType.getTypeId()).code(memberType.getTypeCode())
-                .label(memberType.getTypeName()).parentValue(memberType.getAppId()).build());
+        return memberTypeMapper.selectList(lqw, memberType -> {
+            return SearchVo.builder()
+                .value(memberType.getTypeId())
+                .code(memberType.getTypeCode())
+                .label(memberType.getTypeName())
+                .parentValue(memberType.getAppId())
+                .build();
+        });
     }
 
     private List<SearchVo> searchMemberInfo(String query, Long appId) {
@@ -146,13 +168,19 @@ public class SearchService {
         lqw.eq(appId != null, MemberInfo::getAppId, appId);
 
         if (StringUtils.isNotBlank(query)) {
-            lqw.and(i -> i.like(MemberInfo::getMemberId, query).or().like(MemberInfo::getUnionId, query).or()
-                .like(MemberInfo::getNickName, query));
+            lqw.and(i -> i.like(MemberInfo::getMemberId, query)
+                .or().like(MemberInfo::getUnionId, query)
+                .or().like(MemberInfo::getNickName, query));
         }
 
-        return memberInfoMapper.selectList(lqw,
-            memberInfo -> SearchVo.builder().value(memberInfo.getMemberId()).code(memberInfo.getUnionId())
-                .label(memberInfo.getNickName()).parentValue(memberInfo.getAppId()).build());
+        return memberInfoMapper.selectList(lqw, memberInfo -> {
+            return SearchVo.builder()
+                .value(memberInfo.getMemberId())
+                .code(memberInfo.getUnionId())
+                .label(memberInfo.getNickName())
+                .parentValue(memberInfo.getAppId())
+                .build();
+        });
     }
 
 }

@@ -109,12 +109,14 @@ public class SearchService {
                 .or().like(ThotThought::getCode, query));
         }
 
-        return thotThoughtMapper.selectList(lqw, thotThought -> SearchVo.builder()
-            .value(thotThought.getThoughtId())
-            .code(thotThought.getCode())
-            .label(thotThought.getTitle())
-            .parentValue(thotThought.getAppId())
-            .build());
+        return thotThoughtMapper.selectList(lqw, thotThought -> {
+            return SearchVo.builder()
+                .value(thotThought.getThoughtId())
+                .code(thotThought.getCode())
+                .label(thotThought.getTitle())
+                .parentValue(thotThought.getAppId())
+                .build();
+        });
     }
 
     private List<SearchVo> searchThotStyle(String query, Long appId) {
@@ -128,12 +130,14 @@ public class SearchService {
                 .or().like(ThotStyle::getStyleName, query));
         }
 
-        return thotStyleMapper.selectList(lqw, thotStyle -> SearchVo.builder()
-            .value(thotStyle.getStyleId())
-            .code(thotStyle.getStyleCode())
-            .label(thotStyle.getStyleName())
-            .parentValue(thotStyle.getAppId())
-            .build());
+        return thotStyleMapper.selectList(lqw, thotStyle -> {
+            return SearchVo.builder()
+                .value(thotStyle.getStyleId())
+                .code(thotStyle.getStyleCode())
+                .label(thotStyle.getStyleName())
+                .parentValue(thotStyle.getAppId())
+                .build();
+        });
     }
 
 }

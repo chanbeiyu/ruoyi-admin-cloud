@@ -301,16 +301,11 @@
                 <version>${lock4j.version}</version>
             </dependency>
 
-            <!-- PowerJob -->
+            <!-- xxl-job-core -->
             <dependency>
-                <groupId>tech.powerjob</groupId>
-                <artifactId>powerjob-worker</artifactId>
-                <version>${powerjob.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>tech.powerjob</groupId>
-                <artifactId>powerjob-official-processors</artifactId>
-                <version>${powerjob.version}</version>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
             </dependency>
 
             <!-- PowerJob -->
@@ -380,7 +375,6 @@
             </dependency>
 
             <!--短信sms4j-->
-            <!--短信sms4j-->
             <dependency>
                 <groupId>org.dromara.sms4j</groupId>
                 <artifactId>sms4j-spring-boot-starter</artifactId>
@@ -401,9 +395,6 @@
             </dependency>
             <!--微信开放平台-->
             <dependency>
-                <groupId>org.dromara.sms4j</groupId>
-                <artifactId>sms4j-spring-boot-starter</artifactId>
-                <version>${sms4j.version}</version>
                 <groupId>com.github.binarywang</groupId>
                 <artifactId>wx-java-open-spring-boot-starter</artifactId>
                 <version>${wxjava.version}</version>
@@ -615,7 +606,7 @@
 
     <repositories>
         <repository>
-            <id>aliyun-releases</id>
+            <id>rdc-releases</id>
             <name>Aliyun Release Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-release-xD3Oyp/</url>
             <releases>
@@ -623,7 +614,7 @@
             </releases>
         </repository>
         <repository>
-            <id>aliyun-snapshot</id>
+            <id>rdc-snapshot</id>
             <name>Aliyun Snapshot Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-snapshot-AY0Hg6/</url>
             <snapshots>
@@ -635,7 +626,7 @@
 
     <distributionManagement>
         <repository>
-            <id>aliyun-releases</id>
+            <id>rdc-releases</id>
             <name>Aliyun Release Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-release-xD3Oyp/</url>
             <releases>
@@ -643,7 +634,7 @@
             </releases>
         </repository>
         <snapshotRepository>
-            <id>aliyun-snapshot</id>
+            <id>rdc-snapshot</id>
             <name>Aliyun Snapshot Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-snapshot-AY0Hg6/</url>
             <snapshots>
