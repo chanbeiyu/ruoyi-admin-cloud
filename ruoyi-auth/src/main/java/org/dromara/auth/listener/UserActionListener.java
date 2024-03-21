@@ -18,7 +18,6 @@ import org.dromara.common.core.utils.ip.AddressUtils;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
-import org.dromara.resource.api.RemoteMessageService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.SysUserOnline;
 import org.dromara.system.api.model.LoginUser;
@@ -41,8 +40,6 @@ public class UserActionListener implements SaTokenListener {
     private final ScheduledExecutorService scheduledExecutorService;
     @DubboReference
     private RemoteUserService remoteUserService;
-    @DubboReference
-    private RemoteMessageService remoteMessageService;
 
     /**
      * 每次登录时触发

@@ -63,10 +63,6 @@ public class SmsAuthStrategy implements IAuthStrategy {
         // 生成token
         LoginHelper.login(loginUser, model);
 
-        // TODO: add[5.2]
-        loginService.recordLogininfor(loginUser.getTenantId(), loginUser.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(loginUser.getUserId(), ServletUtils.getClientIP());
-
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());
         loginVo.setExpireIn(StpUtil.getTokenTimeout());

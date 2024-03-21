@@ -26,7 +26,7 @@ databaseName: data-center_db
 
 dataSources:
   ds_0:
-    url: jdbc:mysql://localhost:3306/data-center_0?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://192.168.100.9:3306/data-center_0?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
     username: root
     password: root
     connectionTimeoutMilliseconds: 30000
