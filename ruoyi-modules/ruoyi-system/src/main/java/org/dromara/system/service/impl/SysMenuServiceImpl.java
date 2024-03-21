@@ -169,11 +169,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
         if (tenantPackage.getMenuCheckStrictly()) {
             parentIds = baseMapper.selectObjs(new LambdaQueryWrapper<SysMenu>()
                 .select(SysMenu::getParentId)
-                .in(SysMenu::getMenuId, menuIds), Convert::toLong);
+                .in(SysMenu::getMenuId, menuIds), x -> {return Convert.toLong(x);});
         }
         return baseMapper.selectObjs(new LambdaQueryWrapper<SysMenu>()
             .in(SysMenu::getMenuId, menuIds)
-            .notIn(CollUtil.isNotEmpty(parentIds), SysMenu::getMenuId, parentIds), Convert::toLong);
+            .notIn(CollUtil.isNotEmpty(parentIds), SysMenu::getMenuId, parentIds), x -> {return Convert.toLong(x);});
     }
 
     /**
@@ -203,7 +203,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
                 List<RouterVo> childrenList = new ArrayList<>();
                 RouterVo children = new RouterVo();
                 children.setPath(menu.getPath());
-                children.setComponent(menu.getComponentInfo());
+                children.setComponent(menu.getComponent());
                 children.setName(StringUtils.capitalize(menu.getPath()));
                 children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
                 children.setQuery(menu.getQueryParam());

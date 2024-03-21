@@ -4,12 +4,14 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthUser;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.form.RegisterBody;
+import org.dromara.auth.properties.CaptchaProperties;
 import org.dromara.auth.properties.UserPasswordProperties;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
@@ -17,14 +19,16 @@ import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.enums.TenantStatus;
 import org.dromara.common.core.enums.UserType;
+import org.dromara.common.core.exception.user.CaptchaException;
+import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
-import org.dromara.common.social.utils.SocialUtils;
 import org.dromara.common.tenant.exception.TenantException;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteSocialService;
@@ -40,6 +44,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -61,6 +66,8 @@ public class SysLoginService {
 
     @Autowired
     private UserPasswordProperties userPasswordProperties;
+    @Autowired
+    private final CaptchaProperties captchaProperties;
 
     /**
      * 绑定第三方用户
@@ -68,7 +75,7 @@ public class SysLoginService {
      * @param authUserData 授权响应实体
      */
     public void socialRegister(AuthUser authUserData) {
-        String authId = SocialUtils.getAuthId(authUserData);
+        String authId = authUserData.getSource() + authUserData.getUuid();
         // 第三方用户信息
         RemoteSocialBo bo = BeanUtil.toBean(authUserData, RemoteSocialBo.class);
         BeanUtil.copyProperties(authUserData.getToken(), bo);
@@ -78,13 +85,13 @@ public class SysLoginService {
         bo.setUserName(authUserData.getUsername());
         bo.setNickName(authUserData.getNickname());
         // 查询是否已经绑定用户
-        RemoteSocialVo vo = remoteSocialService.selectByAuthId(authId);
-        if (ObjectUtil.isEmpty(vo)) {
+        List<RemoteSocialVo> list = remoteSocialService.selectByAuthId(authId);
+        if (CollUtil.isEmpty(list)) {
             // 没有绑定用户, 新增用户信息
             remoteSocialService.insertByBo(bo);
         } else {
             // 更新用户信息
-            bo.setId(vo.getId());
+            bo.setId(list.get(0).getId());
             remoteSocialService.updateByBo(bo);
         }
     }
@@ -95,6 +102,9 @@ public class SysLoginService {
     public void logout() {
         try {
             LoginUser loginUser = LoginHelper.getLoginUser();
+            if (ObjectUtil.isNull(loginUser)) {
+                return;
+            }
             if (TenantHelper.isEnable() && LoginHelper.isSuperAdmin()) {
                 // 超级管理员 登出清除动态租户
                 TenantHelper.clearDynamic();
@@ -119,17 +129,46 @@ public class SysLoginService {
         // 校验用户类型是否存在
         String userType = UserType.getUserType(registerBody.getUserType()).getUserType();
 
+        boolean captchaEnabled = captchaProperties.getEnabled();
+        // 验证码开关
+        if (captchaEnabled) {
+            validateCaptcha(tenantId, username, registerBody.getCode(), registerBody.getUuid());
+        }
+
         // 注册用户信息
         RemoteUserBo remoteUserBo = new RemoteUserBo();
+        remoteUserBo.setTenantId(tenantId);
         remoteUserBo.setUserName(username);
         remoteUserBo.setNickName(username);
         remoteUserBo.setPassword(BCrypt.hashpw(password));
         remoteUserBo.setUserType(userType);
+
         boolean regFlag = remoteUserService.registerUserInfo(remoteUserBo);
         if (!regFlag) {
             throw new UserException("user.register.error");
         }
         recordLogininfor(tenantId, username, Constants.REGISTER, MessageUtils.message("user.register.success"));
+    }
+
+    /**
+     * 校验验证码
+     *
+     * @param username 用户名
+     * @param code     验证码
+     * @param uuid     唯一标识
+     */
+    public void validateCaptcha(String tenantId, String username, String code, String uuid) {
+        String verifyKey = GlobalConstants.CAPTCHA_CODE_KEY + StringUtils.defaultString(uuid, "");
+        String captcha = RedisUtils.getCacheObject(verifyKey);
+        RedisUtils.deleteObject(verifyKey);
+        if (captcha == null) {
+            recordLogininfor(tenantId, username, Constants.REGISTER, MessageUtils.message("user.jcaptcha.expire"));
+            throw new CaptchaExpireException();
+        }
+        if (!code.equalsIgnoreCase(captcha)) {
+            recordLogininfor(tenantId, username, Constants.REGISTER, MessageUtils.message("user.jcaptcha.error"));
+            throw new CaptchaException();
+        }
     }
 
     /**
@@ -198,6 +237,9 @@ public class SysLoginService {
         }
         if (TenantConstants.DEFAULT_TENANT_ID.equals(tenantId)) {
             return;
+        }
+        if (StringUtils.isBlank(tenantId)) {
+            throw new TenantException("tenant.number.not.blank");
         }
         RemoteTenantVo tenant = remoteTenantService.queryByTenantId(tenantId);
         if (ObjectUtil.isNull(tenant)) {

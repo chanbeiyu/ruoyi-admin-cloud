@@ -84,6 +84,7 @@ public class SysDeptServiceImpl implements ISysDeptService{
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), SysDept::getStatus, bo.getStatus());
         lqw.orderByAsc(SysDept::getParentId);
         lqw.orderByAsc(SysDept::getOrderNum);
+        lqw.orderByAsc(SysDept::getDeptId);
         return lqw;
     }
 

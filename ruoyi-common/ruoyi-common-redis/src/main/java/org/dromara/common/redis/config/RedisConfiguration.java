@@ -1,12 +1,17 @@
 package org.dromara.common.redis.config;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.redis.config.properties.RedissonProperties;
 import org.dromara.common.redis.handler.KeyPrefixHandler;
 import org.dromara.common.redis.manager.PlusSpringCacheManager;
-import lombok.extern.slf4j.Slf4j;
-import org.redisson.codec.JsonJacksonCodec;
+import org.redisson.client.codec.StringCodec;
+import org.redisson.codec.CompositeCodec;
+import org.redisson.codec.TypedJsonJacksonCodec;
 import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -35,9 +40,18 @@ public class RedisConfiguration {
     @Bean
     public RedissonAutoConfigurationCustomizer redissonCustomizer() {
         return config -> {
+            ObjectMapper om = objectMapper.copy();
+            om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+            // 指定序列化输入的类型，类必须是非final修饰的。序列化时将对象全类名一起保存下来
+            om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+            TypedJsonJacksonCodec jsonCodec = new TypedJsonJacksonCodec(Object.class, om);
+            // 组合序列化 key 使用 String 内容使用通用 json 格式
+            CompositeCodec codec = new CompositeCodec(StringCodec.INSTANCE, jsonCodec, jsonCodec);
             config.setThreads(redissonProperties.getThreads())
                 .setNettyThreads(redissonProperties.getNettyThreads())
-                .setCodec(new JsonJacksonCodec(objectMapper));
+                // 缓存 Lua 脚本 减少网络传输(redisson 大部分的功能都是基于 Lua 脚本实现)
+                .setUseScriptCache(true)
+                .setCodec(codec);
             RedissonProperties.SingleServerConfig singleServerConfig = redissonProperties.getSingleServerConfig();
             if (ObjectUtil.isNotNull(singleServerConfig)) {
                 // 使用单机模式
@@ -84,7 +98,7 @@ public class RedisConfiguration {
      * redis集群配置 yml
      *
      * --- # redis 集群配置(单机与集群只能开启一个另一个需要注释掉)
-     * spring:
+     * spring.data:
      *   redis:
      *     cluster:
      *       nodes:
@@ -96,7 +110,7 @@ public class RedisConfiguration {
      *     # 连接超时时间
      *     timeout: 10s
      *     # 是否开启ssl
-     *     ssl: false
+     *     ssl.enabled: false
      *
      * redisson:
      *   # 线程池数量

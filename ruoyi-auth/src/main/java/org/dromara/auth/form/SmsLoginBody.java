@@ -1,8 +1,9 @@
 package org.dromara.auth.form;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dromara.common.core.domain.model.LoginBody;
 
 /**
  * 短信登录对象
@@ -11,12 +12,8 @@ import jakarta.validation.constraints.NotBlank;
  */
 
 @Data
-public class SmsLoginBody {
-
-    /**
-     * 租户ID
-     */
-    private String tenantId;
+@EqualsAndHashCode(callSuper = true)
+public class SmsLoginBody extends LoginBody {
 
     /**
      * 手机号

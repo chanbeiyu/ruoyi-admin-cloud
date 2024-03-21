@@ -83,9 +83,10 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public boolean selectRegisterEnabled(String tenantId) {
-        SysConfig retConfig = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
-            .eq(SysConfig::getConfigKey, "sys.account.registerUser")
-            .eq(TenantHelper.isEnable(),SysConfig::getTenantId, tenantId));
+        SysConfig retConfig = TenantHelper.dynamic(tenantId, () -> {
+            return baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
+                .eq(SysConfig::getConfigKey, "sys.account.registerUser"));
+        });
         if (ObjectUtil.isNull(retConfig)) {
             return false;
         }
@@ -112,6 +113,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         lqw.like(StringUtils.isNotBlank(bo.getConfigKey()), SysConfig::getConfigKey, bo.getConfigKey());
         lqw.between(StringUtils.isAllNotEmpty(params.get("beginTime"), params.get("endTime")),
             SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
+        lqw.orderByAsc(SysConfig::getConfigId);
         return lqw;
     }
 

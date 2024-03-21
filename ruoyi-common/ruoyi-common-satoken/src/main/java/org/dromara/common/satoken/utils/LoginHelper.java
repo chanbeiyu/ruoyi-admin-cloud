@@ -11,11 +11,11 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.constant.UserConstants;
-import org.dromara.common.core.enums.DeviceType;
 import org.dromara.common.core.enums.UserType;
 import org.dromara.system.api.model.LoginUser;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * 登录鉴权助手
@@ -35,7 +35,9 @@ public class LoginHelper {
     public static final String LOGIN_USER_KEY = "loginUser";
     public static final String TENANT_KEY = "tenantId";
     public static final String USER_KEY = "userId";
+    public static final String DEPT_KEY = "deptId";
     public static final String CLIENT_KEY = "clientid";
+    public static final String TENANT_ADMIN_KEY = "isTenantAdmin";
 
     /**
      * 登录系统 基于 设备类型
@@ -49,10 +51,12 @@ public class LoginHelper {
         storage.set(LOGIN_USER_KEY, loginUser);
         storage.set(TENANT_KEY, loginUser.getTenantId());
         storage.set(USER_KEY, loginUser.getUserId());
+        storage.set(DEPT_KEY, loginUser.getDeptId());
         model = ObjectUtil.defaultIfNull(model, new SaLoginModel());
         StpUtil.login(loginUser.getLoginId(),
             model.setExtra(TENANT_KEY, loginUser.getTenantId())
-                .setExtra(USER_KEY, loginUser.getUserId()));
+                .setExtra(USER_KEY, loginUser.getUserId())
+                .setExtra(DEPT_KEY, loginUser.getDeptId()));
         StpUtil.getTokenSession().set(LOGIN_USER_KEY, loginUser);
     }
 
@@ -60,17 +64,13 @@ public class LoginHelper {
      * 获取用户(多级缓存)
      */
     public static LoginUser getLoginUser() {
-        LoginUser loginUser = (LoginUser) SaHolder.getStorage().get(LOGIN_USER_KEY);
-        if (loginUser != null) {
-            return loginUser;
-        }
-        SaSession session = StpUtil.getTokenSession();
-        if (ObjectUtil.isNull(session)) {
-            return null;
-        }
-        loginUser = (LoginUser) session.get(LOGIN_USER_KEY);
-        SaHolder.getStorage().set(LOGIN_USER_KEY, loginUser);
-        return loginUser;
+        return (LoginUser) getStorageIfAbsentSet(LOGIN_USER_KEY, () -> {
+            SaSession session = StpUtil.getTokenSession();
+            if (ObjectUtil.isNull(session)) {
+                return null;
+            }
+            return session.get(LOGIN_USER_KEY);
+        });
     }
 
     /**
@@ -88,41 +88,25 @@ public class LoginHelper {
      * 获取用户id
      */
     public static Long getUserId() {
-        Long userId;
-        try {
-            userId = Convert.toLong(SaHolder.getStorage().get(USER_KEY));
-            if (ObjectUtil.isNull(userId)) {
-                userId = Convert.toLong(StpUtil.getExtra(USER_KEY));
-                SaHolder.getStorage().set(USER_KEY, userId);
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return userId;
+        return  Convert.toLong(getExtra(USER_KEY));
     }
 
     /**
      * 获取租户ID
      */
     public static String getTenantId() {
-        String tenantId;
-        try {
-            tenantId = (String) SaHolder.getStorage().get(TENANT_KEY);
-            if (ObjectUtil.isNull(tenantId)) {
-                tenantId = (String) StpUtil.getExtra(TENANT_KEY);
-                SaHolder.getStorage().set(TENANT_KEY, tenantId);
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return tenantId;
+        return Convert.toStr(getExtra(TENANT_KEY));
     }
 
     /**
      * 获取部门ID
      */
     public static Long getDeptId() {
-        return getLoginUser().getDeptId();
+        return Convert.toLong(getExtra(DEPT_KEY));
+    }
+
+    private static Object getExtra(String key) {
+        return getStorageIfAbsentSet(key, () -> StpUtil.getExtra(key));
     }
 
     /**
@@ -165,7 +149,26 @@ public class LoginHelper {
     }
 
     public static boolean isTenantAdmin() {
-        return isTenantAdmin(getLoginUser().getRolePermission());
+        Object value = getStorageIfAbsentSet(TENANT_ADMIN_KEY, () -> {
+            return isTenantAdmin(getLoginUser().getRolePermission());
+        });
+        return Convert.toBool(value);
     }
 
+    public static boolean isLogin() {
+        return getLoginUser() != null;
+    }
+
+    public static Object getStorageIfAbsentSet(String key, Supplier<Object> handle) {
+        try {
+            Object obj = SaHolder.getStorage().get(key);
+            if (ObjectUtil.isNull(obj)) {
+                obj = handle.get();
+                SaHolder.getStorage().set(key, obj);
+            }
+            return obj;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

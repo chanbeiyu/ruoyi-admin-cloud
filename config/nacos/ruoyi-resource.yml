@@ -17,8 +17,6 @@ spring:
 #          url: ${datasource.system-oracle.url}
 #          username: ${datasource.system-oracle.username}
 #          password: ${datasource.system-oracle.password}
-#          hikari:
-#            connectionTestQuery: SELECT 1 FROM DUAL
 #        postgres:
 #          type: ${spring.datasource.type}
 #          driverClassName: org.postgresql.Driver
@@ -27,6 +25,7 @@ spring:
 #          password: ${datasource.system-postgres.password}
 
 websocket:
+  # 如果关闭 需要和前端开关一起关闭
   enabled: true
   # 路径
   path: /websocket

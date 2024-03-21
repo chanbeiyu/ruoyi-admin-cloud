@@ -3,8 +3,8 @@
 -- ----------------------------
 create table sys_social
 (
-    id                 number(20)       not null,
-    user_id            number(20)       not null,
+    id                 number(20)        not null,
+    user_id            number(20)        not null,
     tenant_id          varchar2(20)      default null,
     auth_id            varchar2(255)     not null,
     source             varchar2(255)     not null,
@@ -14,7 +14,7 @@ create table sys_social
     email              varchar2(255)     default '',
     avatar             varchar2(500)     default '',
     access_token       varchar2(255)     not null,
-    expire_in          number(100)      default null,
+    expire_in          number(100)       default null,
     refresh_token      varchar2(255)     default null,
     access_code        varchar2(255)     default null,
     union_id           varchar2(255)     default null,
@@ -166,7 +166,7 @@ create table sys_dept (
   ancestors         varchar2(500)   default '',
   dept_name         varchar2(30)    default '',
   order_num         number(4)       default 0,
-  leader            varchar2(20)    default null,
+  leader            number(20)      default null,
   phone             varchar2(11)    default null,
   email             varchar2(50)    default null,
   status            char(1)         default '0',
@@ -201,16 +201,16 @@ comment on column sys_dept.update_time  is '更新时间';
 -- ----------------------------
 -- 初始化-部门表数据
 -- ----------------------------
-insert into sys_dept values(100, '000000', 0,   '0',          'XXX科技',   0, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(101, '000000', 100, '0,100',      '深圳总公司', 1, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(102, '000000', 100, '0,100',      '长沙分公司', 2, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(103, '000000', 101, '0,100,101',  '研发部门',   1, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(104, '000000', 101, '0,100,101',  '市场部门',   2, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(105, '000000', 101, '0,100,101',  '测试部门',   3, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(106, '000000', 101, '0,100,101',  '财务部门',   4, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(107, '000000', 101, '0,100,101',  '运维部门',   5, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(108, '000000', 102, '0,100,102',  '市场部门',   1, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
-insert into sys_dept values(109, '000000', 102, '0,100,102',  '财务部门',   2, '疯狂的狮子Li', '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(100, '000000', 0,   '0',          'XXX科技',   0, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(101, '000000', 100, '0,100',      '深圳总公司', 1, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(102, '000000', 100, '0,100',      '长沙分公司', 2, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(103, '000000', 101, '0,100,101',  '研发部门',   1, 1, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(104, '000000', 101, '0,100,101',  '市场部门',   2, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(105, '000000', 101, '0,100,101',  '测试部门',   3, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(106, '000000', 101, '0,100,101',  '财务部门',   4, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(107, '000000', 101, '0,100,101',  '运维部门',   5, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(108, '000000', 102, '0,100,102',  '市场部门',   1, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
+insert into sys_dept values(109, '000000', 102, '0,100,102',  '财务部门',   2, null, '15888888888', 'xxx@qq.com', '0', '0', 103, 1, sysdate, null, null);
 
 
 -- ----------------------------
@@ -434,6 +434,7 @@ insert into sys_menu values('106',  '参数设置',     '1',   '7', 'config',   
 insert into sys_menu values('107',  '通知公告',     '1',   '8', 'notice',           'system/notice/index',          '', 1, 0, 'C', '0', '0', 'system:notice:list',          'message',       103, 1, sysdate, null, null, '通知公告菜单');
 insert into sys_menu values('108',  '日志管理',     '1',   '9', 'log',              '',                             '', 1, 0, 'M', '0', '0', '',                            'log',           103, 1, sysdate, null, null, '日志管理菜单');
 insert into sys_menu values('109',  '在线用户',     '2',   '1', 'online',           'monitor/online/index',         '', 1, 0, 'C', '0', '0', 'monitor:online:list',         'online',        103, 1, sysdate, null, null, '在线用户菜单');
+insert into sys_menu values('124',  '缓存监控',     '2',   '1',  'cache',           'monitor/cache/index',          '', 1, 0, 'C', '0', '0', 'monitor:cache:list',          'redis',         103, 1, sysdate, null, null, '缓存监控');
 insert into sys_menu values('110',  'PowerJob控制台', '2', '2', 'http://localhost:9900',        '',                 '', 0, 0, 'C', '0', '0', 'monitor:job:list',            'job',           103, 1, sysdate, null, null, '定时任务菜单');
 insert into sys_menu values('111',  'Sentinel控制台','2',  '3', 'http://localhost:8718',        '',                 '', 0, 0, 'C', '0', '0', 'monitor:sentinel:list',       'sentinel',      103, 1, sysdate, null, null, '流量控制菜单');
 insert into sys_menu values('112',  'Nacos控制台',  '2',   '4', 'http://localhost:8848/nacos',  '',                 '', 0, 0, 'C', '0', '0', 'monitor:nacos:list',          'nacos',         103, 1, sysdate, null, null, '服务治理菜单');
@@ -522,8 +523,10 @@ insert into sys_menu values('1600', '文件查询', '118', '1', '#', '', '', 1, 
 insert into sys_menu values('1601', '文件上传', '118', '2', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:upload',       '#', 103, 1, sysdate, null, null, '');
 insert into sys_menu values('1602', '文件下载', '118', '3', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:download',     '#', 103, 1, sysdate, null, null, '');
 insert into sys_menu values('1603', '文件删除', '118', '4', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:remove',       '#', 103, 1, sysdate, null, null, '');
-insert into sys_menu values('1604', '配置添加', '118', '5', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:add',          '#', 103, 1, sysdate, null, null, '');
-insert into sys_menu values('1605', '配置编辑', '118', '6', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:edit',         '#', 103, 1, sysdate, null, null, '');
+insert into sys_menu values('1620', '配置列表', '118', '5', '#', '', '', 1, 0, 'F', '0', '0', 'system:ossConfig:list',   '#', 103, 1, sysdate, null, null, '');
+insert into sys_menu values('1621', '配置添加', '118', '6', '#', '', '', 1, 0, 'F', '0', '0', 'system:ossConfig:add',    '#', 103, 1, sysdate, null, null, '');
+insert into sys_menu values('1622', '配置编辑', '118', '6', '#', '', '', 1, 0, 'F', '0', '0', 'system:ossConfig:edit',   '#', 103, 1, sysdate, null, null, '');
+insert into sys_menu values('1623', '配置删除', '118', '6', '#', '', '', 1, 0, 'F', '0', '0', 'system:ossConfig:remove', '#', 103, 1, sysdate, null, null, '');
 -- 租户管理相关按钮
 insert into sys_menu values('1606', '租户查询', '121', '1', '#', '', '', 1, 0, 'F', '0', '0', 'system:tenant:query',   '#', 103, 1, sysdate, null, null, '');
 insert into sys_menu values('1607', '租户新增', '121', '2', '#', '', '', 1, 0, 'F', '0', '0', 'system:tenant:add',     '#', 103, 1, sysdate, null, null, '');
@@ -768,7 +771,6 @@ create table sys_dict_type (
   tenant_id         varchar2(20)    default '000000',
   dict_name         varchar2(100)   default '',
   dict_type         varchar2(100)   default '',
-  status            char(1)         default '0',
   create_dept       number(20)      default null,
   create_by         number(20)      default null,
   create_time       date,
@@ -785,7 +787,6 @@ comment on column sys_dict_type.dict_id       is '字典主键';
 comment on column sys_dict_type.tenant_id     is '租户编号';
 comment on column sys_dict_type.dict_name     is '字典名称';
 comment on column sys_dict_type.dict_type     is '字典类型';
-comment on column sys_dict_type.status        is '状态（0正常 1停用）';
 comment on column sys_dict_type.create_dept   is '创建部门';
 comment on column sys_dict_type.create_by     is '创建者';
 comment on column sys_dict_type.create_time   is '创建时间';
@@ -793,16 +794,16 @@ comment on column sys_dict_type.update_by     is '更新者';
 comment on column sys_dict_type.update_time   is '更新时间';
 comment on column sys_dict_type.remark        is '备注';
 
-insert into sys_dict_type values(1, '000000', '用户性别', 'sys_user_sex',        '0', 103, 1, sysdate, null, null, '用户性别列表');
-insert into sys_dict_type values(2, '000000', '菜单状态', 'sys_show_hide',       '0', 103, 1, sysdate, null, null, '菜单状态列表');
-insert into sys_dict_type values(3, '000000', '系统开关', 'sys_normal_disable',  '0', 103, 1, sysdate, null, null, '系统开关列表');
-insert into sys_dict_type values(6, '000000', '系统是否', 'sys_yes_no',          '0', 103, 1, sysdate, null, null, '系统是否列表');
-insert into sys_dict_type values(7, '000000', '通知类型', 'sys_notice_type',     '0', 103, 1, sysdate, null, null, '通知类型列表');
-insert into sys_dict_type values(8, '000000', '通知状态', 'sys_notice_status',   '0', 103, 1, sysdate, null, null, '通知状态列表');
-insert into sys_dict_type values(9, '000000', '操作类型', 'sys_oper_type',       '0', 103, 1, sysdate, null, null, '操作类型列表');
-insert into sys_dict_type values(10, '000000', '系统状态', 'sys_common_status',  '0', 103, 1, sysdate, null, null, '登录状态列表');
-insert into sys_dict_type values(11, '000000', '授权类型', 'sys_grant_type',     '0', 103, 1, sysdate, null, null, '认证授权类型');
-insert into sys_dict_type values(12, '000000', '设备类型', 'sys_device_type',    '0', 103, 1, sysdate, null, null, '客户端设备类型');
+insert into sys_dict_type values(1, '000000', '用户性别', 'sys_user_sex',        103, 1, sysdate, null, null, '用户性别列表');
+insert into sys_dict_type values(2, '000000', '菜单状态', 'sys_show_hide',       103, 1, sysdate, null, null, '菜单状态列表');
+insert into sys_dict_type values(3, '000000', '系统开关', 'sys_normal_disable',  103, 1, sysdate, null, null, '系统开关列表');
+insert into sys_dict_type values(6, '000000', '系统是否', 'sys_yes_no',          103, 1, sysdate, null, null, '系统是否列表');
+insert into sys_dict_type values(7, '000000', '通知类型', 'sys_notice_type',     103, 1, sysdate, null, null, '通知类型列表');
+insert into sys_dict_type values(8, '000000', '通知状态', 'sys_notice_status',   103, 1, sysdate, null, null, '通知状态列表');
+insert into sys_dict_type values(9, '000000', '操作类型', 'sys_oper_type',       103, 1, sysdate, null, null, '操作类型列表');
+insert into sys_dict_type values(10, '000000', '系统状态', 'sys_common_status',  103, 1, sysdate, null, null, '登录状态列表');
+insert into sys_dict_type values(11, '000000', '授权类型', 'sys_grant_type',     103, 1, sysdate, null, null, '认证授权类型');
+insert into sys_dict_type values(12, '000000', '设备类型', 'sys_device_type',    103, 1, sysdate, null, null, '客户端设备类型');
 
 
 -- ----------------------------
@@ -818,7 +819,6 @@ create table sys_dict_data (
   css_class        varchar2(100)   default null,
   list_class       varchar2(100)   default null,
   is_default       char(1)         default 'N',
-  status           char(1)         default '0',
   create_dept      number(20)      default null,
   create_by        number(20)      default null,
   create_time      date,
@@ -839,7 +839,6 @@ comment on column sys_dict_data.dict_type     is '字典类型';
 comment on column sys_dict_data.css_class     is '样式属性（其他样式扩展）';
 comment on column sys_dict_data.list_class    is '表格回显样式';
 comment on column sys_dict_data.is_default    is '是否默认（Y是 N否）';
-comment on column sys_dict_data.status        is '状态（0正常 1停用）';
 comment on column sys_dict_data.create_dept   is '创建部门';
 comment on column sys_dict_data.create_by     is '创建者';
 comment on column sys_dict_data.create_time   is '创建时间';
@@ -847,38 +846,40 @@ comment on column sys_dict_data.update_by     is '更新者';
 comment on column sys_dict_data.update_time   is '更新时间';
 comment on column sys_dict_data.remark        is '备注';
 
-insert into sys_dict_data values(1, '000000', 1,  '男',       '0',       'sys_user_sex',        '',   '',        'Y', '0', 103, 1, sysdate, null, null, '性别男');
-insert into sys_dict_data values(2, '000000', 2,  '女',       '1',       'sys_user_sex',        '',   '',        'N', '0', 103, 1, sysdate, null, null, '性别女');
-insert into sys_dict_data values(3, '000000', 3,  '未知',     '2',       'sys_user_sex',        '',   '',        'N', '0', 103, 1, sysdate, null, null, '性别未知');
-insert into sys_dict_data values(4, '000000', 1,  '显示',     '0',       'sys_show_hide',       '',   'primary', 'Y', '0', 103, 1, sysdate, null, null, '显示菜单');
-insert into sys_dict_data values(5, '000000', 2,  '隐藏',     '1',       'sys_show_hide',       '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '隐藏菜单');
-insert into sys_dict_data values(6, '000000', 1,  '正常',     '0',       'sys_normal_disable',  '',   'primary', 'Y', '0', 103, 1, sysdate, null, null, '正常状态');
-insert into sys_dict_data values(7, '000000', 2,  '停用',     '1',       'sys_normal_disable',  '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '停用状态');
-insert into sys_dict_data values(12, '000000', 1,  '是',       'Y',       'sys_yes_no',          '',   'primary', 'Y', '0', 103, 1, sysdate, null, null, '系统默认是');
-insert into sys_dict_data values(13, '000000', 2,  '否',       'N',       'sys_yes_no',          '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '系统默认否');
-insert into sys_dict_data values(14, '000000', 1,  '通知',     '1',       'sys_notice_type',     '',   'warning', 'Y', '0', 103, 1, sysdate, null, null, '通知');
-insert into sys_dict_data values(15, '000000', 2,  '公告',     '2',       'sys_notice_type',     '',   'success', 'N', '0', 103, 1, sysdate, null, null, '公告');
-insert into sys_dict_data values(16, '000000', 1,  '正常',     '0',       'sys_notice_status',   '',   'primary', 'Y', '0', 103, 1, sysdate, null, null, '正常状态');
-insert into sys_dict_data values(17, '000000', 2,  '关闭',     '1',       'sys_notice_status',   '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '关闭状态');
-insert into sys_dict_data values(29, '000000', 99, '其他',     '0',       'sys_oper_type',       '',   'info',    'N', '0', 103, 1, sysdate, null, null, '其他操作');
-insert into sys_dict_data values(18, '000000', 1,  '新增',     '1',       'sys_oper_type',       '',   'info',    'N', '0', 103, 1, sysdate, null, null, '新增操作');
-insert into sys_dict_data values(19, '000000', 2,  '修改',     '2',       'sys_oper_type',       '',   'info',    'N', '0', 103, 1, sysdate, null, null, '修改操作');
-insert into sys_dict_data values(20, '000000', 3,  '删除',     '3',       'sys_oper_type',       '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '删除操作');
-insert into sys_dict_data values(21, '000000', 4,  '授权',     '4',       'sys_oper_type',       '',   'primary', 'N', '0', 103, 1, sysdate, null, null, '授权操作');
-insert into sys_dict_data values(22, '000000', 5,  '导出',     '5',       'sys_oper_type',       '',   'warning', 'N', '0', 103, 1, sysdate, null, null, '导出操作');
-insert into sys_dict_data values(23, '000000', 6,  '导入',     '6',       'sys_oper_type',       '',   'warning', 'N', '0', 103, 1, sysdate, null, null, '导入操作');
-insert into sys_dict_data values(24, '000000', 7,  '强退',     '7',       'sys_oper_type',       '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '强退操作');
-insert into sys_dict_data values(25, '000000', 8,  '生成代码', '8',       'sys_oper_type',       '',   'warning', 'N', '0', 103, 1, sysdate, null, null, '生成操作');
-insert into sys_dict_data values(26, '000000', 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '清空操作');
-insert into sys_dict_data values(27, '000000', 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', '0', 103, 1, sysdate, null, null, '正常状态');
-insert into sys_dict_data values(28, '000000', 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', '0', 103, 1, sysdate, null, null, '停用状态');
-insert into sys_dict_data values(30, '000000', 0,  '密码认证', 'password',   'sys_grant_type',   '',   'default', 'N', '0', 103, 1, sysdate, null, null, '密码认证');
-insert into sys_dict_data values(31, '000000', 0,  '短信认证', 'sms',        'sys_grant_type',   '',   'default', 'N', '0', 103, 1, sysdate, null, null, '短信认证');
-insert into sys_dict_data values(32, '000000', 0,  '邮件认证', 'email',      'sys_grant_type',   '',   'default', 'N', '0', 103, 1, sysdate, null, null, '邮件认证');
-insert into sys_dict_data values(33, '000000', 0,  '小程序认证', 'xcx',      'sys_grant_type',   '',   'default', 'N', '0', 103, 1, sysdate, null, null, '小程序认证');
-insert into sys_dict_data values(34, '000000', 0,  '三方登录认证', 'social', 'sys_grant_type',   '',   'default', 'N', '0', 103, 1, sysdate, null, null, '三方登录认证');
-insert into sys_dict_data values(35, '000000', 0,  'PC端',      'pc',        'sys_device_type',  '',   'default', 'N', '0', 103, 1, sysdate, null, null, 'PC端');
-insert into sys_dict_data values(36, '000000', 0,  'APP端',     'app',       'sys_device_type',  '',   'default', 'N', '0', 103, 1, sysdate, null, null, 'APP端');
+insert into sys_dict_data values(1, '000000', 1,  '男',       '0',       'sys_user_sex',        '',   '',        'Y', 103, 1, sysdate, null, null, '性别男');
+insert into sys_dict_data values(2, '000000', 2,  '女',       '1',       'sys_user_sex',        '',   '',        'N', 103, 1, sysdate, null, null, '性别女');
+insert into sys_dict_data values(3, '000000', 3,  '未知',     '2',       'sys_user_sex',        '',   '',        'N', 103, 1, sysdate, null, null, '性别未知');
+insert into sys_dict_data values(4, '000000', 1,  '显示',     '0',       'sys_show_hide',       '',   'primary', 'Y', 103, 1, sysdate, null, null, '显示菜单');
+insert into sys_dict_data values(5, '000000', 2,  '隐藏',     '1',       'sys_show_hide',       '',   'danger',  'N', 103, 1, sysdate, null, null, '隐藏菜单');
+insert into sys_dict_data values(6, '000000', 1,  '正常',     '0',       'sys_normal_disable',  '',   'primary', 'Y', 103, 1, sysdate, null, null, '正常状态');
+insert into sys_dict_data values(7, '000000', 2,  '停用',     '1',       'sys_normal_disable',  '',   'danger',  'N', 103, 1, sysdate, null, null, '停用状态');
+insert into sys_dict_data values(12, '000000', 1,  '是',       'Y',       'sys_yes_no',          '',   'primary', 'Y', 103, 1, sysdate, null, null, '系统默认是');
+insert into sys_dict_data values(13, '000000', 2,  '否',       'N',       'sys_yes_no',          '',   'danger',  'N', 103, 1, sysdate, null, null, '系统默认否');
+insert into sys_dict_data values(14, '000000', 1,  '通知',     '1',       'sys_notice_type',     '',   'warning', 'Y', 103, 1, sysdate, null, null, '通知');
+insert into sys_dict_data values(15, '000000', 2,  '公告',     '2',       'sys_notice_type',     '',   'success', 'N', 103, 1, sysdate, null, null, '公告');
+insert into sys_dict_data values(16, '000000', 1,  '正常',     '0',       'sys_notice_status',   '',   'primary', 'Y', 103, 1, sysdate, null, null, '正常状态');
+insert into sys_dict_data values(17, '000000', 2,  '关闭',     '1',       'sys_notice_status',   '',   'danger',  'N', 103, 1, sysdate, null, null, '关闭状态');
+insert into sys_dict_data values(29, '000000', 99, '其他',     '0',       'sys_oper_type',       '',   'info',    'N', 103, 1, sysdate, null, null, '其他操作');
+insert into sys_dict_data values(18, '000000', 1,  '新增',     '1',       'sys_oper_type',       '',   'info',    'N', 103, 1, sysdate, null, null, '新增操作');
+insert into sys_dict_data values(19, '000000', 2,  '修改',     '2',       'sys_oper_type',       '',   'info',    'N', 103, 1, sysdate, null, null, '修改操作');
+insert into sys_dict_data values(20, '000000', 3,  '删除',     '3',       'sys_oper_type',       '',   'danger',  'N', 103, 1, sysdate, null, null, '删除操作');
+insert into sys_dict_data values(21, '000000', 4,  '授权',     '4',       'sys_oper_type',       '',   'primary', 'N', 103, 1, sysdate, null, null, '授权操作');
+insert into sys_dict_data values(22, '000000', 5,  '导出',     '5',       'sys_oper_type',       '',   'warning', 'N', 103, 1, sysdate, null, null, '导出操作');
+insert into sys_dict_data values(23, '000000', 6,  '导入',     '6',       'sys_oper_type',       '',   'warning', 'N', 103, 1, sysdate, null, null, '导入操作');
+insert into sys_dict_data values(24, '000000', 7,  '强退',     '7',       'sys_oper_type',       '',   'danger',  'N', 103, 1, sysdate, null, null, '强退操作');
+insert into sys_dict_data values(25, '000000', 8,  '生成代码', '8',       'sys_oper_type',       '',   'warning', 'N', 103, 1, sysdate, null, null, '生成操作');
+insert into sys_dict_data values(26, '000000', 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', 103, 1, sysdate, null, null, '清空操作');
+insert into sys_dict_data values(27, '000000', 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', 103, 1, sysdate, null, null, '正常状态');
+insert into sys_dict_data values(28, '000000', 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', 103, 1, sysdate, null, null, '停用状态');
+insert into sys_dict_data values(30, '000000', 0,  '密码认证', 'password',   'sys_grant_type',   '',   'default', 'N', 103, 1, sysdate, null, null, '密码认证');
+insert into sys_dict_data values(31, '000000', 0,  '短信认证', 'sms',        'sys_grant_type',   '',   'default', 'N', 103, 1, sysdate, null, null, '短信认证');
+insert into sys_dict_data values(32, '000000', 0,  '邮件认证', 'email',      'sys_grant_type',   '',   'default', 'N', 103, 1, sysdate, null, null, '邮件认证');
+insert into sys_dict_data values(33, '000000', 0,  '小程序认证', 'xcx',      'sys_grant_type',   '',   'default', 'N', 103, 1, sysdate, null, null, '小程序认证');
+insert into sys_dict_data values(34, '000000', 0,  '三方登录认证', 'social', 'sys_grant_type',   '',   'default', 'N', 103, 1, sysdate, null, null, '三方登录认证');
+insert into sys_dict_data values(35, '000000', 0,  'PC',      'pc',          'sys_device_type',  '',   'default', 'N', 103, 1, sysdate, null, null, 'PC');
+insert into sys_dict_data values(36, '000000', 0,  '安卓',     'android',    'sys_device_type',  '',   'default', 'N', 103, 1, sysdate, null, null, '安卓');
+insert into sys_dict_data values(37, '000000', 0,  'iOS',     'ios',         'sys_device_type',  '',   'default', 'N', 103, 1, sysdate, null, null, 'iOS');
+insert into sys_dict_data values(38, '000000', 0,  '小程序',     'xcx',      'sys_device_type',  '',   'default', 'N', 103, 1, sysdate, null, null, '小程序');
 
 
 -- ----------------------------
@@ -928,6 +929,8 @@ create table sys_logininfor (
   info_id         number(20)     not null,
   tenant_id       varchar2(20)   default '000000',
   user_name       varchar2(50)   default '',
+  client_key      varchar2(32)   default '',
+  device_type     varchar2(32)   default '',
   ipaddr          varchar2(128)  default '',
   login_location  varchar2(255)  default '',
   browser         varchar2(50)   default '',
@@ -945,6 +948,8 @@ comment on table  sys_logininfor                is '系统访问记录';
 comment on column sys_logininfor.info_id        is '访问ID';
 comment on column sys_logininfor.tenant_id      is '租户编号';
 comment on column sys_logininfor.user_name      is '登录账号';
+comment on column sys_logininfor.client_key     is '客户端';
+comment on column sys_logininfor.device_type    is '设备类型';
 comment on column sys_logininfor.ipaddr         is '登录IP地址';
 comment on column sys_logininfor.login_location is '登录地点';
 comment on column sys_logininfor.browser        is '浏览器类型';
@@ -1073,9 +1078,9 @@ create table gen_table_column (
   dict_type         varchar(200)    default '',
   sort              number(4),
   create_dept       number(20)      default null,
-  create_by         number(20)       default null,
+  create_by         number(20)      default null,
   create_time       date ,
-  update_by         number(20)       default null,
+  update_by         number(20)      default null,
   update_time       date
 );
 
@@ -1203,22 +1208,22 @@ insert into sys_oss_config values (5, '000000', 'image',  'ruoyi',            'r
 -- 系统授权表
 -- ----------------------------
 create table sys_client (
-    id                  number(20)    not null,
+    id                  number(20)     not null,
     client_id           varchar2(64)   default null,
     client_key          varchar2(32)   default null,
     client_secret       varchar2(255)  default null,
     grant_type          varchar2(255)  default null,
     device_type         varchar2(32)   default null,
-    active_timeout      number(11)    default 1800,
-    timeout             number(11)    default 604800,
-    status              char(1)       default '0',
-    del_flag            char(1)       default '0',
-    create_dept         number(20)    default null,
-    create_by           number(20)    default null,
+    active_timeout      number(11)     default 1800,
+    timeout             number(11)     default 604800,
+    status              char(1)        default '0',
+    del_flag            char(1)        default '0',
+    create_dept         number(20)     default null,
+    create_by           number(20)     default null,
     create_time         date,
-    update_by           number(20)    default null,
+    update_by           number(20)     default null,
     update_time         date
-)
+);
 
 alter table sys_client add constraint pk_sys_client primary key (id);
 
@@ -1240,7 +1245,7 @@ comment on column sys_client.update_by              is '更新者';
 comment on column sys_client.update_time            is '更新时间';
 
 insert into sys_client values (1, 'e5cd7e4891bf95d1d19206ce24a7b32e', 'pc', 'pc123', 'password,social', 'pc', 1800, 604800, 0, 0, 103, 1, sysdate, 1, sysdate);
-insert into sys_client values (2, '428a8310cd442757ae699df5d894f051', 'app', 'app123', 'password,sms,social', 'app', 1800, 604800, 0, 0, 103, 1, sysdate, 1, sysdate);
+insert into sys_client values (2, '428a8310cd442757ae699df5d894f051', 'app', 'app123', 'password,sms,social', 'android', 1800, 604800, 0, 0, 103, 1, sysdate, 1, sysdate);
 
 -- ----------------------------
 -- 钩子 ，用于session连接之后 自动设置默认的date类型格式化 简化时间查询

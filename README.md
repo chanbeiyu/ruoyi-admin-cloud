@@ -5,14 +5,14 @@
 ## 平台简介
 
 [![码云Gitee](https://gitee.com/dromara/RuoYi-Cloud-Plus/badge/star.svg?theme=blue)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
-[![GitHub](https://img.shields.io/github/stars/JavaLionLi/RuoYi-Cloud-Plus.svg?style=social&label=Stars)](https://github.com/dromara/RuoYi-Cloud-Plus)
+[![GitHub](https://img.shields.io/github/stars/dromara/RuoYi-Cloud-Plus.svg?style=social&label=Stars)](https://github.com/dromara/RuoYi-Cloud-Plus)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Cloud-Plus)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.0.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-blue.svg)]()
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.1.2-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1-blue.svg)]()
 [![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
-[![JDK-19](https://img.shields.io/badge/JDK-19-green.svg)]()
+[![JDK-19](https://img.shields.io/badge/JDK-21-green.svg)]()
 
 > RuoYi-Cloud-Plus `微服务通用权限管理系统` 重写 RuoYi-Cloud 全方位升级(不兼容原框架)
 
@@ -23,13 +23,19 @@
 
 > 前端项目地址: [plus-ui](https://gitee.com/JavaLionLi/plus-ui)
 
-> 文档地址: [plus-doc](https://plus-doc.dromara.org) - [plus-doc(国内备用)](https://dromara.gitee.io/plus-doc)
+> 文档地址: [plus-doc](https://plus-doc.dromara.org)
+
+## 赞助商
+
+MaxKey - https://gitee.com/dromara/MaxKey <br>
+CCFlow - https://gitee.com/opencc/RuoYi-JFlow <br>
+[如何成为赞助商 加群联系作者详谈](https://plus-doc.dromara.org/#/common/add_group)
 
 # 本框架与RuoYi的功能差异
 
 | 功能          | 本框架                                                                                                               | RuoYi                                                                              |
 |-------------|-------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| 前端项目        | 基于vue3-element-admin开源项目重写<br/>Vue3 + TS + ElementPlus                                                            | 基于Vue2/Vue3 + JS                                                                   | 
+| 前端项目        | 采用 Vue3 + TS + ElementPlus 重写                                                                                     | 基于Vue2/Vue3 + JS                                                                   | 
 | 后端项目结构      | 采用插件化 + 扩展包形式 结构解耦 易于扩展                                                                                           | 模块相互注入耦合严重难以扩展                                                                     | 
 | 后端代码风格      | 严格遵守Alibaba规范与项目统一配置的代码格式化                                                                                        | 代码书写与常规结构不同阅读障碍大                                                                   |
 | 分布式注册中心     | 采用 Alibaba Nacos 源码集成便于调试扩展与二次开发 框架还为其增加了各种监控                                                                     | 采用 Alibaba Nacos 自行搭建纯官方版本不可靠                                                      | 
@@ -42,7 +48,7 @@
 | Web容器       | 采用 Undertow 基于 XNIO 的高性能容器                                                                                        | 采用 Tomcat                                                                          |
 | 权限认证        | 采用 Sa-Token、Jwt 静态使用功能齐全 低耦合 高扩展                                                                                  | Spring Security 配置繁琐扩展性极差                                                          |
 | 权限注解        | 采用 Sa-Token 支持注解 登录校验、角色校验、权限校验、二级认证校验、HttpBasic校验、忽略校验<br/>角色与权限校验支持多种条件 如 `AND` `OR` 或 `权限 OR 角色` 等复杂表达式        | 只支持是否存在匹配                                                                          |
-| 关系数据库支持     | 原生支持 MySQL、Oracle、PostgreSQL、SQLServer<br/>可同时使用异构切换                                                              | 支持 Mysql、Oracle 不支持同时使用、不支持异构切换                                                    |
+| 关系数据库支持     | 原生支持 MySQL、Oracle、PostgreSQL、SQLServer<br/>可同时使用异构切换(支持其他 mybatis-plus 支持的所有数据库 只需要增加jdbc依赖即可使用 达梦金仓等均有成功案例)      | 支持 Mysql、Oracle 不支持同时使用、不支持异构切换                                                    |
 | 缓存数据库       | 支持 Redis 5-7 支持大部分新功能特性 如 分布式限流、分布式队列                                                                             | Redis 简单 get set 支持                                                                |
 | Redis客户端    | 采用 Redisson Redis官方推荐 基于Netty的客户端工具<br/>支持Redis 90%以上的命令 底层优化规避很多不正确的用法 例如: keys被转换为scan<br/>支持单机、哨兵、单主集群、多主集群等模式 | Lettuce + RedisTemplate 支持模式少 工具使用繁琐<br/>连接池采用 common-pool Bug多经常性出问题              |
 | 缓存注解        | 采用 Spring-Cache 注解 对其扩展了实现支持了更多功能<br/>例如 过期时间 最大空闲时间 组最大长度等 只需一个注解即可完成数据自动缓存                                      | 需手动编写Redis代码逻辑                                                                     |
@@ -124,11 +130,11 @@
 >[部署项目 必看](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/deploy)
 >>[https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/deploy](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/deploy)
 >
+>[如何加群](https://plus-doc.dromara.org/#/common/add_group)
+>>[https://plus-doc.dromara.org/#/common/add_group](https://plus-doc.dromara.org/#/common/add_group)
+>
 >[参考文档 Wiki](https://plus-doc.dromara.org)
 >>[https://plus-doc.dromara.org](https://plus-doc.dromara.org)
->
->[参考文档(国内备份)](https://dromara.gitee.io/plus-doc)
->>[https://dromara.gitee.io/plus-doc](https://dromara.gitee.io/plus-doc)
 
 
 ## 软件架构图
@@ -138,14 +144,6 @@
 ## 贡献代码
 
 [参与贡献的方式 https://plus-doc.dromara.org/#/common/contribution](https://plus-doc.dromara.org/#/common/contribution)
-
-### 其他
-
-* 定期同步升级 RuoYi-Cloud 有用的更新
-* github 地址 [RuoYi-Cloud-Plus](https://github.com/dromara/RuoYi-Cloud-Plus)
-* 分离版分支 [RuoYi-Vue-Plus](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
-* 前端项目 地址 [plus-ui](https://gitee.com/JavaLionLi/plus-ui)
-* 用户扩展项目 [扩展项目列表](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/extend-project/list)
 
 ## 捐献作者
 

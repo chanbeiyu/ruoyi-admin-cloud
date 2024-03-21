@@ -9,6 +9,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.file.MimeTypeUtils;
+import org.dromara.common.encrypt.annotation.ApiEncrypt;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
@@ -16,6 +17,7 @@ import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.resource.api.RemoteFileService;
 import org.dromara.resource.api.domain.RemoteFile;
 import org.dromara.system.domain.bo.SysUserBo;
+import org.dromara.system.domain.bo.SysUserPasswordBo;
 import org.dromara.system.domain.bo.SysUserProfileBo;
 import org.dromara.system.domain.vo.AvatarVo;
 import org.dromara.system.domain.vo.ProfileVo;
@@ -65,11 +67,12 @@ public class SysProfileController extends BaseController {
     @PutMapping
     public R<Void> updateProfile(@RequestBody SysUserProfileBo profile) {
         SysUserBo user = BeanUtil.toBean(profile, SysUserBo.class);
+        String username = LoginHelper.getUsername();
         if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
-            return R.fail("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return R.fail("修改用户'" + username + "'失败，手机号码已存在");
         }
         if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
-            return R.fail("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return R.fail("修改用户'" + username + "'失败，邮箱账号已存在");
         }
         user.setUserId(LoginHelper.getUserId());
         if (userService.updateUserProfile(user) > 0) {
@@ -81,22 +84,22 @@ public class SysProfileController extends BaseController {
     /**
      * 重置密码
      *
-     * @param newPassword 旧密码
-     * @param oldPassword 新密码
+     * @param bo 新旧密码
      */
+    @ApiEncrypt
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
-    public R<Void> updatePwd(String oldPassword, String newPassword) {
+    public R<Void> updatePwd(@Validated @RequestBody SysUserPasswordBo bo) {
         SysUserVo user = userService.selectUserById(LoginHelper.getUserId());
         String password = user.getPassword();
-        if (!BCrypt.checkpw(oldPassword, password)) {
+        if (!BCrypt.checkpw(bo.getOldPassword(), password)) {
             return R.fail("修改密码失败，旧密码错误");
         }
-        if (BCrypt.checkpw(newPassword, password)) {
+        if (BCrypt.checkpw(bo.getNewPassword(), password)) {
             return R.fail("新密码不能与旧密码相同");
         }
 
-        if (userService.resetUserPwd(user.getUserId(), BCrypt.hashpw(newPassword)) > 0) {
+        if (userService.resetUserPwd(user.getUserId(), BCrypt.hashpw(bo.getNewPassword())) > 0) {
             return R.ok();
         }
         return R.fail("修改密码异常，请联系管理员");

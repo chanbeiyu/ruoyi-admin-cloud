@@ -90,7 +90,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 List<Long> ids = StreamUtils.toList(deptList, SysDept::getDeptId);
                 ids.add(user.getDeptId());
                 w.in("u.dept_id", ids);
-            });
+            }).orderByAsc("u.user_id");
         return wrapper;
     }
 
@@ -107,7 +107,8 @@ public class SysUserServiceImpl implements ISysUserService {
             .eq(ObjectUtil.isNotNull(user.getRoleId()), "r.role_id", user.getRoleId())
             .like(StringUtils.isNotBlank(user.getUserName()), "u.user_name", user.getUserName())
             .eq(StringUtils.isNotBlank(user.getStatus()), "u.status", user.getStatus())
-            .like(StringUtils.isNotBlank(user.getPhonenumber()), "u.phonenumber", user.getPhonenumber());
+            .like(StringUtils.isNotBlank(user.getPhonenumber()), "u.phonenumber", user.getPhonenumber())
+            .orderByAsc("u.user_id");
         Page<SysUserVo> page = baseMapper.selectAllocatedList(pageQuery.build(), wrapper);
         return TableDataInfo.build(page);
     }
@@ -126,7 +127,8 @@ public class SysUserServiceImpl implements ISysUserService {
             .and(w -> w.ne("r.role_id", user.getRoleId()).or().isNull("r.role_id"))
             .notIn(CollUtil.isNotEmpty(userIds), "u.user_id", userIds)
             .like(StringUtils.isNotBlank(user.getUserName()), "u.user_name", user.getUserName())
-            .like(StringUtils.isNotBlank(user.getPhonenumber()), "u.phonenumber", user.getPhonenumber());
+            .like(StringUtils.isNotBlank(user.getPhonenumber()), "u.phonenumber", user.getPhonenumber())
+            .orderByAsc("u.user_id");
         Page<SysUserVo> page = baseMapper.selectUnallocatedList(pageQuery.build(), wrapper);
         return TableDataInfo.build(page);
     }
@@ -523,6 +525,7 @@ public class SysUserServiceImpl implements ISysUserService {
     public List<SysUserVo> selectUserListByDept(Long deptId) {
         LambdaQueryWrapper<SysUser> lqw = Wrappers.lambdaQuery();
         lqw.eq(SysUser::getDeptId, deptId);
+        lqw.orderByAsc(SysUser::getUserId);
         return baseMapper.selectVoList(lqw);
     }
 
@@ -532,6 +535,14 @@ public class SysUserServiceImpl implements ISysUserService {
         SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getUserName).eq(SysUser::getUserId, userId));
         return ObjectUtil.isNull(sysUser) ? null : sysUser.getUserName();
+    }
+
+    @Override
+    @Cacheable(cacheNames = CacheNames.SYS_NICKNAME, key = "#userId")
+    public String selectNicknameById(Long userId) {
+        SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getNickName).eq(SysUser::getUserId, userId));
+        return ObjectUtil.isNull(sysUser) ? null : sysUser.getNickName();
     }
 
 }

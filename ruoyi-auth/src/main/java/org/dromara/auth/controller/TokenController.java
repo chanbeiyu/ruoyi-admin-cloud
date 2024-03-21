@@ -2,6 +2,7 @@ package org.dromara.auth.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthResponse;
@@ -12,31 +13,34 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginTenantVo;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.domain.vo.TenantListVo;
-import org.dromara.common.core.domain.model.LoginBody;
 import org.dromara.auth.form.RegisterBody;
+import org.dromara.auth.form.SocialLoginBody;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
+import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.MessageUtils;
-import org.dromara.common.core.utils.StreamUtils;
-import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.core.domain.model.LoginBody;
+import org.dromara.common.core.utils.*;
+import org.dromara.common.encrypt.annotation.ApiEncrypt;
+import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.social.config.properties.SocialLoginConfigProperties;
 import org.dromara.common.social.config.properties.SocialProperties;
 import org.dromara.common.social.utils.SocialUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.resource.api.RemoteMessageService;
 import org.dromara.system.api.RemoteClientService;
+import org.dromara.system.api.RemoteConfigService;
 import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * token 控制
@@ -44,26 +48,36 @@ import java.util.List;
  * @author Lion Li
  */
 @Slf4j
-@Validated
 @RequiredArgsConstructor
 @RestController
 public class TokenController {
 
     private final SocialProperties socialProperties;
     private final SysLoginService sysLoginService;
+    private final ScheduledExecutorService scheduledExecutorService;
 
+    @DubboReference
+    private final RemoteConfigService remoteConfigService;
     @DubboReference
     private final RemoteTenantService remoteTenantService;
     @DubboReference
     private final RemoteClientService remoteClientService;
     @DubboReference
     private final RemoteSocialService remoteSocialService;
+    @DubboReference(stub = "true")
+    private final RemoteMessageService remoteMessageService;
 
     /**
      * 登录方法
+     *
+     * @param body 登录信息
+     * @return 结果
      */
-    @PostMapping("login")
-    public R<LoginVo> login(@Validated @RequestBody LoginBody loginBody) {
+    @ApiEncrypt
+    @PostMapping("/login")
+    public R<LoginVo> login(@RequestBody String body) {
+        LoginBody loginBody = JsonUtils.parseObject(body, LoginBody.class);
+        ValidatorUtils.validate(loginBody);
         // 授权类型和客户端id
         String clientId = loginBody.getClientId();
         String grantType = loginBody.getGrantType();
@@ -73,11 +87,22 @@ public class TokenController {
         if (ObjectUtil.isNull(clientVo) || !StringUtils.contains(clientVo.getGrantType(), grantType)) {
             log.info("客户端id: {} 认证类型：{} 异常!.", clientId, grantType);
             return R.fail(MessageUtils.message("auth.grant.type.error"));
+        } else if (!UserConstants.NORMAL.equals(clientVo.getStatus())) {
+            return R.fail(MessageUtils.message("auth.grant.type.blocked"));
         }
         // 校验租户
         sysLoginService.checkTenant(loginBody.getTenantId());
         // 登录
-        return R.ok(IAuthStrategy.login(loginBody, clientVo));
+        LoginVo loginVo = IAuthStrategy.login(body, clientVo, grantType);
+
+        Long userId = LoginHelper.getUserId();
+        scheduledExecutorService.schedule(() -> {
+            try {
+                remoteMessageService.sendMessage(userId, "欢迎登录RuoYi-Cloud-Plus微服务管理系统");
+            } catch (Exception ignored) {
+            }
+        }, 3, TimeUnit.SECONDS);
+        return R.ok(loginVo);
     }
 
     /**
@@ -104,9 +129,11 @@ public class TokenController {
      * @return 结果
      */
     @PostMapping("/social/callback")
-    public R<Void> socialCallback(@RequestBody LoginBody loginBody) {
+    public R<Void> socialCallback(@RequestBody SocialLoginBody loginBody) {
         // 获取第三方登录信息
-        AuthResponse<AuthUser> response = SocialUtils.loginAuth(loginBody, socialProperties);
+        AuthResponse<AuthUser> response = SocialUtils.loginAuth(
+            loginBody.getSource(), loginBody.getSocialCode(),
+            loginBody.getSocialState(), socialProperties);
         AuthUser authUserData = response.getData();
         // 判断授权响应是否成功
         if (!response.ok()) {
@@ -140,8 +167,12 @@ public class TokenController {
     /**
      * 用户注册
      */
+    @ApiEncrypt
     @PostMapping("register")
     public R<Void> register(@RequestBody RegisterBody registerBody) {
+        if (!remoteConfigService.selectRegisterEnabled(registerBody.getTenantId())) {
+            return R.fail("当前系统没有开启注册功能！");
+        }
         // 用户注册
         sysLoginService.register(registerBody);
         return R.ok();

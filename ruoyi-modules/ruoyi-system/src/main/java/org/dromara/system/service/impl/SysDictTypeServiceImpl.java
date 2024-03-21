@@ -70,6 +70,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
         lqw.like(StringUtils.isNotBlank(bo.getDictType()), SysDictType::getDictType, bo.getDictType());
         lqw.between(StringUtils.isAllNotEmpty(params.get("beginTime"), params.get("endTime")),
             SysDictType::getCreateTime, params.get("beginTime"), params.get("endTime"));
+        lqw.orderByAsc(SysDictType::getDictId);
         return lqw;
     }
 
@@ -118,7 +119,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     public SysDictTypeVo selectDictTypeByType(String dictType) {
-        return baseMapper.selectVoById(new LambdaQueryWrapper<SysDictType>().eq(SysDictType::getDictType, dictType));
+        return baseMapper.selectVoOne(new LambdaQueryWrapper<SysDictType>().eq(SysDictType::getDictType, dictType));
     }
 
     /**
