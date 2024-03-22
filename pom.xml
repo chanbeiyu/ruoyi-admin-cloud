@@ -607,19 +607,22 @@
     <repositories>
         <repository>
             <id>rdc-releases</id>
-            <name>Aliyun Release Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-release-xD3Oyp/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
         <repository>
-            <id>rdc-snapshot</id>
-            <name>Aliyun Snapshot Repository</name>
+            <id>rdc-snapshots</id>
             <url>https://packages.aliyun.com/maven/repository/2363266-snapshot-AY0Hg6/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
             <snapshots>
                 <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
@@ -629,14 +632,16 @@
             <id>rdc-releases</id>
             <name>Aliyun Release Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-release-xD3Oyp/</url>
+            <layout>default</layout>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
         </repository>
         <snapshotRepository>
             <id>rdc-snapshot</id>
             <name>Aliyun Snapshot Repository</name>
             <url>https://packages.aliyun.com/maven/repository/2363266-snapshot-AY0Hg6/</url>
+            <layout>default</layout>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
