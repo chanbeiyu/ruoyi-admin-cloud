@@ -49,5 +49,4 @@ nbdist/
 /sessionStore/root.data
 **/build/**.jar
 
-/docker-compose/
-/docker-compose/
+docker-compose
