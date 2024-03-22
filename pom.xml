@@ -59,16 +59,16 @@
         <sms4j.version>2.2.0</sms4j.version>
 
         <!-- 插件版本 -->
-        <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+        <maven-compiler-plugin.verison>3.12.1</maven-compiler-plugin.verison>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
 
-        <wxjava.version>4.5.1.B</wxjava.version>
+        <wxjava.version>4.6.0</wxjava.version>
         <mybatis-plus-join.version>1.4.5</mybatis-plus-join.version>
-        <guava.version>32.1.1-jre</guava.version>
+        <guava.version>33.0.0-jre</guava.version>
         <xxl-job.version>2.4.0</xxl-job.version>
-        <fastjson2.version>2.0.34</fastjson2.version>
+        <fastjson2.version>2.0.47</fastjson2.version>
         <docker.resource.name>${project.build.finalName}.${project.packaging}</docker.resource.name>
     </properties>
 
@@ -87,7 +87,7 @@
                 <nacos.config.namespace>3001</nacos.config.namespace>
                 <nacos.dubbo.namespace>3002</nacos.dubbo.namespace>
                 <logstash.address>logstash:4560</logstash.address>
-                <docker.build.directory>F:/Workspace/ensoul-resources/docker-compose/context/build</docker.build.directory>
+                <docker.build.directory>X:/Workspace/ensoul-resources/docker-compose/context/build</docker.build.directory>
             </properties>
         </profile>
         <profile>
