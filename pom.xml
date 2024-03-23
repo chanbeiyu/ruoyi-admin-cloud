@@ -79,6 +79,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+
+                <!-- 打包配置 -->
+                <skip.upload>false</skip.upload>
+                <skip.docker>false</skip.docker>
+
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168.2</cloud.networks>
@@ -93,6 +98,10 @@
         <profile>
             <id>docker</id>
             <properties>
+                <!-- 打包配置 -->
+                <skip.upload>false</skip.upload>
+                <skip.docker>false</skip.docker>
+
                 <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168.2</cloud.networks>
                 <nacos.server>nacos:8848</nacos.server>
@@ -106,6 +115,10 @@
         <profile>
             <id>prod</id>
             <properties>
+                <!-- 打包配置 -->
+                <skip.upload>false</skip.upload>
+                <skip.docker>false</skip.docker>
+
                 <profiles.active>dev</profiles.active>
                 <cloud.networks>192.168</cloud.networks>
                 <nacos.server>nacos:8848</nacos.server>
@@ -460,7 +473,15 @@
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>3.5.3</version>
+            </extension>
+        </extensions>
         <plugins>
+            <!-- 打包 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -540,6 +561,43 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- 传输jar包到服务器 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>2.0.2</version>
+                <executions>
+                    <execution>
+                        <id>upload-to-server</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip.upload}</skip>
+                            <serverId>wagon</serverId>
+                            <fromDir>${project.build.directory}</fromDir>
+                            <includes>
+                                ruoyi-biz-admin*.jar,
+                                ruoyi-auth*.jar,
+                                ruoyi-gateway*.jar,
+                                ruoyi-gen*.jar,
+                                ruoyi-job*.jar,
+                                ruoyi-platform*.jar,
+                                ruoyi-gen*.jar,
+                                ruoyi-system*.jar,
+                                ruoyi-monitor*.jar,
+                                ruoyi-nacos*.jar,
+                                ruoyi-powerjob-server*.jar,
+                                ruoyi-seata-server*.jar,
+                                ruoyi-sentinel-dashboard*.jar
+                            </includes>
+                            <url>sftp://root:@192.168.100.9</url>
+                            <toDir>/opt/jarboot/workspace/default/${project.artifactId}</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -576,6 +634,7 @@
                                 <goal>run</goal>
                             </goals>
                             <configuration>
+                                <skip>${skip.docker}</skip>
                                 <target>
                                     <delete file="${docker.build.directory}/${docker.resource.name}"/>
                                 </target>
@@ -588,6 +647,7 @@
                                 <goal>run</goal>
                             </goals>
                             <configuration>
+                                <skip>${skip.docker}</skip>
                                 <target>
                                     <!--jar包保存位置 -->
                                     <copy todir="${docker.build.directory}" overwrite="true">
